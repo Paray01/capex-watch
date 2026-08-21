@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capex Cycle Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#E6EAEF; --panel:#F7F9FB; --panel-2:#FCFDFE;
+  --ink:#171C23; --ink-2:#556070; --ink-3:#838D9B;
+  --rule:#CFD6DF; --rule-soft:#E1E6ED;
+  --accent:#414CAB; --accent-soft:#E5E7F7;
+  --calm:#2C7A5C; --calm-bg:#E0EFE8;
+  --watch:#A87213; --watch-bg:#F5EAD4;
+  --turn:#AE3830; --turn-bg:#F6E1DF;
+  --shadow:0 1px 2px rgba(23,28,35,.06), 0 8px 24px -12px rgba(23,28,35,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1319; --panel:#171C24; --panel-2:#1D232C;
+    --ink:#E3E8EE; --ink-2:#98A2AF; --ink-3:#6C7684;
+    --rule:#2A313B; --rule-soft:#222932;
+    --accent:#8E97F2; --accent-soft:#22273D;
+    --calm:#5BBB90; --calm-bg:#1A3529;
+    --watch:#DFA53D; --watch-bg:#382C13;
+    --turn:#E3665D; --turn-bg:#3E211E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1319; --panel:#171C24; --panel-2:#1D232C;
+  --ink:#E3E8EE; --ink-2:#98A2AF; --ink-3:#6C7684;
+  --rule:#2A313B; --rule-soft:#222932;
+  --accent:#8E97F2; --accent-soft:#22273D;
+  --calm:#5BBB90; --calm-bg:#1A3529;
+  --watch:#DFA53D; --watch-bg:#382C13;
+  --turn:#E3665D; --turn-bg:#3E211E;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box;}
+html{color-scheme:light dark;}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1060px;margin:0 auto;padding:clamp(28px,5vw,68px) clamp(16px,4vw,32px) 96px;}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;}
+h1{font-size:clamp(34px,6vw,54px);line-height:1.02;margin:0 0 18px;letter-spacing:-.025em;font-weight:700;text-wrap:balance;}
+.lede{font-size:clamp(18px,2.3vw,21px);color:var(--ink-2);max-width:62ch;margin:0 0 10px;}
+.lede strong{color:var(--ink);font-weight:500;}
+
+.stamp{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:24px 0 0;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);letter-spacing:.03em;}
+.stamp b{color:var(--ink-2);font-weight:500;}
+.stamp .warn{color:var(--turn);}
+
+.verdict{margin:32px 0 12px;background:var(--panel);border:1px solid var(--rule);
+  border-radius:4px;box-shadow:var(--shadow);overflow:hidden;}
+.verdict-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;padding:22px clamp(16px,3vw,28px) 4px;}
+.verdict-head .label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);}
+#stageName{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,32px);letter-spacing:-.02em;line-height:1.1;}
+#stageName .stage-num{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--ink-3);font-size:.6em;margin-right:.5em;}
+.verdict-body{padding:0 clamp(16px,3vw,28px) 24px;}
+#stageBlurb{color:var(--ink-2);max-width:64ch;margin:6px 0 20px;}
+#rawNote{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+  border-left:2px solid var(--watch);padding:2px 0 2px 12px;margin:0 0 20px;max-width:64ch;line-height:1.55;}
+#rawNote:empty{display:none;}
+.rail{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0 0 8px;}
+.rail-seg{height:6px;border-radius:2px;background:var(--rule-soft);transition:background .35s ease;}
+.rail-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:26px;}
+.rail-labels span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rail-labels span.on{color:var(--ink);font-weight:600;}
+.lights{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;
+  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;overflow:hidden;}
+.light{background:var(--panel-2);padding:13px 15px;display:flex;gap:11px;align-items:flex-start;}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:7px;transition:box-shadow .3s;}
+.light .n{font-family:"Archivo",sans-serif;font-weight:600;font-size:14px;line-height:1.3;display:block;}
+.light .s{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);letter-spacing:.04em;}
+
+section{margin-top:60px;}
+h2{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 6px;font-family:"IBM Plex Mono",monospace;}
+.h2sub{font-size:clamp(21px,3vw,27px);font-family:"Archivo",sans-serif;font-weight:600;
+  letter-spacing:-.02em;margin:0 0 14px;line-height:1.2;text-wrap:balance;}
+section > p{color:var(--ink-2);max-width:66ch;margin:0 0 8px;}
+
+.headline{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  border-radius:4px;padding:24px clamp(16px,3vw,28px);box-shadow:var(--shadow);}
+.formula{font-family:"IBM Plex Mono",monospace;font-size:clamp(13px,2vw,16px);
+  background:var(--accent-soft);color:var(--ink);padding:13px 15px;border-radius:3px;
+  margin:16px 0;overflow-x:auto;white-space:nowrap;}
+table.co{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;
+  font-size:13px;font-variant-numeric:tabular-nums;margin-top:16px;}
+table.co th{text-align:right;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;padding:0 0 8px 14px;border-bottom:1px solid var(--rule);}
+table.co th:first-child,table.co td:first-child{text-align:left;padding-left:0;}
+table.co td{text-align:right;padding:9px 0 9px 14px;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);}
+table.co td.v{color:var(--ink);}
+table.co td.hi{color:var(--turn);font-weight:600;}
+table.co td.mid{color:var(--watch);}
+.scroll{overflow-x:auto;}
+
+.cluster{margin-top:32px;}
+.cluster-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding-bottom:9px;border-bottom:1px solid var(--rule);}
+.cluster-head h3{font-size:19px;font-weight:600;margin:0;letter-spacing:-.01em;}
+.cluster-head .q{font-size:15px;color:var(--ink-2);font-style:italic;}
+.cluster-head .tag{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+
+.sensor{border-bottom:1px solid var(--rule-soft);padding:20px 0 22px;}
+.srow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+.sensor .title{font-family:"Archivo",sans-serif;font-weight:600;font-size:17px;line-height:1.3;margin:0;flex:1 1 300px;}
+.sensor .code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);margin-right:8px;}
+.reading{display:flex;align-items:center;gap:12px;flex:none;}
+.readout{text-align:right;}
+.readout{max-width:300px;}
+.readout .num{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;
+  font-variant-numeric:tabular-nums;line-height:1.1;display:block;}
+/* Manual sensors carry a phrase, not a figure — it should read as a label,
+   not compete with the numeric readouts beside it. */
+.readout .num.str{font-size:13px;font-weight:500;line-height:1.35;color:var(--ink-2);}
+.readout .un{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;}
+.pill{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 9px;border-radius:2px;font-weight:600;white-space:nowrap;}
+.p0{background:var(--calm-bg);color:var(--calm);}
+.p1{background:var(--watch-bg);color:var(--watch);}
+.p2{background:var(--turn-bg);color:var(--turn);}
+.pn{background:var(--rule-soft);color:var(--ink-3);}
+.spark{display:block;margin-top:6px;}
+
+.watchline{color:var(--ink-2);margin:8px 0 0;max-width:72ch;}
+.watchline b{color:var(--ink);font-weight:500;}
+.thresh{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:1px;
+  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;margin:14px 0 0;overflow:hidden;}
+.thresh div{background:var(--panel-2);padding:11px 13px;font-size:14px;line-height:1.45;color:var(--ink-2);}
+.thresh div.on{background:var(--panel);}
+.thresh b{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:5px;font-weight:600;}
+.t-calm b{color:var(--calm);} .t-watch b{color:var(--watch);} .t-turn b{color:var(--turn);}
+.notes{display:flex;flex-direction:column;gap:7px;margin-top:13px;}
+.note{font-size:14.5px;line-height:1.5;color:var(--ink-2);max-width:76ch;margin:0;}
+.note .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;}
+.note.stale .k{color:var(--turn);}
+.src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-top:10px;letter-spacing:.02em;}
+.src a{color:var(--accent);}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;
+  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:4px;overflow:hidden;margin-top:18px;}
+.rule-card{background:var(--panel);padding:20px;}
+.rule-card h4{font-size:15.5px;margin:0 0 7px;font-weight:600;letter-spacing:-.01em;}
+.rule-card .num{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:9px;}
+.rule-card p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.55;}
+ul.plain{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:14px;}
+ul.plain li{padding-left:20px;position:relative;color:var(--ink-2);max-width:74ch;}
+ul.plain li::before{content:"";position:absolute;left:0;top:12px;width:9px;height:1px;background:var(--ink-3);}
+ul.plain li b{color:var(--ink);font-weight:500;}
+.cal{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;}
+.cal th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:0 14px 9px 0;border-bottom:1px solid var(--rule);}
+.cal td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);vertical-align:top;}
+.cal td:first-child{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);white-space:nowrap;}
+.cal td b{color:var(--ink);font-weight:500;}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--rule-soft);padding:2px 6px;border-radius:2px;}
+.alerts{margin:18px 0 0;border:1px solid var(--turn);border-left-width:3px;border-radius:3px;
+  background:var(--turn-bg);padding:14px 16px;}
+.alerts h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--turn);font-family:"IBM Plex Mono",monospace;font-weight:600;}
+.alerts ul{margin:0;padding-left:18px;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);line-height:1.7;}
+.ctx{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;margin:20px 0 0;
+  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;overflow:hidden;}
+.ctx > div{background:var(--panel-2);padding:14px 15px;}
+.ctx .lab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px;}
+.ctx .val{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;
+  font-variant-numeric:tabular-nums;display:block;line-height:1.2;}
+.ctx .exp{font-size:13.5px;color:var(--ink-2);line-height:1.45;margin:6px 0 0;}
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--rule);color:var(--ink-3);font-size:14px;max-width:74ch;}
+footer a{color:var(--accent);}
+footer p{margin:0 0 10px;}
+@media (max-width:620px){ .reading{width:100%;justify-content:space-between;} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Live instrument panel</p>
+<h1>Capex Cycle Watch</h1>
+<p class="lede">Sixteen sensors for one question: <strong>is the AI build-out still being paid for by the money it earns?</strong> Eight read themselves from public filings and live markets. Eight need a human, and say so.</p>
+<p class="lede">Not one price on this board is a stock price. Equities move on expectations; the physical and financial plumbing moves on commitments, and commitments turn first.</p>
+
+<div class="stamp" id="stamp"></div>
+<div id="alerts"></div>
+
+<div class="verdict">
+  <div class="verdict-head">
+    <span class="label">Confirmed reading</span>
+    <span id="stageName"></span>
+  </div>
+  <div class="verdict-body">
+    <p id="stageBlurb"></p>
+    <p id="rawNote"></p>
+    <div class="rail" id="rail"></div>
+    <div class="rail-labels" id="railLabels"></div>
+    <div class="lights" id="lights"></div>
+  </div>
+</div>
+
+<section>
+  <h2>If you read one number a month</h2>
+  <p class="h2sub">The coverage gap</p>
+  <div class="headline">
+    <p>Every other sensor describes a symptom. This one describes the disease: whether the marginal euro of infrastructure brings back more than a euro of revenue.</p>
+    <div class="formula">coverage gap = capex growth (% YoY) &minus; revenue growth (% YoY)</div>
+    <p>A negative gap means monetisation is outrunning the build and the cycle can run for years. A large gap, sustained across three consecutive quarters at more than one buyer, is the crash thesis becoming arithmetic. Live from the cash-flow statements in each company's latest SEC filing:</p>
+    <div class="scroll"><table class="co" id="coTable"></table></div>
+    <p class="src" id="coSrc"></p>
+  </div>
+</section>
+
+<section>
+  <h2>The board</h2>
+  <p class="h2sub">Four clusters, sixteen sensors</p>
+  <p>Sensors are grouped by where in the chain they sit, and that grouping is the point. Four red lights inside one cluster are one signal wearing four hats — memory, GPUs, fabs and lead times all measure the same tightness. Two red lights in two different clusters are genuinely two signals. The verdict counts clusters, never sensors.</p>
+  <div id="context"></div>
+  <div id="board"></div>
+</section>
+
+<section>
+  <h2>Reading rules</h2>
+  <p class="h2sub">Six rules that stop the board crying wolf</p>
+  <p>An indicator list without rules of interpretation fires every quarter, and after the third false alarm you stop looking at it. These rules exist to make the board boring most of the time. The first four are enforced in code, not left to willpower.</p>
+  <div class="rules">
+    <div class="rule-card"><span class="num">RULE 01 · IN CODE</span><h4>Two readings, or it did not happen</h4><p>A sensor's move counts only once it has held for about a month. The fetcher snapshots every state daily, and the verdict scores each sensor at the milder of today's reading and the reading thirty days ago.</p></div>
+    <div class="rule-card"><span class="num">RULE 02 · IN CODE</span><h4>Two clusters, or it is not a cycle</h4><p>Stages escalate on the number of clusters that have turned, never on the number of sensors. One cluster turning red is a sector problem — memory gluts and data-centre delays happen inside healthy cycles all the time.</p></div>
+    <div class="rule-card"><span class="num">RULE 03 · IN CODE</span><h4>Units, never revenue</h4><p>Price rises hide volume collapse. 100m units at &euro;1,000 and 80m at &euro;1,200 are the same headline and completely different economies. Consumer sensors are counted in units, and the price index used is one that normally falls.</p></div>
+    <div class="rule-card"><span class="num">RULE 04 · IN CODE</span><h4>Current generation only</h4><p>A rental price carries information only for the generation people are actually buying. The GPU feed tracks H200 and B200; last year's silicon getting cheap is the value cascade working, not the market failing.</p></div>
+    <div class="rule-card"><span class="num">RULE 05 · HUMAN</span><h4>Ask why, not just whether</h4><p>Capex cut because demand fell is the signal. Capex cut because the grid, the permits or the chips are not there is the opposite — it means demand exceeds what can be built. No feed can read intent; the stated reason is half the reading.</p></div>
+    <div class="rule-card"><span class="num">RULE 06 · HUMAN</span><h4>Downgrade with the same discipline</h4><p>The rules apply on the way back too. One reassuring quarter does not clear a red cluster. Boards that escalate fast and de-escalate slowly become permanent alarm, which is the same as no alarm.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Deliberately not on this board</h2>
+  <p class="h2sub">Five things that look like the crash and are not</p>
+  <ul class="plain">
+    <li><b>Nvidia's share price falling 30%.</b> That happens when growth comes in at 40% instead of 50%. It reprices expectations; it does not change the physical cycle. No share price appears anywhere here, and that is deliberate.</li>
+    <li><b>One hyperscaler pausing leases.</b> Individual firms re-sequence capacity constantly. Rule 02 exists for exactly this.</li>
+    <li><b>Last-generation accelerators getting cheap.</b> H100 rental prices fell roughly 64&ndash;75% from launch-era highs, then rose about 40% again into 2026 as capacity tightened. Both moves were about which generation people wanted, not whether they wanted compute.</li>
+    <li><b>Memory prices falling because new fabs came online.</b> That is supply answering demand, the healthy resolution. Check wafer starts before reading a price fall as weakness — the semiconductor production series on this board is there for that.</li>
+    <li><b>A quarter of margin compression at a company spending on AI.</b> Investment showing up in the profit and loss account is what investment does. Amazon looked like this for a decade. It matters only alongside the coverage gap.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The other side</h2>
+  <p class="h2sub">What would show the thesis is wrong</p>
+  <p>A watch list built only from confirming evidence will always confirm. These are the readings that should make you put the board away, and they are as concrete as the crash signals.</p>
+  <ul class="plain">
+    <li><b>Efficiency outruns demand.</b> If cost per unit of AI output falls faster than usage grows, the hardware scarcity dissolves without a bust. Watch price per million tokens at the frontier labs and performance per watt at each new accelerator generation.</li>
+    <li><b>The coverage gap goes negative.</b> Two consecutive quarters at two or more large buyers where revenue growth exceeds capex growth. That is the build-out paying for itself, and it retires the whole thesis. Nvidia's own gap on the table above is already negative — it is the seller, not the buyer, which is the point.</li>
+    <li><b>Memory supply responds.</b> New fab capacity landing through 2027 that re-normalises consumer DRAM and NAND while AI demand stays strong. The squeeze would then have been a timing problem, not a structural transfer of hardware from households to data centres.</li>
+    <li><b>Consumers absorb the price.</b> If PC, phone and console units hold up at the higher prices, the demand-destruction step simply does not happen, and hardware inflation stays an inconvenience rather than a mechanism.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>When the data actually lands</h2>
+  <p class="h2sub">A monthly rhythm, not a news feed</p>
+  <p>The automatic sensors refresh themselves daily. The manual eight are worth one sitting a month — everything below lands on a quarterly cadence anyway.</p>
+  <div class="scroll">
+  <table class="cal">
+    <thead><tr><th>Cadence</th><th>What lands</th><th>Sensors</th></tr></thead>
+    <tbody>
+      <tr><td>Daily · automatic</td><td>GPU rental market depth and price, high-yield credit spreads</td><td><b>B1 C2</b></td></tr>
+      <tr><td>Monthly · automatic</td><td>FRED releases: semiconductor PPI, personal-computer CPI, semiconductor production</td><td><b>B4 D2</b></td></tr>
+      <tr><td>Late Jan / Apr / Jul / Oct</td><td>Hyperscaler results. Cash-flow numbers arrive automatically within a day of filing; guidance, call language and depreciation disclosures need reading</td><td><b>A1 A2 D3</b> auto &middot; <b>A4 C1 C3</b> manual</td></tr>
+      <tr><td>Late Feb / May / Aug / Nov</td><td>Nvidia results, about three weeks after its customers — so you already know what they guided. Next: <b>2026-08-26</b>, Q2 FY27 revenue guided near $91bn</td><td><b>A3</b></td></tr>
+      <tr><td>Monthly / quarterly</td><td>IDC and Canalys shipment trackers — read the unit column, not the revenue column</td><td><b>D1</b></td></tr>
+      <tr><td>Half-yearly</td><td>JLL and CBRE data-centre reports: vacancy, absorption, capacity under construction</td><td><b>B2 B3</b></td></tr>
+      <tr><td>Continuous</td><td>Venture funding trackers and AI-infrastructure debt issuance</td><td><b>C4</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>
+  <p><b>Sources.</b> SEC EDGAR XBRL company facts (capex, operating cash flow, revenue, per filing); Federal Reserve Bank of St. Louis FRED (ICE BofA US High Yield OAS, PPI semiconductor manufacturing, CPI personal computers and peripherals, industrial production semiconductors); Vast.ai public marketplace API (GPU rental offers). No API keys, no paid feeds, no scraping of paywalled research.</p>
+  <p><b>Refreshing.</b> A scheduled job runs <code>fetch.py</code> twice a day and rewrites <code>data.js</code>; reload this page to see it. To run it by hand: <code>python3 fetch.py</code> in this folder. The manual sensors live in <code>manual.json</code> and grey out after 45 days.</p>
+  <p><b>You do not have to remember to look.</b> When a sensor changes state, when the stage moves, or when a manual assessment passes 45 days, the job raises a macOS notification and appends the change to <code>alerts.log</code>. On an ordinary day it says nothing at all, which is the point — the board is designed to be boring until it is not.</p>
+  <p><b>One implementation of the rules.</b> The thresholds, the confirmation rule and the cluster scoring all live in <code>fetch.py</code>. This page displays the verdict; it does not compute it. Change a threshold there and the board, the alerts and the history all move together.</p>
+  <p>A framework for reading public data, not investment advice. Automatic readings are mechanical and can be wrong in ways a human would catch — every threshold is visible above so you can disagree with it.</p>
+</footer>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+const D = window.CAPEX_DATA || {auto:{},manual:{},companies:[],fred:{},gpus:[],gpu_history:[],errors:["data.js not found — run python3 fetch.py"]};
+
+const CLUSTERS = [
+ {id:"A",name:"Demand",q:"Do the buyers still buy?",tag:"turns first in language, last in numbers",sensors:[
+  {id:"A1",title:"Capex growth at the five large buyers",
+   watch:"Realised <b>capital expenditure, trailing twelve months, year over year</b>, straight from the cash-flow statements. Guidance is the leading version of this number, but guidance is prose — this is the audited outcome it turns into.",
+   calm:"Growth above 10%.",watchT:"Growth between −5% and 10% — the build-out flattening.",turn:"Outright decline in trailing capex.",
+   notes:[["Lies when","A fall blamed on power, permits or chip supply means demand exceeds what can be built — the opposite reading. See Rule 05."]],
+   src:"SEC EDGAR · PaymentsToAcquirePropertyPlantAndEquipment"},
+  {id:"A2",title:"Capex as a share of operating cash flow",
+   watch:"<b>Capex ÷ operating cash flow</b>, trailing twelve months, median across the five. Absolute capex keeps rising right up to the peak; the share the business itself pays for turns before it.",
+   calm:"Below 60% — the build-out pays for itself.",watchT:"60&ndash;100%.",turn:"Above 100% two quarters running — the difference is being borrowed.",
+   notes:[["Why it leads","This is the hinge between a boom and a bubble. A cash-funded build-out can be wrong without being dangerous; a borrowed one transmits the error into the credit system."]],
+   src:"SEC EDGAR · derived from capex and operating cash flow"},
+  {id:"A3",title:"Nvidia revenue, sequential",
+   watch:"<b>Quarter-on-quarter revenue growth</b> and the next guide. Not earnings per share, not the share-price reaction.",
+   calm:"Sequential growth holding or accelerating.",watchT:"Decelerating two quarters running.",turn:"Sequential decline.",
+   notes:[["Limit","EDGAR carries total revenue, not the data-centre split. The split needs the release itself — worth ten minutes on results day."],["Lies when","Export controls remove a region's revenue without changing global demand. Read the geographic split before scoring."]],
+   src:"SEC EDGAR · quarterly revenue"},
+  {id:"A4",title:"The language on the earnings calls",
+   watch:"The transcripts, for the shift from <b>\"demand exceeds our supply\"</b> to <b>\"optimising\", \"measured\", \"digesting\", \"prioritising utilisation\", \"capital discipline\"</b>.",
+   calm:"Still supply-constrained language across the group.",watchT:"One firm introduces optimisation language while keeping guidance.",turn:"Two or more firms use it in the same quarter.",
+   notes:[["Why it leads","No company announces the end of a boom. They announce capital discipline, and cut two quarters later. This typically leads A1 by about two quarters."],["Lies when","Executives perform discipline for investors while spending unchanged. Score it only alongside A1 and A2."]],
+   src:"Quarterly earnings call transcripts — read by hand"}]},
+
+ {id:"B",name:"Physical supply",q:"Is capacity outrunning use?",tag:"the earliest hard numbers",sensors:[
+  {id:"B1",title:"The GPU rental market: price and depth",
+   watch:"<b>Median hourly price and the number of rentable offers</b> for current-generation accelerators, sampled daily from a live marketplace. Price alone is ambiguous; price falling <i>while</i> supply deepens is not.",
+   calm:"Price rising or flat as new capacity arrives.",watchT:"Price down 10&ndash;25% over thirty days.",turn:"Price down more than 25% over thirty days while offer count grows.",
+   notes:[["Lies when","This is the board's most misread sensor. H100 spot fell 64&ndash;75% from launch highs — generational obsolescence, not demand collapse. Rule 04 keeps the reading on the current generation."],["Limit","One marketplace, thinner than the contract market the hyperscalers use. Directional, not a price benchmark."]],
+   src:"Vast.ai public marketplace API · sampled daily"},
+  {id:"B2",title:"Data-centre vacancy and absorption",
+   watch:"<b>Vacancy rate and net absorption in gigawatts</b>, by region.",
+   calm:"Vacancy below 5% with absorption at or near record.",watchT:"Vacancy rising two quarters running in any primary market.",turn:"Vacancy above 10% while new supply still delivers.",
+   notes:[["Lies when","Vacancy is lease-based and lags badly: a signed lease on a hall running at 20% utilisation still counts as occupied. It measures contracts, not use. Pair with B3."]],
+   src:"JLL and CBRE data-centre reports — read by hand"},
+  {id:"B3",title:"Cancellations and capacity under construction",
+   watch:"<b>Megawatts under construction</b> in the primary markets, plus the count and stated reason of cancelled projects.",
+   calm:"Pipeline growing, cancellations isolated.",watchT:"Cancellations clustering, or pipeline flat year over year.",turn:"Pipeline down more than 15% year over year with cancellations from more than one tenant.",
+   notes:[["Lies when","Power availability and permitting kill projects that have full demand behind them. Read the stated reason every time."]],
+   src:"JLL / CBRE pipeline data — read by hand"},
+  {id:"B4",title:"Component price pressure, and its roll-over",
+   watch:"<b>Producer prices for semiconductor manufacturing</b>, year over year and over six months. The squeeze shows as a rise; the cycle turning shows as that rise rolling over.",
+   calm:"Below 10% year over year.",watchT:"Above 10% — the squeeze that reaches consumers through D2.",turn:"Above 10% year over year but falling over six months — the roll-over.",
+   notes:[["Limit","A proxy. Spot DRAM leads this by a quarter or two and is not available without a paid feed, so this series confirms what spot already said. Check the TrendForce weekly spot update alongside it."],["Lies when","A fall caused by new fab capacity is a healthy supply response. The semiconductor production series is on this board for exactly that check."]],
+   src:"FRED · PCU3344133441, PPI semiconductor and related device manufacturing"}]},
+
+ {id:"C",name:"Financing",q:"Who is carrying the risk?",tag:"turns fastest once it turns",sensors:[
+  {id:"C1",title:"Capex funded by debt and off-balance-sheet vehicles",
+   watch:"<b>Bond issuance, joint ventures, special-purpose vehicles and lease commitments</b> tied to AI infrastructure, against cash-funded capex.",
+   calm:"Incremental capex predominantly cash-funded.",watchT:"Rising issuance, a growing share routed through JVs and SPVs.",turn:"The majority of incremental capex debt- or vehicle-funded.",
+   notes:[["Why it matters","This converts a bad forecast into a systemic event. Without leverage, a capex mistake is a shareholder problem; with it, a credit problem."],["Partly automatic","A2 above already measures the cash-funded share mechanically. This sensor covers what the cash-flow statement does not show."]],
+   src:"10-K commitments and contingencies — read by hand"},
+  {id:"C2",title:"Credit spreads",
+   watch:"<b>US high-yield option-adjusted spread</b>, level and six-month change. The nearest daily, public read on whether lenders have started pricing risk differently.",
+   calm:"Below 450bp and not widening.",watchT:"Above 450bp, or 50bp wider over six months.",turn:"Above 600bp, or 150bp wider over six months.",
+   notes:[["Why it leads","Credit reprices before equity, because lenders get paid to think about the downside. If the cycle breaks, this moves weeks before anything else here."],["Limit","A market-wide index, not AI-specific. It catches contagion reliably and an isolated neocloud failure not at all — for that, watch for pulled financings by name."]],
+   src:"FRED · BAMLH0A0HYM2, ICE BofA US High Yield Index OAS"},
+  {id:"C3",title:"Depreciation schedules on AI hardware",
+   watch:"The useful-life assumption for servers and accelerators in each filing, and <b>any change to it</b>.",
+   calm:"Schedules stable and consistently disclosed.",watchT:"A further extension — six years to seven. That supports reported earnings; it does not extend the economics.",turn:"A shortening of useful life, or an impairment.",
+   notes:[["Why it is unique","The only sensor where the company itself tells you the earlier assumption was wrong. That admission is expensive, so it is never made early or lightly."]],
+   src:"10-K and 10-Q useful-life disclosures — read by hand"},
+  {id:"C4",title:"AI startup funding volume and structure",
+   watch:"<b>Dollars raised, not deal count</b>, plus the structure: clean equity versus ratchets, preference stacks, vendor and compute-credit financing.",
+   calm:"Volume growing, structures clean.",watchT:"Flat volume with more structure appearing.",turn:"Two consecutive quarters of falling dollars, or down-rounds among the large compute buyers.",
+   notes:[["Why it matters","A meaningful share of GPU demand is funded by venture capital rather than operating revenue. That demand disappears first, and fast."],["Lies when","Capital concentrating into fewer, larger rounds looks like collapse if you count deals. Count dollars."]],
+   src:"Quarterly venture funding trackers — read by hand"}]},
+
+ {id:"D",name:"The paying end",q:"Does the money come back?",tag:"where the thesis is decided",sensors:[
+  {id:"D1",title:"PC, smartphone and console shipments — in units",
+   watch:"<b>Unit shipments year over year.</b> Revenue is disqualified for this sensor; see Rule 03.",
+   calm:"Units flat or growing.",watchT:"Units falling while revenue rises on price — the classic disguise.",turn:"Units down more than 5% year over year for two consecutive quarters.",
+   notes:[["Lies when","A weak quarter after an unusually strong one is a pull-forward, not a trend. Year over year only."]],
+   src:"IDC and Canalys shipment trackers — read by hand"},
+  {id:"D2",title:"Consumer prices for computer hardware",
+   watch:"<b>Consumer price index for personal computers and peripherals</b>, year over year. This is where AI hardware inflation reaches a household, measured in official statistics rather than anecdote.",
+   calm:"Falling year over year — the normal state of this series.",watchT:"Between 0 and +5% — decades of quality-driven deflation have stopped.",turn:"Above +5% year over year.",
+   notes:[["Why the thresholds look strange","This index normally declines a few per cent a year, because quality adjustment treats a faster machine at the same price as a price cut. Flat is therefore already pressure, and a rise is remarkable."]],
+   src:"FRED · CUSR0000SEEE01, CPI personal computers and peripheral equipment"},
+  {id:"D3",title:"The coverage gap",
+   watch:"<b>Capex growth minus revenue growth</b>, in percentage points, median across the buyers, tested across three consecutive quarters. The headline sensor of the whole board.",
+   calm:"At or below zero — monetisation outrunning the build.",watchT:"Positive, but not sustained above the threshold for three quarters.",turn:"Above +50pp in each of the last three quarters.",
+   notes:[["Proxy","Total revenue stands in for AI revenue, which inflates the gap — the non-AI business dilutes the growth rate. The threshold is raised from +30pp to +50pp to compensate. The true AI-level number needs segment disclosure and a human."],["Lies when","Infrastructure legitimately front-runs revenue early in a cycle; AWS looked exactly like this and was right. Only a gap that stays wide carries information."]],
+   src:"SEC EDGAR · derived from capex and revenue"},
+  {id:"D4",title:"Enterprise AI renewals and seat expansion",
+   watch:"<b>Net revenue retention, seat expansion and pilot-to-production conversion</b> at the large AI software vendors.",
+   calm:"Expansion continuing, retention above 120%.",watchT:"Flat seats, pilots not converting, discounting to renew.",turn:"Reported contraction or non-renewals at two or more large vendors.",
+   notes:[["Why it matters","The last link in the chain — where AI either does or does not pay for itself inside someone's operating budget. If this holds, little upstream matters."],["Lies when","The hardest thing here to observe from outside. Qualitative evidence scores watch at most, never turning on its own."]],
+   src:"Vendor results and retention disclosures — read by hand"}]}
+];
+
+const STAGES=[
+ {n:"01",name:"Expansion",blurb:"Capital and capacity are both climbing, and the tightness is being paid for by consumers. Nothing here calls for action beyond keeping the board current.",color:"var(--calm)"},
+ {n:"02",name:"Friction",blurb:"Costs are reaching the paying end and the return on the build-out is being questioned out loud. This is where attention starts to be worth something — and where most cycles stop without going further.",color:"var(--watch)"},
+ {n:"03",name:"Mismatch",blurb:"Capacity is visibly outrunning use: compute is getting cheaper while more of it keeps arriving. Two independent clusters have turned. From here the reversal is a decision, not a possibility.",color:"var(--turn)"},
+ {n:"04",name:"Reversal",blurb:"Forward capex is being cut, and orders, components and financing are turning together. You are no longer forecasting the crash — you are watching it, and so is everyone else.",color:"var(--turn)"}
+];
+const LBL=["Calm","Watch","Turning"];
+const el=id=>document.getElementById(id);
+const D_ = (x)=>x==null?"—":x;
+const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+
+function live(id){ return D.auto[id] || D.manual[id] || null; }
+function curState(id){ const l=live(id); return l && typeof l.state==="number" ? l.state : null; }
+
+/* The reading rules live in fetch.py so there is one implementation of them.
+   This page displays the verdict; it does not recompute it. */
+const V = D.verdict || null;
+function confirmedState(id){
+  if(V && V.confirmed && typeof V.confirmed[id]==="number") return V.confirmed[id];
+  return curState(id);
+}
+
+function spark(vals,w,h,color){
+  if(!vals||vals.length<3) return "";
+  const min=Math.min(...vals),max=Math.max(...vals),r=(max-min)||1;
+  const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-min)/r)*h).toFixed(1)}`).join(" ");
+  const last=vals[vals.length-1];
+  const cx=w, cy=(h-((last-min)/r)*h).toFixed(1);
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h+2}" aria-hidden="true">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.4" stroke-linejoin="round" opacity=".75"/>
+    <circle cx="${cx}" cy="${cy}" r="2.2" fill="${color}"/></svg>`;
+}
+const sparkFor={A1:null,A2:null,B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas"};
+
+function fmtVal(v){
+  if(v===null||v===undefined) return "—";
+  if(typeof v==="number") return Math.abs(v)>=1000
+    ? v.toLocaleString("en-US",{maximumFractionDigits:0})
+    : String(Number(v.toFixed(2)));   // 273 not 273.0, 2.7 not 2.70
+  return v;
+}
+
+function render(){
+  /* stamp */
+  const gen=D.generated||"never";
+  const age=D.generated_date?days(D.generated_date,new Date().toISOString().slice(0,10)):999;
+  const hist=window.CAPEX_HISTORY||[];
+  let stamp=`<span>Data generated <b>${gen}</b></span>`;
+  if(age>3) stamp+=`<span class="warn">· ${age} days old — run python3 fetch.py</span>`;
+  stamp+=`<span>· <b>${Object.keys(D.auto||{}).length}</b> automatic, <b>${Object.keys(D.manual||{}).filter(k=>!k.startsWith("_")).length}</b> manual sensors</span>`;
+  stamp+=`<span>· history <b>${hist.length}</b> day${hist.length===1?"":"s"}</span>`;
+  if((D.errors||[]).length) stamp+=`<span class="warn">· ${D.errors.length} fetch error(s): ${D.errors.join("; ")}</span>`;
+  el("stamp").innerHTML=stamp;
+
+  /* alerts — only when something actually moved */
+  const al=D.alerts||[];
+  el("alerts").innerHTML = al.length
+    ? `<div class="alerts"><h4>Changed since the last run</h4><ul>${al.map(a=>`<li>${a}</li>`).join("")}</ul></div>`
+    : "";
+
+  /* context — not scored, but the cross-check the false-alarm list depends on */
+  const ip=(D.context&&D.context.semi_ip)||null;
+  const gall=(D.context&&D.context.gpu_all)||[];
+  let ctx="";
+  if(ip&&ip.latest){
+    const y=ip.yoy, m6=ip.chg_6m;
+    ctx+=`<div><span class="lab">Semiconductor production</span>
+      <span class="val">${y==null?"—":(y>0?"+":"")+y.toFixed(1)+"%"}</span>
+      ${spark(ip.spark,110,22,"var(--accent)")}
+      <p class="exp">Year over year, six-month change ${m6==null?"—":(m6>0?"+":"")+m6.toFixed(1)+"%"}. Not scored. This is the check that tells a falling component price apart from supply finally arriving — if output is climbing, cheaper chips are the fix, not the crash.</p></div>`;
+  }
+  if(gall.length){
+    ctx+=`<div><span class="lab">GPU market depth</span>
+      <span class="val">${gall.reduce((a,g)=>a+g.offers,0)} offers</span>
+      <p class="exp">${gall.map(g=>`${g.gpu} $${g.median.toFixed(2)}/hr across ${g.offers}`).join(" &middot; ")}. Depth matters as much as price: cheaper compute with fewer machines listed is tightness, cheaper compute with more is oversupply.</p></div>`;
+  }
+  el("context").innerHTML = ctx ? `<div class="ctx">${ctx}</div>` : "";
+
+  /* coverage gap table */
+  const cos=(D.companies||[]).filter(c=>!c.error);
+  el("coTable").innerHTML=`
+   <thead><tr><th>Company</th><th>Capex TTM</th><th>Capex&nbsp;growth</th><th>Revenue&nbsp;growth</th><th>Gap</th><th>Capex/OCF</th><th>Filed to</th></tr></thead>
+   <tbody>${cos.map(c=>{
+     const g=c.coverage_gap, r=c.capex_ocf;
+     const gc=g==null?"":(g>50?"hi":g>0?"mid":"v");
+     const rc=r==null?"":(r>100?"hi":r>=60?"mid":"v");
+     return `<tr>
+      <td class="v">${c.ticker}${c.stale?' <span style="color:var(--turn)">stale</span>':''}</td>
+      <td>${c.capex_ttm?"$"+(c.capex_ttm/1e9).toFixed(0)+"bn":"—"}</td>
+      <td class="v">${c.capex_growth==null?"—":(c.capex_growth>0?"+":"")+c.capex_growth.toFixed(0)+"%"}</td>
+      <td class="v">${c.rev_growth==null?"—":(c.rev_growth>0?"+":"")+c.rev_growth.toFixed(0)+"%"}</td>
+      <td class="${gc}">${g==null?"—":(g>0?"+":"")+g.toFixed(0)+"pp"}</td>
+      <td class="${rc}">${r==null?"—":r.toFixed(0)+"%"}</td>
+      <td>${c.asof||"—"}</td></tr>`;
+   }).join("")}</tbody>`;
+  el("coSrc").innerHTML=`Trailing twelve months from SEC EDGAR XBRL facts, refreshed with each filing. Nvidia is shown for contrast and excluded from the medians — it sells the capex rather than spending it.`;
+
+  /* board */
+  el("board").innerHTML=CLUSTERS.map(c=>`
+   <div class="cluster">
+    <div class="cluster-head"><h3>${c.id}. ${c.name}</h3><span class="q">${c.q}</span><span class="tag">${c.tag}</span></div>
+    ${c.sensors.map(s=>{
+      const l=live(s.id), st=curState(s.id), cf=confirmedState(s.id);
+      const auto=!!(D.auto&&D.auto[s.id]);
+      const pill = st===null?`<span class="pill pn">No reading</span>`:`<span class="pill p${st}">${LBL[st]}</span>`;
+      let num="—",un=auto?"live":"manual",numCls="";
+      if(l){
+        if(l.value!==undefined&&l.value!==null){ num=fmtVal(l.value); numCls=typeof l.value==="number"?"":" str"; }
+        if(l.unit)un=l.unit;
+      }
+      const sp=sparkFor[s.id]&&D.fred&&D.fred[sparkFor[s.id]]
+        ? spark(D.fred[sparkFor[s.id]].spark,86,20, st===2?"var(--turn)":st===1?"var(--watch)":"var(--calm)") : "";
+      const staleManual = !auto && l && l.asof && days(l.asof,new Date().toISOString().slice(0,10))>45;
+      return `<div class="sensor">
+       <div class="srow">
+        <p class="title"><span class="code">${s.id}</span>${s.title}</p>
+        <div class="reading">
+          <div class="readout"><span class="num${numCls}">${num}</span><span class="un">${un}</span>${sp}</div>
+          ${pill}
+        </div>
+       </div>
+       ${l&&l.detail?`<p class="note"><span class="k">${auto?"Reading":"Assessment"}</span>${l.detail}</p>`:""}
+       ${cf!==null&&st!==null&&cf!==st?`<p class="note"><span class="k">Rule 01</span>Moved to <b>${LBL[st]}</b> within the last month, so it still scores as <b>${LBL[cf]}</b> in the verdict until the move holds.</p>`:""}
+       <p class="watchline">${s.watch}</p>
+       <div class="thresh">
+        <div class="t-calm${st===0?" on":""}"><b>Calm</b>${s.calm}</div>
+        <div class="t-watch${st===1?" on":""}"><b>Watch</b>${s.watchT}</div>
+        <div class="t-turn${st===2?" on":""}"><b>Turning</b>${s.turn}</div>
+       </div>
+       <div class="notes">${s.notes.map(n=>`<p class="note"><span class="k">${n[0]}</span>${n[1]}</p>`).join("")}</div>
+       <p class="src">${auto?"Automatic":"Manual"} &middot; ${s.src}${l&&l.asof?` &middot; assessed ${l.asof}${staleManual?' — stale, worth re-reading':''}`:""}</p>
+      </div>`;
+    }).join("")}
+   </div>`).join("");
+
+  /* verdict */
+  const conf = V
+    ? {stage:V.stage, scores:V.clusters.map(c=>c.score), red:V.red, amber:V.amber}
+    : {stage:0, scores:[null,null,null,null], red:0, amber:0};
+  const rawStage = V ? V.stage_raw : 0;
+  const ready = V ? V.confirmation_ready : false;
+  const histDays = V ? V.history_days : 0;
+  el("rail").innerHTML=STAGES.map((s,i)=>`<div class="rail-seg" data-i="${i}"></div>`).join("");
+  el("railLabels").innerHTML=STAGES.map(s=>`<span>${s.n} ${s.name}</span>`).join("");
+  el("lights").innerHTML=CLUSTERS.map((c,i)=>{
+    const v=conf.scores[i];
+    const col=v===2?"var(--turn)":v===1?"var(--watch)":v===0?"var(--calm)":"var(--ink-3)";
+    const bg=v===2?"var(--turn-bg)":v===1?"var(--watch-bg)":"transparent";
+    const txt=v===2?"TURNED":v===1?"DETERIORATING":v===0?"HOLDING":"NO READING";
+    return `<div class="light"><span class="dot" style="background:${col};box-shadow:0 0 0 3px ${bg}"></span>
+      <span><span class="n">${c.id}. ${c.name}</span><span class="s">${txt}</span></span></div>`;
+  }).join("");
+
+  const st=STAGES[conf.stage];
+  el("stageName").innerHTML=`<span class="stage-num">STAGE ${st.n}</span>${st.name}`;
+  el("stageName").style.color=st.color;
+  el("stageBlurb").textContent=st.blurb;
+  el("rail").querySelectorAll(".rail-seg").forEach((seg,i)=>{
+    seg.style.background=i<=conf.stage?st.color:"var(--rule-soft)";
+    seg.style.opacity=i===conf.stage?"1":i<conf.stage?".42":"1";
+  });
+  el("railLabels").querySelectorAll("span").forEach((s,i)=>s.classList.toggle("on",i===conf.stage));
+
+  let note="";
+  if(!ready){
+    note=`Rule 01 is not yet armed: the daily snapshot has ${histDays} day${histDays===1?"":"s"} of history and needs about thirty before a move can be tested for persistence. Until then the confirmed reading equals the raw one.`;
+  } else if(rawStage!==conf.stage){
+    note=`Unconfirmed raw reading: Stage ${STAGES[rawStage].n} ${STAGES[rawStage].name}. Moves from the last month are being held back by Rule 01. If they hold, the confirmed stage follows.`;
+  }
+  note+= (note?" ":"")+`${conf.red} cluster${conf.red===1?"":"s"} turned, ${conf.amber} deteriorating.`;
+  el("rawNote").textContent=note;
+}
+render();
+</script>
+</body>
+</html>

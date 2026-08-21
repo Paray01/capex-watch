@@ -1,0 +1,59 @@
+{
+ "_comment": "Sensors with no machine-readable feed. Updated by research, not by fetch.py. Each carries its own 'asof' date; the dashboard marks anything older than 45 days as stale so a forgotten sensor cannot quietly pass for a current reading. state: 0 calm, 1 watch, 2 turning.",
+ "A4": {
+  "state": 0,
+  "value": "supply-constrained",
+  "detail": "No hyperscaler has yet introduced optimisation language on an earnings call while still guiding capex up. The tell to look for is the shift from 'demand exceeds our supply' to 'measured', 'digesting', 'prioritising utilisation', 'capital discipline'.",
+  "asof": "2026-08-21",
+  "source": "Quarterly earnings call transcripts"
+ },
+ "B2": {
+  "state": 0,
+  "value": "1.8% / 3.6% / 5.8%",
+  "detail": "Data-centre vacancy at record lows in North America, Europe and Asia-Pacific, with H1 2026 absorption a record 25 GW. Hyperscalers account for about 59% of 2026 tenant demand.",
+  "asof": "2026-08-21",
+  "source": "JLL midyear 2026 North America report; CBRE Global Data Center Trends 2026"
+ },
+ "B3": {
+  "state": 1,
+  "value": "~6,000 MW, first decline since 2020",
+  "detail": "Around twenty US data-centre projects were cancelled in Q1 2026, and capacity under construction across the eight primary US markets fell at end-2025 for the first time since 2020, from roughly 6,350 MW to just under 6,000 MW. Read against record absorption in B2, this is the board's first genuine tension — and power and permitting, not demand, kill many of these projects.",
+  "asof": "2026-08-21",
+  "source": "JLL / CBRE pipeline data; project cancellation reporting"
+ },
+ "C1": {
+  "state": 1,
+  "value": ">$3tn committed off balance sheet",
+  "detail": "Analysis of nine large technology companies puts more than $3tn in off-balance-sheet commitments — leases, energy contracts, hardware obligations — much of it tied to AI infrastructure. The visible capex line understates the economic commitment already made.",
+  "asof": "2026-08-21",
+  "source": "Wall Street Journal analysis of off-balance-sheet commitments"
+ },
+ "C3": {
+  "state": 1,
+  "value": "5-6 year useful lives, group no longer aligned",
+  "detail": "Server useful lives were extended from three or four years to five or six, worth roughly $18bn a year in avoided depreciation. Critics estimate $176bn of understated depreciation across 2026-2028 if true economic life is nearer three years. Amazon has shortened life on a subset of servers while Meta extended further — the group is no longer moving in one direction, which is what makes this a watch rather than a calm.",
+  "asof": "2026-08-21",
+  "source": "10-K and 10-Q useful-life disclosures; depreciation debate coverage"
+ },
+ "C4": {
+  "state": 0,
+  "value": "growing, structures still clean",
+  "detail": "AI startup funding volume still growing in dollar terms. Watch for structure appearing — ratchets, preference stacks, compute credits substituting for cash — before volume falls.",
+  "asof": "2026-08-21",
+  "source": "Quarterly venture funding trackers"
+ },
+ "D1": {
+  "state": 1,
+  "value": "units down, revenue up",
+  "detail": "IDC describes the disconnect directly: PC shipments falling while revenue rises as manufacturers pass memory costs through. The disguise Rule 03 exists for is already in place. Not yet at the two-consecutive-quarters, minus-5% threshold.",
+  "asof": "2026-08-21",
+  "source": "IDC / Canalys quarterly shipment trackers"
+ },
+ "D4": {
+  "state": 0,
+  "value": "expanding",
+  "detail": "No reported contraction or non-renewal wave at the large enterprise AI vendors. The hardest sensor on the board to observe from outside — qualitative evidence scores watch at most, never turning on its own.",
+  "asof": "2026-08-21",
+  "source": "Vendor results, net revenue retention disclosures"
+ }
+}

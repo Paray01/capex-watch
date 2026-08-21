@@ -1,0 +1,14 @@
+# Generated on every run
+data.js
+artifact.html
+alert.txt
+
+# Local runtime state — the Mac keeps its own Rule 01 clock, the cloud routine
+# owns the tracked history.json
+history-local.json
+log.txt
+alerts.log
+launchd.err
+
+# Contact address for the SEC User-Agent. This repository is public.
+contact.env
