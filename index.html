@@ -186,22 +186,56 @@ footer a{color:var(--accent);}
 footer p{margin:0 0 10px;}
 @media (max-width:620px){ .reading{width:100%;justify-content:space-between;} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+/* --- added for the plain-language layer --- */
+.plainbox{background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+  padding:22px clamp(16px,3vw,28px);box-shadow:var(--shadow);margin-top:18px;}
+.bottomline{font-size:clamp(19px,2.6vw,23px);font-family:"Archivo",sans-serif;font-weight:600;
+  letter-spacing:-.015em;line-height:1.35;margin:0 0 18px;text-wrap:balance;}
+.facts{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;}
+.facts li{display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline;}
+.facts .fig{font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;
+  font-variant-numeric:tabular-nums;white-space:nowrap;min-width:5.5em;text-align:right;}
+.facts .f0{color:var(--calm);} .facts .f1{color:var(--watch);} .facts .f2{color:var(--turn);}
+.facts .txt{color:var(--ink-2);line-height:1.5;}
+.facts .txt b{color:var(--ink);font-weight:500;}
+.facts .means{display:block;font-size:14px;color:var(--ink-3);margin-top:3px;}
+.next{margin-top:22px;padding-top:18px;border-top:1px solid var(--rule-soft);}
+.next h4{margin:0 0 10px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;}
+.next ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+.next li{color:var(--ink-2);font-size:15px;line-height:1.5;padding-left:20px;position:relative;}
+.next li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:1px;background:var(--ink-3);}
+.next li b{color:var(--ink);font-weight:500;}
+.gloss{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;}
+.gloss th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:0 18px 9px 0;border-bottom:1px solid var(--rule);}
+.gloss td{padding:12px 18px 12px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);vertical-align:top;line-height:1.5;}
+.gloss td:first-child{font-family:"Archivo",sans-serif;font-weight:600;color:var(--ink);white-space:nowrap;font-size:15px;}
+.plainline{color:var(--ink);margin:8px 0 0;font-size:15.5px;}
+.plainline .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;}
+.steps{counter-reset:step;list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:16px;}
+.steps li{counter-increment:step;padding-left:38px;position:relative;color:var(--ink-2);max-width:74ch;line-height:1.55;}
+.steps li::before{content:counter(step);position:absolute;left:0;top:1px;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:"IBM Plex Mono",monospace;
+  font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+.steps li b{color:var(--ink);font-weight:500;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<p class="eyebrow">Live instrument panel</p>
+<p class="eyebrow">Updated twice a day &middot; last checked automatically</p>
 <h1>Capex Cycle Watch</h1>
-<p class="lede">Sixteen sensors for one question: <strong>is the AI build-out still being paid for by the money it earns?</strong> Eight read themselves from public filings and live markets. Eight need a human, and say so.</p>
-<p class="lede">Not one price on this board is a stock price. Equities move on expectations; the physical and financial plumbing moves on commitments, and commitments turn first.</p>
+<p class="lede">A handful of companies are spending enormous sums building data centres for AI. This page tracks one question: <strong>is that spending still being paid for by the money AI brings in?</strong></p>
+<p class="lede">As long as it is, the building continues. If it stops, the spending gets cut — and because chip factories, builders and lenders have all planned around it continuing, a cut spreads quickly. That is what people mean by the AI bubble bursting.</p>
 
 <div class="stamp" id="stamp"></div>
 <div id="alerts"></div>
 
 <div class="verdict">
   <div class="verdict-head">
-    <span class="label">Confirmed reading</span>
+    <span class="label">Where we are now</span>
     <span id="stageName"></span>
   </div>
   <div class="verdict-body">
@@ -214,203 +248,260 @@ footer p{margin:0 0 10px;}
 </div>
 
 <section>
-  <h2>If you read one number a month</h2>
-  <p class="h2sub">The coverage gap</p>
+  <h2>The short version</h2>
+  <p class="h2sub">What the numbers say right now</p>
+  <div class="plainbox">
+    <p class="bottomline" id="bottomLine"></p>
+    <ul class="facts" id="plainFacts"></ul>
+    <div class="next">
+      <h4>What would have to happen for this to get worse</h4>
+      <ul id="nextSteps"></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The main number</h2>
+  <p class="h2sub">Is spending growing faster than income?</p>
   <div class="headline">
-    <p>Every other sensor describes a symptom. This one describes the disease: whether the marginal euro of infrastructure brings back more than a euro of revenue.</p>
-    <div class="formula">coverage gap = capex growth (% YoY) &minus; revenue growth (% YoY)</div>
-    <p>A negative gap means monetisation is outrunning the build and the cycle can run for years. A large gap, sustained across three consecutive quarters at more than one buyer, is the crash thesis becoming arithmetic. Live from the cash-flow statements in each company's latest SEC filing:</p>
+    <p>If a company's spending grows 80% while its income grows 18%, the gap has to be covered by something: savings, borrowing, or the belief that the income will catch up later. The wider that gap gets, and the longer it stays wide, the more the whole thing depends on a forecast being right.</p>
+    <div class="formula">gap = how fast spending grows &minus; how fast income grows</div>
+    <p>These figures come straight from the companies' official filings with the US financial regulator, covering the last four quarters. Nvidia is in the table for comparison: it <em>sells</em> the equipment rather than buying it, so its income grows faster than its spending — which is exactly what you would expect from the seller.</p>
     <div class="scroll"><table class="co" id="coTable"></table></div>
     <p class="src" id="coSrc"></p>
   </div>
 </section>
 
 <section>
-  <h2>The board</h2>
-  <p class="h2sub">Four clusters, sixteen sensors</p>
-  <p>Sensors are grouped by where in the chain they sit, and that grouping is the point. Four red lights inside one cluster are one signal wearing four hats — memory, GPUs, fabs and lead times all measure the same tightness. Two red lights in two different clusters are genuinely two signals. The verdict counts clusters, never sensors.</p>
+  <h2>The detail</h2>
+  <p class="h2sub">Sixteen things worth watching, in four groups</p>
+  <p>Each one is marked <b>calm</b>, <b>watch</b> or <b>turning</b>, with the exact numbers that decide which. Eight update automatically. The other eight need a person to read a report, and each shows when it was last checked.</p>
   <div id="context"></div>
   <div id="board"></div>
 </section>
 
 <section>
-  <h2>Reading rules</h2>
-  <p class="h2sub">Six rules that stop the board crying wolf</p>
-  <p>An indicator list without rules of interpretation fires every quarter, and after the third false alarm you stop looking at it. These rules exist to make the board boring most of the time. The first four are enforced in code, not left to willpower.</p>
-  <div class="rules">
-    <div class="rule-card"><span class="num">RULE 01 · IN CODE</span><h4>Two readings, or it did not happen</h4><p>A sensor's move counts only once it has held for about a month. The fetcher snapshots every state daily, and the verdict scores each sensor at the milder of today's reading and the reading thirty days ago.</p></div>
-    <div class="rule-card"><span class="num">RULE 02 · IN CODE</span><h4>Two clusters, or it is not a cycle</h4><p>Stages escalate on the number of clusters that have turned, never on the number of sensors. One cluster turning red is a sector problem — memory gluts and data-centre delays happen inside healthy cycles all the time.</p></div>
-    <div class="rule-card"><span class="num">RULE 03 · IN CODE</span><h4>Units, never revenue</h4><p>Price rises hide volume collapse. 100m units at &euro;1,000 and 80m at &euro;1,200 are the same headline and completely different economies. Consumer sensors are counted in units, and the price index used is one that normally falls.</p></div>
-    <div class="rule-card"><span class="num">RULE 04 · IN CODE</span><h4>Current generation only</h4><p>A rental price carries information only for the generation people are actually buying. The GPU feed tracks H200 and B200; last year's silicon getting cheap is the value cascade working, not the market failing.</p></div>
-    <div class="rule-card"><span class="num">RULE 05 · HUMAN</span><h4>Ask why, not just whether</h4><p>Capex cut because demand fell is the signal. Capex cut because the grid, the permits or the chips are not there is the opposite — it means demand exceeds what can be built. No feed can read intent; the stated reason is half the reading.</p></div>
-    <div class="rule-card"><span class="num">RULE 06 · HUMAN</span><h4>Downgrade with the same discipline</h4><p>The rules apply on the way back too. One reassuring quarter does not clear a red cluster. Boards that escalate fast and de-escalate slowly become permanent alarm, which is the same as no alarm.</p></div>
+  <h2>How the verdict is worked out</h2>
+  <p class="h2sub">Four rules, so single odd readings do not set off alarms</p>
+  <ol class="steps">
+    <li><b>A group counts, not a single number.</b> A group turns red when two of its four sensors are turning, or one is turning and two are on watch.</li>
+    <li><b>The stage rises when two <em>different</em> groups turn red.</b> Chip prices, factory output and delivery times all measure the same shortage. If they move together that is one piece of news, not three. Two separate groups moving is two pieces of news.</li>
+    <li><b>A change must last about a month before it counts.</b> Every reading is saved daily, and a sensor is scored at the milder of today's value and the value thirty days ago. One strange week changes nothing.</li>
+    <li><b>Devices sold, not money spent.</b> If prices rise 20% and sales fall 20%, the revenue headline looks unchanged while a fifth of the market has disappeared. Anything about consumers here is counted in devices.</li>
+  </ol>
+  <p style="margin-top:22px">Two judgements a program cannot make, and where a person still has to look:</p>
+  <ul class="plain">
+    <li><b>Why something was cut.</b> Spending cut because customers stopped buying is a warning sign. Spending cut because there is not enough electricity, or the building permit was refused, or the chips are sold out, means the opposite: demand is larger than what can be built.</li>
+    <li><b>When to relax again.</b> One good quarter does not undo a warning. The same patience applies in both directions, otherwise the page ends up permanently alarmed, which is no better than never being alarmed.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Common false alarms</h2>
+  <p class="h2sub">Things that look bad in headlines but are not on this page</p>
+  <ul class="plain">
+    <li><b>Nvidia's share price falls 30%.</b> That can happen simply because growth came in at 40% instead of the 50% investors hoped for. Nothing about the actual building of data centres has changed. No share price appears anywhere on this page, on purpose.</li>
+    <li><b>One company pauses a data-centre lease.</b> They rearrange plans constantly. That is why the stage needs two separate groups to turn, not one company's decision.</li>
+    <li><b>Last year's AI chips get much cheaper.</b> Renting an H100 fell by roughly two thirds from its peak, then rose about 40% again during 2026. Both moves were about which chip people wanted, not whether they wanted chips. Only the current generation is tracked here.</li>
+    <li><b>Memory prices fall.</b> If new factories have just opened, cheaper memory is the shortage being solved, not demand disappearing. That is why factory output is shown alongside prices.</li>
+    <li><b>A company's profit drops because it is spending.</b> Money spent on buildings shows up as lower profit — that is simply what investing looks like. Amazon's profits looked like this for years while it built its cloud business.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The other possibility</h2>
+  <p class="h2sub">What would show the worry is unfounded</p>
+  <p>A page that only collects bad news will always find bad news. These are the specific things that would mean there is nothing to watch for:</p>
+  <ul class="plain">
+    <li><b>AI gets cheaper to run faster than people use more of it.</b> Then the shortage resolves itself, and prices for ordinary computers go back to normal without anything breaking. Watch what the AI companies charge per million words processed, and how much work each new chip does per unit of electricity.</li>
+    <li><b>Income catches up with spending.</b> Two quarters in a row, at two or more of the big buyers, where income grows faster than spending. That is the building paying for itself, and it ends the question.</li>
+    <li><b>New chip factories open.</b> Extra capacity arriving through 2027 that brings memory prices back down while AI demand stays strong would mean the shortage was a timing problem, not a permanent shift of hardware away from ordinary buyers.</li>
+    <li><b>People keep buying at the higher prices.</b> If PC, phone and console sales hold up, the step where expensive hardware reduces demand simply does not happen.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Words used here</h2>
+  <p class="h2sub">Everything you need to read the page</p>
+  <div class="scroll">
+  <table class="gloss">
+    <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td>Capex</td><td>Short for capital expenditure: money spent on buildings and equipment rather than day-to-day running costs. Here it is almost entirely data centres and AI chips.</td></tr>
+      <tr><td>Hyperscaler</td><td>The handful of companies that own most of the world's large data centres: Microsoft, Amazon, Google, Meta and Oracle.</td></tr>
+      <tr><td>Operating cash flow</td><td>The cash a business generates from normal trading, before it spends anything on buildings. If capex is larger than this, the difference has to be borrowed or taken from reserves.</td></tr>
+      <tr><td>The gap</td><td>How many percentage points faster spending is growing than income. Positive means spending is running ahead.</td></tr>
+      <tr><td>Basis point (bp)</td><td>One hundredth of a percent. 273bp is 2.73%. Used for what lenders charge above the safest possible loan — higher means more perceived risk.</td></tr>
+      <tr><td>Spot vs contract price</td><td>Spot is what you pay today for immediate delivery. Contract is agreed months ahead. Spot moves first, so it warns earlier.</td></tr>
+      <tr><td>Last four quarters</td><td>The most recent twelve months added together, rather than a single quarter. Seasonal ups and downs cancel out.</td></tr>
+      <tr><td>Year on year</td><td>Compared with the same period twelve months earlier, not with last month.</td></tr>
+    </tbody>
+  </table>
   </div>
 </section>
 
 <section>
-  <h2>Deliberately not on this board</h2>
-  <p class="h2sub">Five things that look like the crash and are not</p>
-  <ul class="plain">
-    <li><b>Nvidia's share price falling 30%.</b> That happens when growth comes in at 40% instead of 50%. It reprices expectations; it does not change the physical cycle. No share price appears anywhere here, and that is deliberate.</li>
-    <li><b>One hyperscaler pausing leases.</b> Individual firms re-sequence capacity constantly. Rule 02 exists for exactly this.</li>
-    <li><b>Last-generation accelerators getting cheap.</b> H100 rental prices fell roughly 64&ndash;75% from launch-era highs, then rose about 40% again into 2026 as capacity tightened. Both moves were about which generation people wanted, not whether they wanted compute.</li>
-    <li><b>Memory prices falling because new fabs came online.</b> That is supply answering demand, the healthy resolution. Check wafer starts before reading a price fall as weakness — the semiconductor production series on this board is there for that.</li>
-    <li><b>A quarter of margin compression at a company spending on AI.</b> Investment showing up in the profit and loss account is what investment does. Amazon looked like this for a decade. It matters only alongside the coverage gap.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>The other side</h2>
-  <p class="h2sub">What would show the thesis is wrong</p>
-  <p>A watch list built only from confirming evidence will always confirm. These are the readings that should make you put the board away, and they are as concrete as the crash signals.</p>
-  <ul class="plain">
-    <li><b>Efficiency outruns demand.</b> If cost per unit of AI output falls faster than usage grows, the hardware scarcity dissolves without a bust. Watch price per million tokens at the frontier labs and performance per watt at each new accelerator generation.</li>
-    <li><b>The coverage gap goes negative.</b> Two consecutive quarters at two or more large buyers where revenue growth exceeds capex growth. That is the build-out paying for itself, and it retires the whole thesis. Nvidia's own gap on the table above is already negative — it is the seller, not the buyer, which is the point.</li>
-    <li><b>Memory supply responds.</b> New fab capacity landing through 2027 that re-normalises consumer DRAM and NAND while AI demand stays strong. The squeeze would then have been a timing problem, not a structural transfer of hardware from households to data centres.</li>
-    <li><b>Consumers absorb the price.</b> If PC, phone and console units hold up at the higher prices, the demand-destruction step simply does not happen, and hardware inflation stays an inconvenience rather than a mechanism.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>When the data actually lands</h2>
-  <p class="h2sub">A monthly rhythm, not a news feed</p>
-  <p>The automatic sensors refresh themselves daily. The manual eight are worth one sitting a month — everything below lands on a quarterly cadence anyway.</p>
+  <h2>When new information arrives</h2>
+  <p class="h2sub">Checking once a month catches everything</p>
   <div class="scroll">
   <table class="cal">
-    <thead><tr><th>Cadence</th><th>What lands</th><th>Sensors</th></tr></thead>
+    <thead><tr><th>How often</th><th>What arrives</th><th>Affects</th></tr></thead>
     <tbody>
-      <tr><td>Daily · automatic</td><td>GPU rental market depth and price, high-yield credit spreads</td><td><b>B1 C2</b></td></tr>
-      <tr><td>Monthly · automatic</td><td>FRED releases: semiconductor PPI, personal-computer CPI, semiconductor production</td><td><b>B4 D2</b></td></tr>
-      <tr><td>Late Jan / Apr / Jul / Oct</td><td>Hyperscaler results. Cash-flow numbers arrive automatically within a day of filing; guidance, call language and depreciation disclosures need reading</td><td><b>A1 A2 D3</b> auto &middot; <b>A4 C1 C3</b> manual</td></tr>
-      <tr><td>Late Feb / May / Aug / Nov</td><td>Nvidia results, about three weeks after its customers — so you already know what they guided. Next: <b>2026-08-26</b>, Q2 FY27 revenue guided near $91bn</td><td><b>A3</b></td></tr>
-      <tr><td>Monthly / quarterly</td><td>IDC and Canalys shipment trackers — read the unit column, not the revenue column</td><td><b>D1</b></td></tr>
-      <tr><td>Half-yearly</td><td>JLL and CBRE data-centre reports: vacancy, absorption, capacity under construction</td><td><b>B2 B3</b></td></tr>
-      <tr><td>Continuous</td><td>Venture funding trackers and AI-infrastructure debt issuance</td><td><b>C4</b></td></tr>
+      <tr><td>Every day</td><td>AI chip rental prices, and what lenders charge risky companies</td><td><b>B1 C2</b></td></tr>
+      <tr><td>Every month</td><td>Official US price statistics for chips and for computers in shops</td><td><b>B4 D2</b></td></tr>
+      <tr><td>End of Jan / Apr / Jul / Oct</td><td>The big spenders publish results. Spending figures update here automatically; what executives said has to be read</td><td><b>A1 A2 D3</b> automatic &middot; <b>A4 C1 C3</b> by hand</td></tr>
+      <tr><td>End of Feb / May / Aug / Nov</td><td>Nvidia publishes, about three weeks after its customers — so their plans are already known. Next: <b>26 August 2026</b></td><td><b>A3</b></td></tr>
+      <tr><td>Every quarter</td><td>Reports on how many PCs and phones were actually sold</td><td><b>D1</b></td></tr>
+      <tr><td>Twice a year</td><td>Property reports on empty data-centre space and new construction</td><td><b>B2 B3</b></td></tr>
     </tbody>
   </table>
   </div>
 </section>
 
 <footer>
-  <p><b>Sources.</b> SEC EDGAR XBRL company facts (capex, operating cash flow, revenue, per filing); Federal Reserve Bank of St. Louis FRED (ICE BofA US High Yield OAS, PPI semiconductor manufacturing, CPI personal computers and peripherals, industrial production semiconductors); Vast.ai public marketplace API (GPU rental offers). No API keys, no paid feeds, no scraping of paywalled research.</p>
-  <p><b>Refreshing.</b> A scheduled job runs <code>fetch.py</code> twice a day and rewrites <code>data.js</code>; reload this page to see it. To run it by hand: <code>python3 fetch.py</code> in this folder. The manual sensors live in <code>manual.json</code> and grey out after 45 days.</p>
-  <p><b>You do not have to remember to look.</b> When a sensor changes state, when the stage moves, or when a manual assessment passes 45 days, the job raises a macOS notification and appends the change to <code>alerts.log</code>. On an ordinary day it says nothing at all, which is the point — the board is designed to be boring until it is not.</p>
-  <p><b>One implementation of the rules.</b> The thresholds, the confirmation rule and the cluster scoring all live in <code>fetch.py</code>. This page displays the verdict; it does not compute it. Change a threshold there and the board, the alerts and the history all move together.</p>
-  <p>A framework for reading public data, not investment advice. Automatic readings are mechanical and can be wrong in ways a human would catch — every threshold is visible above so you can disagree with it.</p>
+  <p><b>Where the figures come from.</b> Company filings with the US Securities and Exchange Commission, for spending, cash flow and income. The Federal Reserve Bank of St. Louis, for lending costs and official price statistics. The Vast.ai marketplace, for live AI chip rental prices. All public, all free, none behind a paywall.</p>
+  <p><b>How it stays current.</b> A small program runs twice a day on a Mac, takes about a minute, fetches everything and republishes it. It also sends a notification if any sensor changes state, so there is no need to remember to check. On an ordinary day it says nothing.</p>
+  <p>This is a way of reading public data, not financial advice. The automatic readings are mechanical and can be wrong in ways a person would spot. Every threshold is written out above, so you can disagree with any of them.</p>
 </footer>
 
 </div>
-
 <script src="data.js"></script>
 <script>
 const D = window.CAPEX_DATA || {auto:{},manual:{},companies:[],fred:{},gpus:[],gpu_history:[],errors:["data.js not found — run python3 fetch.py"]};
 
 const CLUSTERS = [
- {id:"A",name:"Demand",q:"Do the buyers still buy?",tag:"turns first in language, last in numbers",sensors:[
-  {id:"A1",title:"Capex growth at the five large buyers",
-   watch:"Realised <b>capital expenditure, trailing twelve months, year over year</b>, straight from the cash-flow statements. Guidance is the leading version of this number, but guidance is prose — this is the audited outcome it turns into.",
-   calm:"Growth above 10%.",watchT:"Growth between −5% and 10% — the build-out flattening.",turn:"Outright decline in trailing capex.",
-   notes:[["Lies when","A fall blamed on power, permits or chip supply means demand exceeds what can be built — the opposite reading. See Rule 05."]],
-   src:"SEC EDGAR · PaymentsToAcquirePropertyPlantAndEquipment"},
-  {id:"A2",title:"Capex as a share of operating cash flow",
-   watch:"<b>Capex ÷ operating cash flow</b>, trailing twelve months, median across the five. Absolute capex keeps rising right up to the peak; the share the business itself pays for turns before it.",
-   calm:"Below 60% — the build-out pays for itself.",watchT:"60&ndash;100%.",turn:"Above 100% two quarters running — the difference is being borrowed.",
-   notes:[["Why it leads","This is the hinge between a boom and a bubble. A cash-funded build-out can be wrong without being dangerous; a borrowed one transmits the error into the credit system."]],
-   src:"SEC EDGAR · derived from capex and operating cash flow"},
-  {id:"A3",title:"Nvidia revenue, sequential",
-   watch:"<b>Quarter-on-quarter revenue growth</b> and the next guide. Not earnings per share, not the share-price reaction.",
-   calm:"Sequential growth holding or accelerating.",watchT:"Decelerating two quarters running.",turn:"Sequential decline.",
-   notes:[["Limit","EDGAR carries total revenue, not the data-centre split. The split needs the release itself — worth ten minutes on results day."],["Lies when","Export controls remove a region's revenue without changing global demand. Read the geographic split before scoring."]],
-   src:"SEC EDGAR · quarterly revenue"},
-  {id:"A4",title:"The language on the earnings calls",
-   watch:"The transcripts, for the shift from <b>\"demand exceeds our supply\"</b> to <b>\"optimising\", \"measured\", \"digesting\", \"prioritising utilisation\", \"capital discipline\"</b>.",
-   calm:"Still supply-constrained language across the group.",watchT:"One firm introduces optimisation language while keeping guidance.",turn:"Two or more firms use it in the same quarter.",
-   notes:[["Why it leads","No company announces the end of a boom. They announce capital discipline, and cut two quarters later. This typically leads A1 by about two quarters."],["Lies when","Executives perform discipline for investors while spending unchanged. Score it only alongside A1 and A2."]],
-   src:"Quarterly earnings call transcripts — read by hand"}]},
+ {id:"A",name:"The buyers",q:"Are they still spending?",tag:"changes in words first, in numbers later",sensors:[
+  {id:"A1",title:"How much more they are spending",
+   plain:"How much the five biggest data-centre owners spent over the last year, compared with the year before.",
+   watch:"Actual money spent on buildings and equipment, taken from their official filings. What they <i>announce</i> they will spend changes earlier, but announcements are words; this is the audited result.",
+   calm:"Spending up more than 10%.",watchT:"Between −5% and +10%: the building is flattening out.",turn:"Spending actually falling.",
+   notes:[["Careful","If they blame electricity, permits or chip shortages, demand is bigger than what can be built — the opposite of a warning."]],
+   src:"US SEC filings"},
+  {id:"A2",title:"How much of it they can afford",
+   plain:"Their spending compared with the cash their businesses actually produce. Above 100% means the difference comes from borrowing or reserves.",
+   watch:"Spending divided by cash generated from trading, over the last four quarters, taking the middle value of the five companies. The total amount spent keeps rising right up to the peak of a boom; this ratio moves earlier.",
+   calm:"Below 60%: comfortably self-funded.",watchT:"Between 60% and 100%.",turn:"Above 100% for two quarters: the gap is being borrowed.",
+   notes:[["Why it matters","This is the difference between an expensive mistake and a dangerous one. If companies pay from their own earnings, a wrong bet costs shareholders. If they borrow, it becomes the banks' problem too, and spreads further."]],
+   src:"US SEC filings"},
+  {id:"A3",title:"Whether the chip seller is still growing",
+   plain:"Nvidia sells most of the chips these data centres are built from. If its sales stop growing, the buying has slowed.",
+   watch:"Sales this quarter compared with last quarter. Not profit per share, and not the share price reaction to the announcement.",
+   calm:"Still growing quarter on quarter.",watchT:"Growth slowing two quarters in a row.",turn:"Sales actually lower than the previous quarter.",
+   notes:[["Limit","The filings give total sales, not the data-centre share. The split is in the presentation on results day and is worth ten minutes."],["Careful","Export restrictions can remove one country's sales without world demand changing at all."]],
+   src:"US SEC filings"},
+  {id:"A4",title:"What executives say about spending",
+   plain:"Companies never announce the end of a boom. They start saying they are being 'disciplined' and 'measured', and cut about six months later.",
+   watch:"The wording in results calls: the shift away from <b>\"we cannot build fast enough\"</b> towards <b>\"optimising\", \"measured\", \"digesting\", \"capital discipline\"</b>.",
+   calm:"Still saying they cannot keep up with demand.",watchT:"One company starts using cautious language while keeping its plans.",turn:"Two or more do so in the same quarter.",
+   notes:[["Careful","Executives also say 'discipline' to please investors while spending exactly as before. Only counts alongside A1 and A2."]],
+   src:"Results call transcripts — read by a person"}]},
 
- {id:"B",name:"Physical supply",q:"Is capacity outrunning use?",tag:"the earliest hard numbers",sensors:[
-  {id:"B1",title:"The GPU rental market: price and depth",
-   watch:"<b>Median hourly price and the number of rentable offers</b> for current-generation accelerators, sampled daily from a live marketplace. Price alone is ambiguous; price falling <i>while</i> supply deepens is not.",
-   calm:"Price rising or flat as new capacity arrives.",watchT:"Price down 10&ndash;25% over thirty days.",turn:"Price down more than 25% over thirty days while offer count grows.",
-   notes:[["Lies when","This is the board's most misread sensor. H100 spot fell 64&ndash;75% from launch highs — generational obsolescence, not demand collapse. Rule 04 keeps the reading on the current generation."],["Limit","One marketplace, thinner than the contract market the hyperscalers use. Directional, not a price benchmark."]],
-   src:"Vast.ai public marketplace API · sampled daily"},
-  {id:"B2",title:"Data-centre vacancy and absorption",
-   watch:"<b>Vacancy rate and net absorption in gigawatts</b>, by region.",
-   calm:"Vacancy below 5% with absorption at or near record.",watchT:"Vacancy rising two quarters running in any primary market.",turn:"Vacancy above 10% while new supply still delivers.",
-   notes:[["Lies when","Vacancy is lease-based and lags badly: a signed lease on a hall running at 20% utilisation still counts as occupied. It measures contracts, not use. Pair with B3."]],
-   src:"JLL and CBRE data-centre reports — read by hand"},
-  {id:"B3",title:"Cancellations and capacity under construction",
-   watch:"<b>Megawatts under construction</b> in the primary markets, plus the count and stated reason of cancelled projects.",
-   calm:"Pipeline growing, cancellations isolated.",watchT:"Cancellations clustering, or pipeline flat year over year.",turn:"Pipeline down more than 15% year over year with cancellations from more than one tenant.",
-   notes:[["Lies when","Power availability and permitting kill projects that have full demand behind them. Read the stated reason every time."]],
-   src:"JLL / CBRE pipeline data — read by hand"},
-  {id:"B4",title:"Component price pressure, and its roll-over",
-   watch:"<b>Producer prices for semiconductor manufacturing</b>, year over year and over six months. The squeeze shows as a rise; the cycle turning shows as that rise rolling over.",
-   calm:"Below 10% year over year.",watchT:"Above 10% — the squeeze that reaches consumers through D2.",turn:"Above 10% year over year but falling over six months — the roll-over.",
-   notes:[["Limit","A proxy. Spot DRAM leads this by a quarter or two and is not available without a paid feed, so this series confirms what spot already said. Check the TrendForce weekly spot update alongside it."],["Lies when","A fall caused by new fab capacity is a healthy supply response. The semiconductor production series is on this board for exactly that check."]],
-   src:"FRED · PCU3344133441, PPI semiconductor and related device manufacturing"}]},
+ {id:"B",name:"The physical build",q:"Is more being built than used?",tag:"the earliest hard numbers",sensors:[
+  {id:"B1",title:"Price to rent an AI chip",
+   plain:"What one hour on a current AI chip costs, and how many are available. Cheap chips plus many available means too many were built.",
+   watch:"Median hourly price and the number on offer, taken from a live marketplace every day. A falling price on its own is ambiguous; a falling price <i>while more machines appear</i> is not.",
+   calm:"Price steady or rising as new machines arrive.",watchT:"Down 10–25% over a month.",turn:"Down more than 25% over a month while more machines are listed.",
+   notes:[["Careful","The most misread number here. Renting an older H100 fell by roughly two thirds — because buyers moved to newer chips, not because they stopped buying. Only current chips are tracked."],["Limit","One marketplace, smaller than the contracts the big companies sign. Good for direction, not for an exact price."]],
+   src:"Vast.ai marketplace, checked daily"},
+  {id:"B2",title:"Empty data-centre space",
+   plain:"How much finished data-centre space stands empty, and how quickly new space gets taken.",
+   watch:"Vacancy rate and newly occupied capacity, by region, from the two large property firms that measure it.",
+   calm:"Under 5% empty, new space taken quickly.",watchT:"Empty space rising two quarters in a row anywhere major.",turn:"Over 10% empty while new buildings still open.",
+   notes:[["Careful","This counts signed leases, not machines actually running. A hall rented but barely used still counts as full, so it reacts late."]],
+   src:"JLL and CBRE reports — read by a person"},
+  {id:"B3",title:"New building and cancellations",
+   plain:"How much new data-centre capacity is under construction, and how many planned projects get dropped.",
+   watch:"Megawatts under construction in the main markets, plus the number of cancelled projects and the reason given for each.",
+   calm:"More being built, cancellations isolated.",watchT:"Cancellations clustering, or construction flat compared with last year.",turn:"Construction down more than 15% year on year, with cancellations from more than one customer.",
+   notes:[["Careful","A lack of electricity or a refused permit cancels projects that have plenty of demand behind them. Always read the stated reason."]],
+   src:"JLL and CBRE data — read by a person"},
+  {id:"B4",title:"What chip factories charge",
+   plain:"Chip prices feed into everything with memory in it — laptops, phones, consoles — a few months later.",
+   watch:"Official US producer prices for chip manufacturing, over a year and over six months. A shortage shows as prices rising; the turn shows as that rise reversing.",
+   calm:"Up less than 10% over a year.",watchT:"Up more than 10%: the squeeze that later reaches shop prices.",turn:"Up over the year but falling over six months: the shortage breaking.",
+   notes:[["Limit","A stand-in. Memory sold for immediate delivery moves a few months earlier but costs money to track, so this confirms rather than warns."],["Careful","If prices fall because new factories opened, that is the shortage being fixed. Factory output is shown above the board for exactly this check."]],
+   src:"US producer price index, chip manufacturing"}]},
 
- {id:"C",name:"Financing",q:"Who is carrying the risk?",tag:"turns fastest once it turns",sensors:[
-  {id:"C1",title:"Capex funded by debt and off-balance-sheet vehicles",
-   watch:"<b>Bond issuance, joint ventures, special-purpose vehicles and lease commitments</b> tied to AI infrastructure, against cash-funded capex.",
-   calm:"Incremental capex predominantly cash-funded.",watchT:"Rising issuance, a growing share routed through JVs and SPVs.",turn:"The majority of incremental capex debt- or vehicle-funded.",
-   notes:[["Why it matters","This converts a bad forecast into a systemic event. Without leverage, a capex mistake is a shareholder problem; with it, a credit problem."],["Partly automatic","A2 above already measures the cash-funded share mechanically. This sensor covers what the cash-flow statement does not show."]],
-   src:"10-K commitments and contingencies — read by hand"},
-  {id:"C2",title:"Credit spreads",
-   watch:"<b>US high-yield option-adjusted spread</b>, level and six-month change. The nearest daily, public read on whether lenders have started pricing risk differently.",
-   calm:"Below 450bp and not widening.",watchT:"Above 450bp, or 50bp wider over six months.",turn:"Above 600bp, or 150bp wider over six months.",
-   notes:[["Why it leads","Credit reprices before equity, because lenders get paid to think about the downside. If the cycle breaks, this moves weeks before anything else here."],["Limit","A market-wide index, not AI-specific. It catches contagion reliably and an isolated neocloud failure not at all — for that, watch for pulled financings by name."]],
-   src:"FRED · BAMLH0A0HYM2, ICE BofA US High Yield Index OAS"},
-  {id:"C3",title:"Depreciation schedules on AI hardware",
-   watch:"The useful-life assumption for servers and accelerators in each filing, and <b>any change to it</b>.",
-   calm:"Schedules stable and consistently disclosed.",watchT:"A further extension — six years to seven. That supports reported earnings; it does not extend the economics.",turn:"A shortening of useful life, or an impairment.",
-   notes:[["Why it is unique","The only sensor where the company itself tells you the earlier assumption was wrong. That admission is expensive, so it is never made early or lightly."]],
-   src:"10-K and 10-Q useful-life disclosures — read by hand"},
-  {id:"C4",title:"AI startup funding volume and structure",
-   watch:"<b>Dollars raised, not deal count</b>, plus the structure: clean equity versus ratchets, preference stacks, vendor and compute-credit financing.",
-   calm:"Volume growing, structures clean.",watchT:"Flat volume with more structure appearing.",turn:"Two consecutive quarters of falling dollars, or down-rounds among the large compute buyers.",
-   notes:[["Why it matters","A meaningful share of GPU demand is funded by venture capital rather than operating revenue. That demand disappears first, and fast."],["Lies when","Capital concentrating into fewer, larger rounds looks like collapse if you count deals. Count dollars."]],
-   src:"Quarterly venture funding trackers — read by hand"}]},
+ {id:"C",name:"The money",q:"Who carries the risk?",tag:"moves fastest once it moves",sensors:[
+  {id:"C1",title:"How much is borrowed",
+   plain:"Some of the building is paid for with company cash, some with borrowed money and joint ventures. Borrowed money is what turns a bad bet into a wider problem.",
+   watch:"Bonds issued, joint ventures, special-purpose companies and long-term rental commitments tied to AI infrastructure, against what is paid from cash.",
+   calm:"Mostly paid from company cash.",watchT:"Rising borrowing, more arranged through separate companies.",turn:"Most new spending funded by borrowing or such vehicles.",
+   notes:[["Why it matters","Without borrowing, a wrong forecast costs shareholders. With it, lenders are exposed too, and the effect travels much further."],["Note","A2 already measures the cash-funded share automatically. This covers the parts that do not appear in the cash-flow statement."]],
+   src:"Annual report commitments — read by a person"},
+  {id:"C2",title:"What lenders charge",
+   plain:"The extra interest lenders demand from riskier companies. It rises when they start expecting trouble, and it usually rises before share prices fall.",
+   watch:"The standard US measure of that extra interest, its level and its direction over six months.",
+   calm:"Below 450bp and not rising.",watchT:"Above 450bp, or 50bp higher than six months ago.",turn:"Above 600bp, or 150bp higher than six months ago.",
+   notes:[["Why it is useful","Lenders are paid to worry about what could go wrong, so they react early. If this stays calm, that is real evidence against a crash."],["Limit","It covers the whole market, not AI specifically. It catches a general panic reliably, and a single failing AI company not at all."]],
+   src:"US high-yield credit spread"},
+  {id:"C3",title:"How long the hardware is assumed to last",
+   plain:"Companies decide how many years an AI chip counts as useful. Stretching that number makes profits look better without anything actually improving.",
+   watch:"The assumed lifespan in each set of accounts, and any change to it.",
+   calm:"Unchanged and consistently disclosed.",watchT:"Stretched further, for example six years to seven.",turn:"Shortened, or the equipment written down in value.",
+   notes:[["Why it is unusual","This is the one place where a company tells you its earlier assumption was wrong. Admitting that is expensive, so it happens late and never casually."]],
+   src:"Annual and quarterly accounts — read by a person"},
+  {id:"C4",title:"Money going into AI startups",
+   plain:"A meaningful share of chip demand is paid for with investor money, not with earnings. That demand disappears first when funding tightens.",
+   watch:"Amount raised in money, not the number of deals, plus the terms: plain shares, or arrangements that protect investors if things go badly.",
+   calm:"Amounts growing, terms straightforward.",watchT:"Flat amounts with more protective terms appearing.",turn:"Two quarters of falling amounts, or large companies raising at a lower valuation than before.",
+   notes:[["Careful","When money concentrates into fewer, larger deals, counting deals looks like a collapse. Count the money."]],
+   src:"Venture funding reports — read by a person"}]},
 
- {id:"D",name:"The paying end",q:"Does the money come back?",tag:"where the thesis is decided",sensors:[
-  {id:"D1",title:"PC, smartphone and console shipments — in units",
-   watch:"<b>Unit shipments year over year.</b> Revenue is disqualified for this sensor; see Rule 03.",
-   calm:"Units flat or growing.",watchT:"Units falling while revenue rises on price — the classic disguise.",turn:"Units down more than 5% year over year for two consecutive quarters.",
-   notes:[["Lies when","A weak quarter after an unusually strong one is a pull-forward, not a trend. Year over year only."]],
-   src:"IDC and Canalys shipment trackers — read by hand"},
-  {id:"D2",title:"Consumer prices for computer hardware",
-   watch:"<b>Consumer price index for personal computers and peripherals</b>, year over year. This is where AI hardware inflation reaches a household, measured in official statistics rather than anecdote.",
-   calm:"Falling year over year — the normal state of this series.",watchT:"Between 0 and +5% — decades of quality-driven deflation have stopped.",turn:"Above +5% year over year.",
-   notes:[["Why the thresholds look strange","This index normally declines a few per cent a year, because quality adjustment treats a faster machine at the same price as a price cut. Flat is therefore already pressure, and a rise is remarkable."]],
-   src:"FRED · CUSR0000SEEE01, CPI personal computers and peripheral equipment"},
-  {id:"D3",title:"The coverage gap",
-   watch:"<b>Capex growth minus revenue growth</b>, in percentage points, median across the buyers, tested across three consecutive quarters. The headline sensor of the whole board.",
-   calm:"At or below zero — monetisation outrunning the build.",watchT:"Positive, but not sustained above the threshold for three quarters.",turn:"Above +50pp in each of the last three quarters.",
-   notes:[["Proxy","Total revenue stands in for AI revenue, which inflates the gap — the non-AI business dilutes the growth rate. The threshold is raised from +30pp to +50pp to compensate. The true AI-level number needs segment disclosure and a human."],["Lies when","Infrastructure legitimately front-runs revenue early in a cycle; AWS looked exactly like this and was right. Only a gap that stays wide carries information."]],
-   src:"SEC EDGAR · derived from capex and revenue"},
-  {id:"D4",title:"Enterprise AI renewals and seat expansion",
-   watch:"<b>Net revenue retention, seat expansion and pilot-to-production conversion</b> at the large AI software vendors.",
-   calm:"Expansion continuing, retention above 120%.",watchT:"Flat seats, pilots not converting, discounting to renew.",turn:"Reported contraction or non-renewals at two or more large vendors.",
-   notes:[["Why it matters","The last link in the chain — where AI either does or does not pay for itself inside someone's operating budget. If this holds, little upstream matters."],["Lies when","The hardest thing here to observe from outside. Qualitative evidence scores watch at most, never turning on its own."]],
-   src:"Vendor results and retention disclosures — read by hand"}]}
+ {id:"D",name:"Where the money comes back",q:"Is anyone paying for all this?",tag:"where it is actually decided",sensors:[
+  {id:"D1",title:"Devices people actually buy",
+   plain:"Counted in devices, not in money. If prices rise and sales fall, revenue can look unchanged while a fifth of the market has gone.",
+   watch:"PC, smartphone and console shipments compared with the same period a year earlier.",
+   calm:"Flat or growing.",watchT:"Falling, while revenue rises because of higher prices.",turn:"Down more than 5% year on year, two quarters running.",
+   notes:[["Careful","A weak quarter right after an unusually strong one is people having bought early, not a trend. Always compare with a year ago."]],
+   src:"IDC and Canalys shipment data — read by a person"},
+  {id:"D2",title:"What computers cost in shops",
+   plain:"This is where expensive AI hardware reaches an ordinary household. Note the unusual thresholds: this measure normally falls every year, because you get a faster machine for the same money. A rise is genuinely unusual.",
+   watch:"The official US consumer price index for computers and accessories, compared with a year earlier.",
+   calm:"Falling year on year, which is normal for this measure.",watchT:"Between 0 and +5%: decades of falling prices have stopped.",turn:"Up more than 5% year on year.",
+   notes:[["Why it counts","Everything upstream is about companies. This is the first number that describes what a person pays in a shop."]],
+   src:"US consumer price index, computers"},
+  {id:"D3",title:"Spending growth minus income growth",
+   plain:"The single most important number here. If spending grows much faster than income for long enough, the building depends on income arriving later — and that is a forecast, not a fact.",
+   watch:"Spending growth minus income growth in percentage points, middle value of the big buyers, checked across three quarters in a row.",
+   calm:"Zero or below: income growing faster than spending.",watchT:"Positive, but not far enough for long enough.",turn:"More than 50 points in each of the last three quarters.",
+   notes:[["Approximation","Total company income stands in for AI income, which makes the gap look bigger than it is: Microsoft's Office business dilutes the growth rate. That is why the threshold is set at 50 points rather than 30."],["Careful","Building ahead of income is normal early on — Amazon's cloud business looked exactly like this and was right. Only a gap that stays wide means anything."]],
+   src:"US SEC filings"},
+  {id:"D4",title:"Whether companies keep paying for AI",
+   plain:"The last link: does AI earn its place in someone's budget once the trial ends? If it does, very little upstream matters.",
+   watch:"Whether existing customers renew and expand, and whether trials turn into paid use, at the large AI software sellers.",
+   calm:"Customers expanding their use.",watchT:"Flat usage, trials not converting, discounts needed to renew.",turn:"Reported cancellations at two or more large sellers.",
+   notes:[["Careful","The hardest thing here to see from outside. Anecdotes count as watch at most, never as turning on their own."]],
+   src:"Vendor results — read by a person"}]}
 ];
 
 const STAGES=[
- {n:"01",name:"Expansion",blurb:"Capital and capacity are both climbing, and the tightness is being paid for by consumers. Nothing here calls for action beyond keeping the board current.",color:"var(--calm)"},
- {n:"02",name:"Friction",blurb:"Costs are reaching the paying end and the return on the build-out is being questioned out loud. This is where attention starts to be worth something — and where most cycles stop without going further.",color:"var(--watch)"},
- {n:"03",name:"Mismatch",blurb:"Capacity is visibly outrunning use: compute is getting cheaper while more of it keeps arriving. Two independent clusters have turned. From here the reversal is a decision, not a possibility.",color:"var(--turn)"},
- {n:"04",name:"Reversal",blurb:"Forward capex is being cut, and orders, components and financing are turning together. You are no longer forecasting the crash — you are watching it, and so is everyone else.",color:"var(--turn)"}
+ {n:"01",name:"Expansion",
+  blurb:"Spending is growing and nothing has broken. This is a normal boom. Costs are high, but the money to pay them is there.",
+  color:"var(--calm)",
+  bottom:"The market looks stable. Spending is growing and nothing has broken."},
+ {n:"02",name:"Friction",
+  blurb:"The higher costs are reaching ordinary buyers, and people are starting to ask out loud whether the spending pays for itself. Most booms stop here without becoming a crash — but this is the point where it is worth paying attention.",
+  color:"var(--watch)",
+  bottom:"No crash — but the strain is starting to show."},
+ {n:"03",name:"More built than used",
+  blurb:"Capacity is visibly running ahead of use: renting computing power is getting cheaper while new machines keep arriving. Two separate parts of the picture have turned. From here, cutting the spending becomes a decision someone has to make rather than a risk.",
+  color:"var(--turn)",
+  bottom:"Warning: more is being built than is being used."},
+ {n:"04",name:"Spending cut",
+  blurb:"Companies are cutting their spending plans, and orders, component prices and lending are moving down together. At this point you are not predicting a crash, you are watching one, and so is everyone else.",
+  color:"var(--turn)",
+  bottom:"The spending is being cut. This is the downturn happening."}
 ];
 const LBL=["Calm","Watch","Turning"];
 const el=id=>document.getElementById(id);
-const D_ = (x)=>x==null?"—":x;
 const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
 
 function live(id){ return D.auto[id] || D.manual[id] || null; }
 function curState(id){ const l=live(id); return l && typeof l.state==="number" ? l.state : null; }
 
-/* The reading rules live in fetch.py so there is one implementation of them.
-   This page displays the verdict; it does not recompute it. */
+/* The rules live in fetch.py so there is one implementation of them.
+   This page shows the verdict; it does not work it out again. */
 const V = D.verdict || null;
 function confirmedState(id){
   if(V && V.confirmed && typeof V.confirmed[id]==="number") return V.confirmed[id];
@@ -422,85 +513,128 @@ function spark(vals,w,h,color){
   const min=Math.min(...vals),max=Math.max(...vals),r=(max-min)||1;
   const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-min)/r)*h).toFixed(1)}`).join(" ");
   const last=vals[vals.length-1];
-  const cx=w, cy=(h-((last-min)/r)*h).toFixed(1);
   return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h+2}" aria-hidden="true">
     <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.4" stroke-linejoin="round" opacity=".75"/>
-    <circle cx="${cx}" cy="${cy}" r="2.2" fill="${color}"/></svg>`;
+    <circle cx="${w}" cy="${(h-((last-min)/r)*h).toFixed(1)}" r="2.2" fill="${color}"/></svg>`;
 }
-const sparkFor={A1:null,A2:null,B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas"};
+const sparkFor={B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas"};
 
 function fmtVal(v){
   if(v===null||v===undefined) return "—";
   if(typeof v==="number") return Math.abs(v)>=1000
     ? v.toLocaleString("en-US",{maximumFractionDigits:0})
-    : String(Number(v.toFixed(2)));   // 273 not 273.0, 2.7 not 2.70
+    : String(Number(v.toFixed(2)));
   return v;
+}
+const sign=n=>(n>0?"+":"")+Number(n.toFixed(1));
+
+/* ---- plain-language summary, derived from the same readings ---- */
+function plainFacts(){
+  const a=D.auto||{}, out=[];
+  const add=(id,fig,txt,means)=>{
+    const st=a[id]&&typeof a[id].state==="number"?a[id].state:null;
+    out.push(`<li><span class="fig f${st===null?0:st}">${fig}</span>
+      <span class="txt">${txt}<span class="means">${means}</span></span></li>`);
+  };
+  if(a.A1) add("A1", sign(a.A1.value)+"%",
+    "<b>The five biggest buyers spent that much more</b> on data centres than in the previous twelve months.",
+    "Still accelerating. A boom does not end while this number is large and positive.");
+  if(a.A2) add("A2", Number(a.A2.value.toFixed(0))+"%",
+    "<b>That spending equals this share of the cash</b> their businesses actually generate.",
+    "Under 60% is comfortable. Above 100% the difference has to be borrowed.");
+  if(a.D3) add("D3", sign(a.D3.value)+"pts",
+    "<b>Spending is growing faster than income</b> by this many percentage points.",
+    "The building is running ahead of the money coming back. It has to stay wide for three quarters before it counts as a warning.");
+  if(a.D2) add("D2", sign(a.D2.value)+"%",
+    "<b>Computers in shops cost this much more</b> than a year ago.",
+    "Unusual: this measure normally falls a few per cent a year, because the same money buys a faster machine.");
+  if(a.B4) add("B4", sign(a.B4.value)+"%",
+    "<b>Chip factories charge that much more</b> than a year ago.",
+    "This is why devices are getting more expensive. It reaches shop prices a few months later.");
+  if(a.C2) add("C2", Math.round(a.C2.value)+"bp",
+    "<b>Lenders charge riskier companies</b> this much extra interest.",
+    "Under 450bp means lenders see no danger. They usually get nervous before share prices fall, so a calm reading here is real evidence.");
+  return out.join("");
+}
+
+/* ---- what would have to change, worked out from the actual rule ---- */
+function nextSteps(){
+  if(!V) return "<li>No reading available.</li>";
+  const out=[];
+  CLUSTERS.forEach((c,i)=>{
+    const score=V.clusters[i].score;
+    if(score===2){ out.push(`<li><b>${c.id}. ${c.name}</b> &mdash; already turned.</li>`); return; }
+    let red=0,amber=0;
+    c.sensors.forEach(s=>{const v=confirmedState(s.id); if(v===2)red++; else if(v===1)amber++;});
+    let need;
+    if(red>=1 && amber>=1) need="one more sensor moves to watch or turning";
+    else if(amber>=2) need="one sensor moves to turning";
+    else if(amber===1) need="two more sensors deteriorate";
+    else need="at least three sensors deteriorate";
+    const wl=c.sensors.filter(s=>confirmedState(s.id)===1).map(s=>s.id);
+    out.push(`<li><b>${c.id}. ${c.name}</b> &mdash; turns red once ${need}.` +
+      (wl.length?` Currently on watch: ${wl.join(", ")}.`:" Nothing on watch here yet.")+`</li>`);
+  });
+  const red=V.red;
+  out.push(`<li><b>The stage rises</b> when two groups are red at once. ${red===0?"None is red today.":red===1?"One is red today.":red+" are red today."}</li>`);
+  return out.join("");
 }
 
 function render(){
-  /* stamp */
   const gen=D.generated||"never";
   const age=D.generated_date?days(D.generated_date,new Date().toISOString().slice(0,10)):999;
-  const hist=window.CAPEX_HISTORY||[];
-  let stamp=`<span>Data generated <b>${gen}</b></span>`;
-  if(age>3) stamp+=`<span class="warn">· ${age} days old — run python3 fetch.py</span>`;
-  stamp+=`<span>· <b>${Object.keys(D.auto||{}).length}</b> automatic, <b>${Object.keys(D.manual||{}).filter(k=>!k.startsWith("_")).length}</b> manual sensors</span>`;
-  stamp+=`<span>· history <b>${hist.length}</b> day${hist.length===1?"":"s"}</span>`;
-  if((D.errors||[]).length) stamp+=`<span class="warn">· ${D.errors.length} fetch error(s): ${D.errors.join("; ")}</span>`;
+  let stamp=`<span>Figures from <b>${gen}</b></span>`;
+  if(age>3) stamp+=`<span class="warn">· ${age} days old — the update job has stopped</span>`;
+  stamp+=`<span>· <b>${Object.keys(D.auto||{}).length}</b> updated automatically, <b>${Object.keys(D.manual||{}).filter(k=>!k.startsWith("_")).length}</b> checked by hand</span>`;
+  if((D.errors||[]).length) stamp+=`<span class="warn">· ${D.errors.length} problem(s): ${D.errors.join("; ")}</span>`;
   el("stamp").innerHTML=stamp;
 
-  /* alerts — only when something actually moved */
   const al=D.alerts||[];
   el("alerts").innerHTML = al.length
-    ? `<div class="alerts"><h4>Changed since the last run</h4><ul>${al.map(a=>`<li>${a}</li>`).join("")}</ul></div>`
-    : "";
+    ? `<div class="alerts"><h4>Changed since the last check</h4><ul>${al.map(a=>`<li>${a}</li>`).join("")}</ul></div>` : "";
 
-  /* context — not scored, but the cross-check the false-alarm list depends on */
   const ip=(D.context&&D.context.semi_ip)||null;
   const gall=(D.context&&D.context.gpu_all)||[];
   let ctx="";
   if(ip&&ip.latest){
-    const y=ip.yoy, m6=ip.chg_6m;
-    ctx+=`<div><span class="lab">Semiconductor production</span>
-      <span class="val">${y==null?"—":(y>0?"+":"")+y.toFixed(1)+"%"}</span>
+    ctx+=`<div><span class="lab">Chip factory output</span>
+      <span class="val">${ip.yoy==null?"—":sign(ip.yoy)+"%"}</span>
       ${spark(ip.spark,110,22,"var(--accent)")}
-      <p class="exp">Year over year, six-month change ${m6==null?"—":(m6>0?"+":"")+m6.toFixed(1)+"%"}. Not scored. This is the check that tells a falling component price apart from supply finally arriving — if output is climbing, cheaper chips are the fix, not the crash.</p></div>`;
+      <p class="exp">Compared with a year ago. Not scored — it is the check that tells the two apart when chip prices fall: if factories are producing more, cheaper chips mean the shortage is being solved, not that demand vanished.</p></div>`;
   }
   if(gall.length){
-    ctx+=`<div><span class="lab">GPU market depth</span>
-      <span class="val">${gall.reduce((a,g)=>a+g.offers,0)} offers</span>
-      <p class="exp">${gall.map(g=>`${g.gpu} $${g.median.toFixed(2)}/hr across ${g.offers}`).join(" &middot; ")}. Depth matters as much as price: cheaper compute with fewer machines listed is tightness, cheaper compute with more is oversupply.</p></div>`;
+    ctx+=`<div><span class="lab">AI chips available to rent</span>
+      <span class="val">${gall.reduce((a,g)=>a+g.offers,0)} on offer</span>
+      <p class="exp">${gall.map(g=>`${g.gpu} at $${g.median.toFixed(2)}/hour, ${g.offers} available`).join(" &middot; ")}. How many are available matters as much as the price: cheaper with fewer machines means scarcity easing, cheaper with more machines means too many were built.</p></div>`;
   }
   el("context").innerHTML = ctx ? `<div class="ctx">${ctx}</div>` : "";
 
-  /* coverage gap table */
   const cos=(D.companies||[]).filter(c=>!c.error);
   el("coTable").innerHTML=`
-   <thead><tr><th>Company</th><th>Capex TTM</th><th>Capex&nbsp;growth</th><th>Revenue&nbsp;growth</th><th>Gap</th><th>Capex/OCF</th><th>Filed to</th></tr></thead>
+   <thead><tr><th>Company</th><th>Spent (12&nbsp;mo)</th><th>Spending&nbsp;growth</th><th>Income&nbsp;growth</th><th>Gap</th><th>Share of own cash</th><th>Figures to</th></tr></thead>
    <tbody>${cos.map(c=>{
      const g=c.coverage_gap, r=c.capex_ocf;
      const gc=g==null?"":(g>50?"hi":g>0?"mid":"v");
      const rc=r==null?"":(r>100?"hi":r>=60?"mid":"v");
      return `<tr>
-      <td class="v">${c.ticker}${c.stale?' <span style="color:var(--turn)">stale</span>':''}</td>
+      <td class="v">${c.ticker}${c.stale?' <span style="color:var(--turn)">out of date</span>':''}</td>
       <td>${c.capex_ttm?"$"+(c.capex_ttm/1e9).toFixed(0)+"bn":"—"}</td>
-      <td class="v">${c.capex_growth==null?"—":(c.capex_growth>0?"+":"")+c.capex_growth.toFixed(0)+"%"}</td>
-      <td class="v">${c.rev_growth==null?"—":(c.rev_growth>0?"+":"")+c.rev_growth.toFixed(0)+"%"}</td>
-      <td class="${gc}">${g==null?"—":(g>0?"+":"")+g.toFixed(0)+"pp"}</td>
+      <td class="v">${c.capex_growth==null?"—":sign(c.capex_growth).replace(/\.\d$/,"")+"%"}</td>
+      <td class="v">${c.rev_growth==null?"—":sign(c.rev_growth).replace(/\.\d$/,"")+"%"}</td>
+      <td class="${gc}">${g==null?"—":sign(g).replace(/\.\d$/,"")+"pts"}</td>
       <td class="${rc}">${r==null?"—":r.toFixed(0)+"%"}</td>
       <td>${c.asof||"—"}</td></tr>`;
    }).join("")}</tbody>`;
-  el("coSrc").innerHTML=`Trailing twelve months from SEC EDGAR XBRL facts, refreshed with each filing. Nvidia is shown for contrast and excluded from the medians — it sells the capex rather than spending it.`;
+  el("coSrc").innerHTML="Last four quarters, from filings with the US Securities and Exchange Commission, updated as each company reports. Red marks a gap above 50 points, or spending above the cash the business produces.";
 
-  /* board */
   el("board").innerHTML=CLUSTERS.map(c=>`
    <div class="cluster">
     <div class="cluster-head"><h3>${c.id}. ${c.name}</h3><span class="q">${c.q}</span><span class="tag">${c.tag}</span></div>
     ${c.sensors.map(s=>{
       const l=live(s.id), st=curState(s.id), cf=confirmedState(s.id);
       const auto=!!(D.auto&&D.auto[s.id]);
-      const pill = st===null?`<span class="pill pn">No reading</span>`:`<span class="pill p${st}">${LBL[st]}</span>`;
-      let num="—",un=auto?"live":"manual",numCls="";
+      const pill = st===null?`<span class="pill pn">Not enough data yet</span>`:`<span class="pill p${st}">${LBL[st]}</span>`;
+      let num="—",un=auto?"live":"checked by hand",numCls="";
       if(l){
         if(l.value!==undefined&&l.value!==null){ num=fmtVal(l.value); numCls=typeof l.value==="number"?"":" str"; }
         if(l.unit)un=l.unit;
@@ -516,8 +650,9 @@ function render(){
           ${pill}
         </div>
        </div>
-       ${l&&l.detail?`<p class="note"><span class="k">${auto?"Reading":"Assessment"}</span>${l.detail}</p>`:""}
-       ${cf!==null&&st!==null&&cf!==st?`<p class="note"><span class="k">Rule 01</span>Moved to <b>${LBL[st]}</b> within the last month, so it still scores as <b>${LBL[cf]}</b> in the verdict until the move holds.</p>`:""}
+       <p class="plainline">${s.plain}</p>
+       ${l&&l.detail?`<p class="note"><span class="k">${auto?"Current reading":"Assessment"}</span>${l.detail}</p>`:""}
+       ${cf!==null&&st!==null&&cf!==st?`<p class="note"><span class="k">Not yet counted</span>This moved to <b>${LBL[st]}</b> within the last month, so it still counts as <b>${LBL[cf]}</b> until the change holds.</p>`:""}
        <p class="watchline">${s.watch}</p>
        <div class="thresh">
         <div class="t-calm${st===0?" on":""}"><b>Calm</b>${s.calm}</div>
@@ -525,25 +660,25 @@ function render(){
         <div class="t-turn${st===2?" on":""}"><b>Turning</b>${s.turn}</div>
        </div>
        <div class="notes">${s.notes.map(n=>`<p class="note"><span class="k">${n[0]}</span>${n[1]}</p>`).join("")}</div>
-       <p class="src">${auto?"Automatic":"Manual"} &middot; ${s.src}${l&&l.asof?` &middot; assessed ${l.asof}${staleManual?' — stale, worth re-reading':''}`:""}</p>
+       <p class="src">${auto?"Automatic":"By hand"} &middot; ${s.src}${l&&l.asof?` &middot; checked ${l.asof}${staleManual?' — out of date, worth re-reading':''}`:""}</p>
       </div>`;
     }).join("")}
    </div>`).join("");
 
-  /* verdict */
   const conf = V
     ? {stage:V.stage, scores:V.clusters.map(c=>c.score), red:V.red, amber:V.amber}
     : {stage:0, scores:[null,null,null,null], red:0, amber:0};
   const rawStage = V ? V.stage_raw : 0;
   const ready = V ? V.confirmation_ready : false;
   const histDays = V ? V.history_days : 0;
+
   el("rail").innerHTML=STAGES.map((s,i)=>`<div class="rail-seg" data-i="${i}"></div>`).join("");
   el("railLabels").innerHTML=STAGES.map(s=>`<span>${s.n} ${s.name}</span>`).join("");
   el("lights").innerHTML=CLUSTERS.map((c,i)=>{
     const v=conf.scores[i];
     const col=v===2?"var(--turn)":v===1?"var(--watch)":v===0?"var(--calm)":"var(--ink-3)";
     const bg=v===2?"var(--turn-bg)":v===1?"var(--watch-bg)":"transparent";
-    const txt=v===2?"TURNED":v===1?"DETERIORATING":v===0?"HOLDING":"NO READING";
+    const txt=v===2?"TURNED":v===1?"SOME STRAIN":v===0?"FINE":"NO READING";
     return `<div class="light"><span class="dot" style="background:${col};box-shadow:0 0 0 3px ${bg}"></span>
       <span><span class="n">${c.id}. ${c.name}</span><span class="s">${txt}</span></span></div>`;
   }).join("");
@@ -552,6 +687,11 @@ function render(){
   el("stageName").innerHTML=`<span class="stage-num">STAGE ${st.n}</span>${st.name}`;
   el("stageName").style.color=st.color;
   el("stageBlurb").textContent=st.blurb;
+  el("bottomLine").textContent=st.bottom;
+  el("bottomLine").style.color=st.color;
+  el("plainFacts").innerHTML=plainFacts();
+  el("nextSteps").innerHTML=nextSteps();
+
   el("rail").querySelectorAll(".rail-seg").forEach((seg,i)=>{
     seg.style.background=i<=conf.stage?st.color:"var(--rule-soft)";
     seg.style.opacity=i===conf.stage?"1":i<conf.stage?".42":"1";
@@ -560,11 +700,11 @@ function render(){
 
   let note="";
   if(!ready){
-    note=`Rule 01 is not yet armed: the daily snapshot has ${histDays} day${histDays===1?"":"s"} of history and needs about thirty before a move can be tested for persistence. Until then the confirmed reading equals the raw one.`;
+    note=`Changes are only counted once they have held for about a month. There ${histDays===1?"is":"are"} ${histDays} day${histDays===1?"":"s"} of saved readings so far, so for now today's values are used directly.`;
   } else if(rawStage!==conf.stage){
-    note=`Unconfirmed raw reading: Stage ${STAGES[rawStage].n} ${STAGES[rawStage].name}. Moves from the last month are being held back by Rule 01. If they hold, the confirmed stage follows.`;
+    note=`Today's raw values would give Stage ${STAGES[rawStage].n} ${STAGES[rawStage].name}, but the changes are less than a month old and are not counted yet. If they hold, the stage moves.`;
   }
-  note+= (note?" ":"")+`${conf.red} cluster${conf.red===1?"":"s"} turned, ${conf.amber} deteriorating.`;
+  note+= (note?" ":"")+`${conf.red===0?"No group has turned":conf.red===1?"One group has turned":conf.red+" groups have turned"}, ${conf.amber} showing strain.`;
   el("rawNote").textContent=note;
 }
 render();
