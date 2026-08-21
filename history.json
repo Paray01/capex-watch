@@ -4,18 +4,18 @@
   "gpu": {
    "H200": {
     "median": 4.0084,
-    "offers": 8
+    "offers": 4
    },
    "B200": {
-    "median": 5.5962,
-    "offers": 6
+    "median": 5.3146,
+    "offers": 5
    },
    "H100 SXM": {
-    "median": 2.0062,
-    "offers": 12
+    "median": 2.0022,
+    "offers": 11
    }
   },
-  "hy_oas": 2.73,
+  "hy_oas": 2.75,
   "states": {
    "A2": 1,
    "A1": 0,
