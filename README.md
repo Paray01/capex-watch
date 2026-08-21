@@ -25,6 +25,14 @@ python3 fetch.py
 
 Without it, `fetch.py` fails loudly rather than silently dropping the four filing-derived sensors.
 
+## Where to read it
+
+| | |
+|---|---|
+| Live web copy | https://paray01.github.io/capex-watch/ — GitHub Pages, updated whenever the Mac pushes |
+| Local copy | `index.html` in this folder |
+| Shareable snapshot | published as a claude.ai artifact by the cloud routine |
+
 ## Running it
 
 ```bash
@@ -37,12 +45,14 @@ python3 make_artifact.py  # a self-contained copy for publishing
 
 ## Two runners, one repository
 
-| | Runs | Owns |
+| | Runs | Does |
 |---|---|---|
-| Mac (`run.sh`, LaunchAgent twice daily) | 08:15 and 19:15 local | `history-local.json`, macOS notifications on state changes |
-| Cloud routine (Mon and Thu) | 05:00 UTC | tracked `history.json`, `manual.json`, the published artifact |
+| Mac (`run.sh`, LaunchAgent) | 08:15 and 19:15 local | fetches all three sources, notifies on state changes, commits `data.js` and `history.json` |
+| Cloud routine | Mon and Thu, 05:00 UTC | researches the eight manual sensors, rescores offline, republishes the artifact |
 
-Both read the same sources and apply the same code. They keep separate history files so neither has to merge a JSON file it did not write; the Mac pulls before each run to pick up manual-sensor updates and code fixes.
+**The cloud agent cannot fetch.** Its sandbox routes outbound HTTPS through a policy-enforcing proxy that refuses `data.sec.gov`, `fred.stlouisfed.org` and `console.vast.ai` alike — every request comes back `403 Forbidden` at the tunnel. That is why the Mac is the only fetcher and publishes its readings here, and why `fetch.py --rescore` exists: it recomputes states, verdict and alerts from the committed `data.js` plus the current `manual.json` without touching the network.
+
+The Mac pulls before each run, so manual-sensor updates from the cloud reach it within twelve hours. Only the Mac writes `data.js` and `history.json`; only the cloud writes `manual.json`. Nothing has to be merged.
 
 ## The reading rules
 
