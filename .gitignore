@@ -1,11 +1,9 @@
-# Generated on every run
-data.js
+# Generated on every run. data.js is deliberately tracked: the Mac is the only
+# machine that can reach the data sources, so it publishes the readings here.
 artifact.html
 alert.txt
 
-# Local runtime state — the Mac keeps its own Rule 01 clock, the cloud routine
-# owns the tracked history.json
-history-local.json
+# Local runtime state
 log.txt
 alerts.log
 launchd.err

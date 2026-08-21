@@ -26,9 +26,8 @@ import urllib.request
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# Two runners share this repository: the cloud routine owns the tracked
-# history.json, the Mac keeps its own under history-local.json. Same code, two
-# independent Rule 01 clocks, and no merge conflicts over a JSON file.
+# The Mac fetches and owns history.json and data.js; the cloud routine only
+# rescores what it finds. One history, one writer, nothing to merge.
 HISTORY_FILE = os.environ.get("CAPEX_HISTORY", "history.json")
 # SEC EDGAR refuses requests (403) unless the User-Agent carries a deliverable
 # contact address — a URL or a noreply address is not enough, both were tested.
@@ -322,6 +321,14 @@ def gpu_market():
 # history — so the GPU market builds a trend of its own
 # --------------------------------------------------------------------------
 
+def load_history():
+    try:
+        with open(os.path.join(HERE, HISTORY_FILE)) as f:
+            return json.load(f)
+    except Exception:                                         # noqa: BLE001
+        return []
+
+
 def update_history(gpus, fredd, states=None):
     path = os.path.join(HERE, HISTORY_FILE)
     try:
@@ -587,8 +594,20 @@ def alerts(states, prev_states, v, prev_stage, manual):
     return out
 
 
+def load_previous():
+    """Read back the last data.js. Used by --rescore, which never touches the network."""
+    raw = open(os.path.join(HERE, "data.js")).read()
+    raw = raw.split("window.CAPEX_DATA = ", 1)[1].split(";\nwindow.CAPEX_HISTORY")[0]
+    return json.loads(raw)
+
+
 def main():
     errors = []
+    # --rescore recomputes states, verdict and alerts from the last fetch plus
+    # the current manual.json, without a single network request. The cloud
+    # routine runs in a sandbox whose egress proxy blocks all three data hosts,
+    # so it rescores what the Mac fetched rather than fetching for itself.
+    rescore = "--rescore" in sys.argv
 
     def guarded(fn, label, default):
         try:
@@ -597,12 +616,24 @@ def main():
             errors.append(f"{label}: {e}")
             return default
 
-    companies = guarded(edgar, "sec-edgar", [])
-    fredd = guarded(fred_all, "fred", {})
-    gpus = guarded(gpu_market, "vast.ai", [])
+    if rescore:
+        try:
+            prev = load_previous()
+        except Exception as e:                                # noqa: BLE001
+            print(f"--rescore needs an existing data.js from a fetching run: {e}", file=sys.stderr)
+            return 1
+        companies, fredd, gpus = prev["companies"], prev["fred"], prev["gpus"]
+        errors = list(prev.get("errors", []))
+    else:
+        companies = guarded(edgar, "sec-edgar", [])
+        fredd = guarded(fred_all, "fred", {})
+        gpus = guarded(gpu_market, "vast.ai", [])
 
-    # First pass writes today's GPU prices so the trend used by B1 includes them.
-    hist = update_history(gpus, fredd)
+    if rescore:
+        hist = load_history()
+    else:
+        # First pass writes today's GPU prices so the trend used by B1 includes them.
+        hist = update_history(gpus, fredd)
     auto = score(companies, fredd, gpus, hist)
 
     manual_path = os.path.join(HERE, "manual.json")
@@ -617,16 +648,25 @@ def main():
         if not k.startswith("_") and isinstance(v, dict) and v.get("state") is not None:
             states[k] = v["state"]
 
-    # Yesterday's picture, read before today's row overwrites it.
-    prev_row = next((h for h in reversed(hist) if h["date"] != TODAY and h.get("states")), None)
+    # Yesterday's picture, read before today's row overwrites it. A rescore
+    # compares against today's own row instead: the point is to surface what the
+    # manual edits just changed, not what happened overnight.
+    if rescore:
+        prev_row = hist[-1] if hist and hist[-1].get("states") else None
+    else:
+        prev_row = next((h for h in reversed(hist) if h["date"] != TODAY and h.get("states")), None)
     prev_states = (prev_row or {}).get("states", {})
     prev_stage = (prev_row or {}).get("stage")
 
-    hist = update_history(gpus, fredd, states)
+    if not rescore:
+        hist = update_history(gpus, fredd, states)
     v = verdict(states, hist)
-    hist[-1]["stage"] = v["stage"]
-    with open(os.path.join(HERE, HISTORY_FILE), "w") as fh:
-        json.dump(hist, fh, indent=1)
+    if hist:
+        hist[-1]["states"] = states
+        hist[-1]["stage"] = v["stage"]
+    if not rescore:
+        with open(os.path.join(HERE, HISTORY_FILE), "w") as fh:
+            json.dump(hist, fh, indent=1)
 
     fired = alerts(states, prev_states, v, prev_stage, manual)
     with open(os.path.join(HERE, "alert.txt"), "w") as fh:
@@ -635,6 +675,22 @@ def main():
         with open(os.path.join(HERE, "alerts.log"), "a") as fh:
             for line in fired:
                 fh.write(f"{TODAY}  {line}\n")
+
+    # Per-source failures are recorded inside fred/companies. Lift them to the
+    # top level so the page's stamp shows a warning instead of rendering an
+    # empty board that looks like a calm one. The published artifact did exactly
+    # that once; hence this.
+    for key, val in (fredd or {}).items():
+        if isinstance(val, dict) and val.get("error"):
+            errors.append(f"fred/{key}: {val['error']}")
+    dead = [c["ticker"] for c in companies if c.get("stale") or c.get("error")]
+    if dead:
+        errors.append("sec-edgar: no usable filings for " + ", ".join(dead))
+    if not gpus:
+        errors.append("vast.ai: no GPU offers returned")
+    if not auto:
+        errors.append("NO AUTOMATIC SENSORS — the board is running on manual "
+                      "assessments alone and must not be read as a verdict")
 
     payload = {
         "verdict": v,
@@ -667,13 +723,15 @@ def main():
         json.dump(state_hist, fh, indent=1)
         fh.write(";\n")
 
-    print(f"[{payload['generated']}] stage 0{v['stage'] + 1} {v['stage_name']} · "
+    print(f"[{payload['generated']}]{' rescored ·' if rescore else ''} stage 0{v['stage'] + 1} {v['stage_name']} · "
           f"{len(auto)} automatic sensors, {len(companies)} filers, "
           f"{len(gpus)} GPU feeds, {len(errors)} errors"
           + (f" · {len(fired)} ALERT(S): " + "; ".join(fired) if fired else ""))
     for e in errors:
         print("  ! " + e, file=sys.stderr)
-    return 0
+    # Exit non-zero when no automatic sensor could be read at all, so a caller
+    # can refuse to publish rather than shipping an empty board.
+    return 0 if auto else 2
 
 
 if __name__ == "__main__":
