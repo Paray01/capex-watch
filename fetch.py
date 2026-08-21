@@ -692,11 +692,15 @@ def main():
         errors.append("NO AUTOMATIC SENSORS — the board is running on manual "
                       "assessments alone and must not be read as a verdict")
 
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     payload = {
         "verdict": v,
         "alerts": fired,
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        "generated_date": TODAY,
+        # A rescore did not generate new readings, so it keeps the original
+        # stamp. Otherwise it dirties data.js in the cloud checkout for nothing,
+        # and the page would claim data fresher than it is.
+        "generated": prev["generated"] if rescore else now,
+        "generated_date": prev["generated_date"] if rescore else TODAY,
         "auto": auto,
         "companies": companies,
         "fred": fredd,
