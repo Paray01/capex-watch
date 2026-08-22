@@ -4,371 +4,451 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Capex Cycle Watch</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+/* ---------------------------------------------------------------
+   Type: no web fonts. -apple-system resolves to SF Pro on Apple
+   devices and to the platform UI face everywhere else, so the page
+   paints instantly and looks native rather than imitated.
+   --------------------------------------------------------------- */
 :root{
-  --ground:#E6EAEF; --panel:#F7F9FB; --panel-2:#FCFDFE;
-  --ink:#171C23; --ink-2:#556070; --ink-3:#838D9B;
-  --rule:#CFD6DF; --rule-soft:#E1E6ED;
-  --accent:#414CAB; --accent-soft:#E5E7F7;
-  --calm:#2C7A5C; --calm-bg:#E0EFE8;
-  --watch:#A87213; --watch-bg:#F5EAD4;
-  --turn:#AE3830; --turn-bg:#F6E1DF;
-  --shadow:0 1px 2px rgba(23,28,35,.06), 0 8px 24px -12px rgba(23,28,35,.18);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+
+  /* Apple's light system palette */
+  --ground:#F5F5F7;
+  --card:#FFFFFF;
+  --raised:#FBFBFD;
+  --ink:#1D1D1F;
+  --ink-2:#6E6E73;
+  --ink-3:#86868B;
+  --line:#D2D2D7;
+  --line-soft:#E8E8ED;
+  --accent:#0071E3;
+  --accent-soft:#E8F1FD;
+  --calm:#248A3D;
+  --calm-bg:#E6F4EA;
+  --watch:#B25000;
+  --watch-bg:#FDF0E4;
+  --turn:#D70015;
+  --turn-bg:#FDE9EA;
+  --blur:saturate(180%) blur(20px);
+  --bar:rgba(245,245,247,.72);
+  --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.06), 0 16px 40px -12px rgba(0,0,0,.14);
+  --r:18px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0F1319; --panel:#171C24; --panel-2:#1D232C;
-    --ink:#E3E8EE; --ink-2:#98A2AF; --ink-3:#6C7684;
-    --rule:#2A313B; --rule-soft:#222932;
-    --accent:#8E97F2; --accent-soft:#22273D;
-    --calm:#5BBB90; --calm-bg:#1A3529;
-    --watch:#DFA53D; --watch-bg:#382C13;
-    --turn:#E3665D; --turn-bg:#3E211E;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+    --ground:#000000;
+    --card:#1C1C1E;
+    --raised:#2C2C2E;
+    --ink:#F5F5F7;
+    --ink-2:#A1A1A6;
+    --ink-3:#8A8A8E;
+    --line:#38383A;
+    --line-soft:#2A2A2C;
+    --accent:#0A84FF;
+    --accent-soft:#0A2540;
+    --calm:#30D158;
+    --calm-bg:#12301C;
+    --watch:#FF9F0A;
+    --watch-bg:#3A2708;
+    --turn:#FF453A;
+    --turn-bg:#3A1512;
+    --bar:rgba(0,0,0,.72);
+    --shadow:0 1px 2px rgba(0,0,0,.5);
+    --shadow-lift:0 8px 30px -10px rgba(0,0,0,.8);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0F1319; --panel:#171C24; --panel-2:#1D232C;
-  --ink:#E3E8EE; --ink-2:#98A2AF; --ink-3:#6C7684;
-  --rule:#2A313B; --rule-soft:#222932;
-  --accent:#8E97F2; --accent-soft:#22273D;
-  --calm:#5BBB90; --calm-bg:#1A3529;
-  --watch:#DFA53D; --watch-bg:#382C13;
-  --turn:#E3665D; --turn-bg:#3E211E;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  --ground:#000000;
+  --card:#1C1C1E;
+  --raised:#2C2C2E;
+  --ink:#F5F5F7;
+  --ink-2:#A1A1A6;
+  --ink-3:#8A8A8E;
+  --line:#38383A;
+  --line-soft:#2A2A2C;
+  --accent:#0A84FF;
+  --accent-soft:#0A2540;
+  --calm:#30D158;
+  --calm-bg:#12301C;
+  --watch:#FF9F0A;
+  --watch-bg:#3A2708;
+  --turn:#FF453A;
+  --turn-bg:#3A1512;
+  --bar:rgba(0,0,0,.72);
+  --shadow:0 1px 2px rgba(0,0,0,.5);
+  --shadow-lift:0 8px 30px -10px rgba(0,0,0,.8);
 }
+
 *{box-sizing:border-box;}
-html{color-scheme:light dark;}
-body{margin:0;background:var(--ground);color:var(--ink);
-  font-family:"Newsreader",Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;}
-.wrap{max-width:1060px;margin:0 auto;padding:clamp(28px,5vw,68px) clamp(16px,4vw,32px) 96px;}
-h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;}
-.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;}
-h1{font-size:clamp(34px,6vw,54px);line-height:1.02;margin:0 0 18px;letter-spacing:-.025em;font-weight:700;text-wrap:balance;}
-.lede{font-size:clamp(18px,2.3vw,21px);color:var(--ink-2);max-width:62ch;margin:0 0 10px;}
-.lede strong{color:var(--ink);font-weight:500;}
+html{color-scheme:light dark;scroll-behavior:smooth;scroll-padding-top:76px;}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.55;
+  letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px;}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;}
 
-.stamp{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:24px 0 0;
-  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);letter-spacing:.03em;}
-.stamp b{color:var(--ink-2);font-weight:500;}
-.stamp .warn{color:var(--turn);}
+/* ---------- sticky bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--bar);
+  -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s ease;
+}
+.topbar.stuck{border-bottom-color:var(--line);}
+.topbar-in{max-width:980px;margin:0 auto;padding:0 22px;height:52px;
+  display:flex;align-items:center;gap:18px;}
+.brand{font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;
+  display:flex;align-items:center;gap:9px;}
+.brand .live{width:8px;height:8px;border-radius:50%;background:var(--calm);flex:none;}
+.navlinks{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none;}
+.navlinks::-webkit-scrollbar{display:none;}
+.navlinks a{
+  font-size:13px;color:var(--ink-2);text-decoration:none;padding:6px 11px;border-radius:980px;
+  white-space:nowrap;transition:background .2s ease,color .2s ease;
+}
+.navlinks a:hover{color:var(--ink);background:var(--line-soft);}
+.navlinks a.on{color:var(--ink);font-weight:590;}
+.navlinks a:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:3px solid var(--accent);outline-offset:2px;}
 
-.verdict{margin:32px 0 12px;background:var(--panel);border:1px solid var(--rule);
-  border-radius:4px;box-shadow:var(--shadow);overflow:hidden;}
-.verdict-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;padding:22px clamp(16px,3vw,28px) 4px;}
-.verdict-head .label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-3);}
-#stageName{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,32px);letter-spacing:-.02em;line-height:1.1;}
-#stageName .stage-num{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--ink-3);font-size:.6em;margin-right:.5em;}
-.verdict-body{padding:0 clamp(16px,3vw,28px) 24px;}
-#stageBlurb{color:var(--ink-2);max-width:64ch;margin:6px 0 20px;}
-#rawNote{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
-  border-left:2px solid var(--watch);padding:2px 0 2px 12px;margin:0 0 20px;max-width:64ch;line-height:1.55;}
-#rawNote:empty{display:none;}
-.rail{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0 0 8px;}
-.rail-seg{height:6px;border-radius:2px;background:var(--rule-soft);transition:background .35s ease;}
-.rail-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-family:"IBM Plex Mono",monospace;
-  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:26px;}
-.rail-labels span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.rail-labels span.on{color:var(--ink);font-weight:600;}
-.lights{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;
-  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;overflow:hidden;}
-.light{background:var(--panel-2);padding:13px 15px;display:flex;gap:11px;align-items:flex-start;}
-.dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:7px;transition:box-shadow .3s;}
-.light .n{font-family:"Archivo",sans-serif;font-weight:600;font-size:14px;line-height:1.3;display:block;}
-.light .s{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);letter-spacing:.04em;}
+/* ---------- hero ---------- */
+.hero{padding:clamp(48px,9vw,104px) 0 clamp(28px,4vw,44px);}
+.kicker{font-size:13px;font-weight:590;color:var(--ink-2);letter-spacing:0;margin:0 0 14px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--calm);}
+h1.answer{
+  font-size:clamp(38px,6.6vw,66px);line-height:1.04;letter-spacing:-.028em;font-weight:640;
+  margin:0 0 22px;text-wrap:balance;max-width:16ch;
+}
+.sub{font-size:clamp(19px,2.3vw,23px);line-height:1.42;color:var(--ink-2);
+  max-width:44ch;margin:0 0 30px;letter-spacing:-.014em;}
+.sub b{color:var(--ink);font-weight:590;}
 
-section{margin-top:60px;}
-h2{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-3);margin:0 0 6px;font-family:"IBM Plex Mono",monospace;}
-.h2sub{font-size:clamp(21px,3vw,27px);font-family:"Archivo",sans-serif;font-weight:600;
-  letter-spacing:-.02em;margin:0 0 14px;line-height:1.2;text-wrap:balance;}
-section > p{color:var(--ink-2);max-width:66ch;margin:0 0 8px;}
+/* stage rail */
+.rail{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 10px;}
+.rail-seg{height:5px;border-radius:980px;background:var(--line);transition:background .5s cubic-bezier(.32,.72,0,1);}
+.rail-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 34px;}
+.rail-labels span{font-size:11.5px;color:var(--ink-3);letter-spacing:-.004em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rail-labels span.on{color:var(--ink);font-weight:590;}
 
-.headline{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--accent);
-  border-radius:4px;padding:24px clamp(16px,3vw,28px);box-shadow:var(--shadow);}
-.formula{font-family:"IBM Plex Mono",monospace;font-size:clamp(13px,2vw,16px);
-  background:var(--accent-soft);color:var(--ink);padding:13px 15px;border-radius:3px;
-  margin:16px 0;overflow-x:auto;white-space:nowrap;}
-table.co{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;
-  font-size:13px;font-variant-numeric:tabular-nums;margin-top:16px;}
-table.co th{text-align:right;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-3);font-weight:500;padding:0 0 8px 14px;border-bottom:1px solid var(--rule);}
-table.co th:first-child,table.co td:first-child{text-align:left;padding-left:0;}
-table.co td{text-align:right;padding:9px 0 9px 14px;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);}
-table.co td.v{color:var(--ink);}
+/* cluster pills */
+.pills{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
+.pillcard{
+  background:var(--card);border:1px solid var(--line-soft);border-radius:14px;
+  padding:13px 15px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);
+}
+.pillcard .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.pillcard .n{font-size:14px;font-weight:590;letter-spacing:-.01em;display:block;line-height:1.25;}
+.pillcard .s{font-size:12px;color:var(--ink-3);}
+
+/* ---------- generic section ---------- */
+section{padding:clamp(46px,7vw,84px) 0 0;}
+.eyebrow{font-size:13px;font-weight:590;color:var(--accent);margin:0 0 8px;letter-spacing:-.004em;}
+h2{font-size:clamp(27px,3.6vw,38px);line-height:1.12;letter-spacing:-.022em;font-weight:640;
+  margin:0 0 14px;text-wrap:balance;}
+.intro{font-size:17.5px;color:var(--ink-2);max-width:62ch;margin:0 0 26px;line-height:1.5;}
+.intro b{color:var(--ink);font-weight:560;}
+
+/* ---------- stat tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px;}
+.tile{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;}
+.tile .fig{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:31px;font-weight:600;letter-spacing:-.02em;line-height:1;}
+.tile .lab{font-size:14.5px;font-weight:560;letter-spacing:-.01em;line-height:1.35;}
+.tile .why{font-size:13.5px;color:var(--ink-2);line-height:1.45;}
+.f0{color:var(--calm);} .f1{color:var(--watch);} .f2{color:var(--turn);}
+
+/* ---------- next steps ---------- */
+.nextcard{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:8px 20px;box-shadow:var(--shadow);margin-top:12px;}
+.nextcard li{display:flex;gap:12px;align-items:baseline;padding:14px 0;
+  border-bottom:1px solid var(--line-soft);font-size:15px;color:var(--ink-2);line-height:1.45;}
+.nextcard ul{list-style:none;margin:0;padding:0;}
+.nextcard li:last-child{border-bottom:0;}
+.nextcard li b{color:var(--ink);font-weight:590;}
+.nextcard .tagdot{width:8px;height:8px;border-radius:50%;flex:none;transform:translateY(6px);}
+
+/* ---------- table ---------- */
+.tablecard{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table.co{width:100%;border-collapse:collapse;font-size:14px;min-width:640px;}
+table.co th{text-align:right;font-size:12px;font-weight:560;color:var(--ink-3);
+  padding:16px 12px;border-bottom:1px solid var(--line-soft);letter-spacing:-.004em;white-space:nowrap;}
+table.co th:first-child,table.co td:first-child{text-align:left;padding-left:20px;}
+table.co th:last-child,table.co td:last-child{padding-right:20px;}
+table.co td{text-align:right;padding:14px 12px;border-bottom:1px solid var(--line-soft);
+  color:var(--ink-2);font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13.5px;}
+table.co tbody tr:last-child td{border-bottom:0;}
+table.co td.name{font-family:var(--sans);font-weight:590;color:var(--ink);font-size:14.5px;}
 table.co td.hi{color:var(--turn);font-weight:600;}
 table.co td.mid{color:var(--watch);}
-.scroll{overflow-x:auto;}
+table.co td.ok{color:var(--calm);}
+.formula{font-family:var(--mono);font-size:14px;background:var(--accent-soft);color:var(--ink);
+  padding:14px 16px;border-radius:12px;margin:0 0 22px;display:inline-block;}
+.caption{font-size:13px;color:var(--ink-3);margin:12px 0 0;line-height:1.5;}
 
-.cluster{margin-top:32px;}
-.cluster-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
-  padding-bottom:9px;border-bottom:1px solid var(--rule);}
-.cluster-head h3{font-size:19px;font-weight:600;margin:0;letter-spacing:-.01em;}
-.cluster-head .q{font-size:15px;color:var(--ink-2);font-style:italic;}
-.cluster-head .tag{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);}
+/* ---------- filter / segmented control ---------- */
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 18px;}
+.segmented{display:inline-flex;background:var(--line-soft);border-radius:10px;padding:2px;gap:2px;}
+.segmented button{
+  appearance:none;border:0;background:transparent;color:var(--ink-2);
+  font-family:var(--sans);font-size:13.5px;font-weight:510;letter-spacing:-.008em;
+  padding:6px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;
+  transition:background .22s ease,color .22s ease,box-shadow .22s ease;
+}
+.segmented button:hover{color:var(--ink);}
+.segmented button[aria-pressed="true"]{
+  background:var(--card);color:var(--ink);font-weight:590;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.textbtn{appearance:none;border:0;background:transparent;color:var(--accent);cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:510;padding:6px 4px;border-radius:8px;}
+.textbtn:hover{text-decoration:underline;}
+.countnote{font-size:13.5px;color:var(--ink-3);margin-left:auto;}
 
-.sensor{border-bottom:1px solid var(--rule-soft);padding:20px 0 22px;}
-.srow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
-.sensor .title{font-family:"Archivo",sans-serif;font-weight:600;font-size:17px;line-height:1.3;margin:0;flex:1 1 300px;}
-.sensor .code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);margin-right:8px;}
-.reading{display:flex;align-items:center;gap:12px;flex:none;}
-.readout{text-align:right;}
-.readout{max-width:300px;}
-.readout .num{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;
-  font-variant-numeric:tabular-nums;line-height:1.1;display:block;}
-/* Manual sensors carry a phrase, not a figure — it should read as a label,
-   not compete with the numeric readouts beside it. */
-.readout .num.str{font-size:13px;font-weight:500;line-height:1.35;color:var(--ink-2);}
-.readout .un{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;}
-.pill{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  padding:4px 9px;border-radius:2px;font-weight:600;white-space:nowrap;}
-.p0{background:var(--calm-bg);color:var(--calm);}
-.p1{background:var(--watch-bg);color:var(--watch);}
-.p2{background:var(--turn-bg);color:var(--turn);}
-.pn{background:var(--rule-soft);color:var(--ink-3);}
-.spark{display:block;margin-top:6px;}
+/* ---------- sensor cards ---------- */
+.group{margin:0 0 26px;}
+.grouphead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px;padding:0 4px;}
+.grouphead h3{font-size:19px;font-weight:620;letter-spacing:-.016em;margin:0;}
+.grouphead .q{font-size:14.5px;color:var(--ink-3);}
+.cards{display:flex;flex-direction:column;gap:8px;}
+.card{background:var(--card);border:1px solid var(--line-soft);border-radius:14px;
+  box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .25s ease;}
+.card.open{box-shadow:var(--shadow-lift);}
+.cardhead{
+  width:100%;appearance:none;border:0;background:transparent;cursor:pointer;text-align:left;
+  display:flex;align-items:center;gap:14px;padding:15px 18px;font-family:var(--sans);color:var(--ink);
+  transition:background .18s ease;
+}
+.cardhead:hover{background:var(--raised);}
+.cardhead .id{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);flex:none;width:22px;}
+.cardhead .t{font-size:15.5px;font-weight:560;letter-spacing:-.012em;flex:1;line-height:1.3;}
+.cardhead .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;
+  font-weight:600;flex:none;text-align:right;letter-spacing:-.01em;}
+.cardhead .v.word{font-family:var(--sans);font-size:13px;font-weight:510;color:var(--ink-2);
+  max-width:190px;line-height:1.3;}
+.state{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:980px;flex:none;letter-spacing:-.004em;}
+.s0{background:var(--calm-bg);color:var(--calm);}
+.s1{background:var(--watch-bg);color:var(--watch);}
+.s2{background:var(--turn-bg);color:var(--turn);}
+.sn{background:var(--line-soft);color:var(--ink-3);}
+.chev{flex:none;color:var(--ink-3);transition:transform .32s cubic-bezier(.32,.72,0,1);}
+.card.open .chev{transform:rotate(90deg);}
+.cardbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .36s cubic-bezier(.32,.72,0,1);}
+.card.open .cardbody{grid-template-rows:1fr;}
+.cardbody > div{overflow:hidden;}
+.bodyin{padding:2px 18px 20px;border-top:1px solid var(--line-soft);margin-top:0;}
+.plainline{font-size:15.5px;color:var(--ink);margin:16px 0 0;line-height:1.5;max-width:70ch;}
+.detailline{font-size:14.5px;color:var(--ink-2);margin:12px 0 0;line-height:1.5;max-width:70ch;}
+.watchline{font-size:14.5px;color:var(--ink-2);margin:12px 0 0;line-height:1.5;max-width:70ch;}
+.watchline b{color:var(--ink);font-weight:560;}
+.thresh{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:16px 0 0;}
+.thresh div{border-radius:11px;padding:12px 13px;font-size:13.5px;line-height:1.42;
+  color:var(--ink-2);background:var(--raised);border:1px solid var(--line-soft);}
+.thresh div.on{border-color:currentColor;}
+.thresh b{display:block;font-size:11.5px;font-weight:620;margin-bottom:5px;letter-spacing:-.004em;}
+.t0{color:var(--calm);} .t1{color:var(--watch);} .t2{color:var(--turn);}
+.thresh div span{color:var(--ink-2);}
+.note{font-size:13.5px;color:var(--ink-2);margin:11px 0 0;line-height:1.5;max-width:72ch;}
+.note b.k{color:var(--ink);font-weight:590;}
+.srcline{font-size:12px;color:var(--ink-3);margin:16px 0 0;}
+.spark{display:block;margin-top:8px;}
 
-.watchline{color:var(--ink-2);margin:8px 0 0;max-width:72ch;}
-.watchline b{color:var(--ink);font-weight:500;}
-.thresh{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:1px;
-  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;margin:14px 0 0;overflow:hidden;}
-.thresh div{background:var(--panel-2);padding:11px 13px;font-size:14px;line-height:1.45;color:var(--ink-2);}
-.thresh div.on{background:var(--panel);}
-.thresh b{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
-  text-transform:uppercase;margin-bottom:5px;font-weight:600;}
-.t-calm b{color:var(--calm);} .t-watch b{color:var(--watch);} .t-turn b{color:var(--turn);}
-.notes{display:flex;flex-direction:column;gap:7px;margin-top:13px;}
-.note{font-size:14.5px;line-height:1.5;color:var(--ink-2);max-width:76ch;margin:0;}
-.note .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-3);margin-right:8px;}
-.note.stale .k{color:var(--turn);}
-.src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-top:10px;letter-spacing:.02em;}
-.src a{color:var(--accent);}
+/* ---------- prose lists ---------- */
+.list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.list li{background:var(--card);border:1px solid var(--line-soft);border-radius:14px;
+  padding:17px 20px;color:var(--ink-2);font-size:15.5px;line-height:1.5;box-shadow:var(--shadow);}
+.list li b{color:var(--ink);font-weight:590;}
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line-soft);border-radius:14px;
+  padding:17px 20px 17px 58px;position:relative;color:var(--ink-2);font-size:15.5px;line-height:1.5;
+  box-shadow:var(--shadow);}
+.steps li::before{content:counter(s);position:absolute;left:20px;top:17px;width:24px;height:24px;
+  border-radius:50%;background:var(--accent);color:#fff;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;}
+.steps li b{color:var(--ink);font-weight:590;}
 
-.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;
-  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:4px;overflow:hidden;margin-top:18px;}
-.rule-card{background:var(--panel);padding:20px;}
-.rule-card h4{font-size:15.5px;margin:0 0 7px;font-weight:600;letter-spacing:-.01em;}
-.rule-card .num{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:9px;}
-.rule-card p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.55;}
-ul.plain{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:14px;}
-ul.plain li{padding-left:20px;position:relative;color:var(--ink-2);max-width:74ch;}
-ul.plain li::before{content:"";position:absolute;left:0;top:12px;width:9px;height:1px;background:var(--ink-3);}
-ul.plain li b{color:var(--ink);font-weight:500;}
-.cal{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;}
-.cal th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:0 14px 9px 0;border-bottom:1px solid var(--rule);}
-.cal td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);vertical-align:top;}
-.cal td:first-child{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);white-space:nowrap;}
-.cal td b{color:var(--ink);font-weight:500;}
-code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--rule-soft);padding:2px 6px;border-radius:2px;}
-.alerts{margin:18px 0 0;border:1px solid var(--turn);border-left-width:3px;border-radius:3px;
-  background:var(--turn-bg);padding:14px 16px;}
-.alerts h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--turn);font-family:"IBM Plex Mono",monospace;font-weight:600;}
-.alerts ul{margin:0;padding-left:18px;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);line-height:1.7;}
-.ctx{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;margin:20px 0 0;
-  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;overflow:hidden;}
-.ctx > div{background:var(--panel-2);padding:14px 15px;}
-.ctx .lab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px;}
-.ctx .val{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;
-  font-variant-numeric:tabular-nums;display:block;line-height:1.2;}
-.ctx .exp{font-size:13.5px;color:var(--ink-2);line-height:1.45;margin:6px 0 0;}
-footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--rule);color:var(--ink-3);font-size:14px;max-width:74ch;}
-footer a{color:var(--accent);}
-footer p{margin:0 0 10px;}
-@media (max-width:620px){ .reading{width:100%;justify-content:space-between;} }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
-/* --- added for the plain-language layer --- */
-.plainbox{background:var(--panel);border:1px solid var(--rule);border-radius:4px;
-  padding:22px clamp(16px,3vw,28px);box-shadow:var(--shadow);margin-top:18px;}
-.bottomline{font-size:clamp(19px,2.6vw,23px);font-family:"Archivo",sans-serif;font-weight:600;
-  letter-spacing:-.015em;line-height:1.35;margin:0 0 18px;text-wrap:balance;}
-.facts{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;}
-.facts li{display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline;}
-.facts .fig{font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;
-  font-variant-numeric:tabular-nums;white-space:nowrap;min-width:5.5em;text-align:right;}
-.facts .f0{color:var(--calm);} .facts .f1{color:var(--watch);} .facts .f2{color:var(--turn);}
-.facts .txt{color:var(--ink-2);line-height:1.5;}
-.facts .txt b{color:var(--ink);font-weight:500;}
-.facts .means{display:block;font-size:14px;color:var(--ink-3);margin-top:3px;}
-.next{margin-top:22px;padding-top:18px;border-top:1px solid var(--rule-soft);}
-.next h4{margin:0 0 10px;font-family:"IBM Plex Mono",monospace;font-size:11px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;}
-.next ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
-.next li{color:var(--ink-2);font-size:15px;line-height:1.5;padding-left:20px;position:relative;}
-.next li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:1px;background:var(--ink-3);}
-.next li b{color:var(--ink);font-weight:500;}
-.gloss{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;}
-.gloss th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:0 18px 9px 0;border-bottom:1px solid var(--rule);}
-.gloss td{padding:12px 18px 12px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-2);vertical-align:top;line-height:1.5;}
-.gloss td:first-child{font-family:"Archivo",sans-serif;font-weight:600;color:var(--ink);white-space:nowrap;font-size:15px;}
-.plainline{color:var(--ink);margin:8px 0 0;font-size:15.5px;}
-.plainline .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-3);margin-right:8px;}
-.steps{counter-reset:step;list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:16px;}
-.steps li{counter-increment:step;padding-left:38px;position:relative;color:var(--ink-2);max-width:74ch;line-height:1.55;}
-.steps li::before{content:counter(step);position:absolute;left:0;top:1px;width:24px;height:24px;
-  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:"IBM Plex Mono",monospace;
-  font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
-.steps li b{color:var(--ink);font-weight:500;}
+/* ---------- glossary ---------- */
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;}
+.gterm{background:var(--card);border:1px solid var(--line-soft);border-radius:14px;padding:17px 19px;
+  box-shadow:var(--shadow);}
+.gterm dt{font-size:15px;font-weight:620;letter-spacing:-.012em;margin:0 0 5px;}
+.gterm dd{margin:0;font-size:14px;color:var(--ink-2);line-height:1.48;}
+
+/* ---------- alerts + footer ---------- */
+.alertcard{background:var(--turn-bg);border:1px solid var(--turn);border-radius:14px;
+  padding:16px 19px;margin:20px 0 0;}
+.alertcard h4{margin:0 0 8px;font-size:13px;font-weight:620;color:var(--turn);}
+.alertcard ul{margin:0;padding-left:18px;font-family:var(--mono);font-size:13px;color:var(--ink);line-height:1.65;}
+footer{margin-top:clamp(56px,8vw,96px);padding:30px 0 80px;border-top:1px solid var(--line);
+  color:var(--ink-3);font-size:13.5px;line-height:1.55;max-width:70ch;}
+footer p{margin:0 0 12px;}
+footer b{color:var(--ink-2);font-weight:590;}
+footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft);
+  padding:2px 6px;border-radius:5px;color:var(--ink-2);}
+.stamp{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-3);margin:0 0 26px;}
+.stamp b{color:var(--ink-2);font-weight:560;}
+.stamp .warn{color:var(--turn);font-weight:560;}
+
+@media (max-width:640px){
+  .cardhead{flex-wrap:wrap;gap:10px;}
+  .cardhead .t{flex:1 1 100%;order:1;}
+  .cardhead .id{order:0;}
+  .cardhead .v{order:2;margin-left:auto;}
+  .cardhead .state{order:3;}
+  .cardhead .chev{order:4;}
+  .navlinks{display:none;}
+  h1.answer{max-width:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;}
+  html{scroll-behavior:auto;}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<p class="eyebrow">Updated twice a day &middot; last checked automatically</p>
-<h1>Capex Cycle Watch</h1>
-<p class="lede">A handful of companies are spending enormous sums building data centres for AI. This page tracks one question: <strong>is that spending still being paid for by the money AI brings in?</strong></p>
-<p class="lede">As long as it is, the building continues. If it stops, the spending gets cut — and because chip factories, builders and lenders have all planned around it continuing, a cut spreads quickly. That is what people mean by the AI bubble bursting.</p>
-
-<div class="stamp" id="stamp"></div>
-<div id="alerts"></div>
-
-<div class="verdict">
-  <div class="verdict-head">
-    <span class="label">Where we are now</span>
-    <span id="stageName"></span>
-  </div>
-  <div class="verdict-body">
-    <p id="stageBlurb"></p>
-    <p id="rawNote"></p>
-    <div class="rail" id="rail"></div>
-    <div class="rail-labels" id="railLabels"></div>
-    <div class="lights" id="lights"></div>
+<div class="topbar" id="topbar">
+  <div class="topbar-in">
+    <span class="brand"><span class="live" id="brandDot"></span>Capex Cycle Watch</span>
+    <nav class="navlinks">
+      <a href="#numbers">Numbers</a>
+      <a href="#gap">Main number</a>
+      <a href="#board">All 16</a>
+      <a href="#how">Method</a>
+      <a href="#words">Glossary</a>
+    </nav>
   </div>
 </div>
 
-<section>
-  <h2>The short version</h2>
-  <p class="h2sub">What the numbers say right now</p>
-  <div class="plainbox">
-    <p class="bottomline" id="bottomLine"></p>
-    <ul class="facts" id="plainFacts"></ul>
-    <div class="next">
-      <h4>What would have to happen for this to get worse</h4>
-      <ul id="nextSteps"></ul>
-    </div>
-  </div>
+<main class="wrap">
+
+<div class="hero">
+  <p class="kicker"><span class="dot" id="heroDot"></span><span id="heroKicker"></span></p>
+  <h1 class="answer" id="answer"></h1>
+  <p class="sub" id="answerSub"></p>
+
+  <div class="rail" id="rail"></div>
+  <div class="rail-labels" id="railLabels"></div>
+
+  <div class="pills" id="pills"></div>
+  <div id="alerts"></div>
+  <div class="stamp" id="stamp" style="margin-top:22px"></div>
+</div>
+
+<section id="numbers">
+  <p class="eyebrow">The short version</p>
+  <h2>Six numbers, and what each one means</h2>
+  <p class="intro">Everything on this page comes back to these. They update by themselves twice a day, straight from official filings and live markets.</p>
+  <div class="tiles" id="tiles"></div>
+
+  <p class="eyebrow" style="margin-top:44px">Next</p>
+  <h2>What would have to change</h2>
+  <p class="intro">Worked out from the same rule the verdict uses, not written by hand. A group turns red when two of its four readings turn, or one turns while two others are on watch. The stage above only rises when <b>two different groups</b> are red at once.</p>
+  <div class="nextcard"><ul id="nextSteps"></ul></div>
 </section>
 
-<section>
-  <h2>The main number</h2>
-  <p class="h2sub">Is spending growing faster than income?</p>
-  <div class="headline">
-    <p>If a company's spending grows 80% while its income grows 18%, the gap has to be covered by something: savings, borrowing, or the belief that the income will catch up later. The wider that gap gets, and the longer it stays wide, the more the whole thing depends on a forecast being right.</p>
-    <div class="formula">gap = how fast spending grows &minus; how fast income grows</div>
-    <p>These figures come straight from the companies' official filings with the US financial regulator, covering the last four quarters. Nvidia is in the table for comparison: it <em>sells</em> the equipment rather than buying it, so its income grows faster than its spending — which is exactly what you would expect from the seller.</p>
-    <div class="scroll"><table class="co" id="coTable"></table></div>
-    <p class="src" id="coSrc"></p>
+<section id="gap">
+  <p class="eyebrow">The main number</p>
+  <h2>Is spending growing faster than income?</h2>
+  <p class="intro">If a company's spending grows 80% while its income grows 18%, something has to cover the difference: savings, borrowing, or the belief that income will catch up. The wider that gap, and the longer it lasts, the more the whole thing rests on a forecast being right.</p>
+  <div class="formula mono">gap = spending growth &minus; income growth</div>
+  <div class="tablecard">
+    <div class="tscroll"><table class="co" id="coTable"></table></div>
   </div>
+  <p class="caption" id="coSrc"></p>
 </section>
 
-<section>
-  <h2>The detail</h2>
-  <p class="h2sub">Sixteen things worth watching, in four groups</p>
-  <p>Each one is marked <b>calm</b>, <b>watch</b> or <b>turning</b>, with the exact numbers that decide which. Eight update automatically. The other eight need a person to read a report, and each shows when it was last checked.</p>
+<section id="board">
+  <p class="eyebrow">The detail</p>
+  <h2>All sixteen readings</h2>
+  <p class="intro">Tap any row to see what it measures, the exact numbers that decide its colour, and how it can mislead. Eight update automatically; eight are read by a person and show when they were last checked.</p>
   <div id="context"></div>
-  <div id="board"></div>
+  <div class="controls">
+    <div class="segmented" role="group" aria-label="Filter readings">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="attn" aria-pressed="false">Needs attention</button>
+      <button type="button" data-f="auto" aria-pressed="false">Automatic</button>
+      <button type="button" data-f="manual" aria-pressed="false">By hand</button>
+    </div>
+    <button type="button" class="textbtn" id="toggleAll">Expand all</button>
+    <span class="countnote" id="countNote"></span>
+  </div>
+  <div id="groups"></div>
 </section>
 
-<section>
+<section id="how">
+  <p class="eyebrow">Method</p>
   <h2>How the verdict is worked out</h2>
-  <p class="h2sub">Four rules, so single odd readings do not set off alarms</p>
+  <p class="intro">Four rules, so that one odd reading never sets off an alarm.</p>
   <ol class="steps">
-    <li><b>A group counts, not a single number.</b> A group turns red when two of its four sensors are turning, or one is turning and two are on watch.</li>
-    <li><b>The stage rises when two <em>different</em> groups turn red.</b> Chip prices, factory output and delivery times all measure the same shortage. If they move together that is one piece of news, not three. Two separate groups moving is two pieces of news.</li>
-    <li><b>A change must last about a month before it counts.</b> Every reading is saved daily, and a sensor is scored at the milder of today's value and the value thirty days ago. One strange week changes nothing.</li>
-    <li><b>Devices sold, not money spent.</b> If prices rise 20% and sales fall 20%, the revenue headline looks unchanged while a fifth of the market has disappeared. Anything about consumers here is counted in devices.</li>
+    <li><b>A group counts, not a single reading.</b> A group turns red when two of its four readings are turning, or one is turning and two are on watch.</li>
+    <li><b>The stage rises only when two different groups turn red.</b> Chip prices, factory output and delivery times all measure the same shortage. Moving together, they are one piece of news, not three. Two separate groups moving is two pieces of news.</li>
+    <li><b>A change must last about a month.</b> Every reading is saved daily, and each one is scored at the milder of today's value and the value thirty days ago. A single strange week changes nothing.</li>
+    <li><b>Devices sold, not money taken.</b> If prices rise 20% while sales fall 20%, revenue looks unchanged though a fifth of the market has gone. Anything about consumers here is counted in devices.</li>
   </ol>
-  <p style="margin-top:22px">Two judgements a program cannot make, and where a person still has to look:</p>
-  <ul class="plain">
-    <li><b>Why something was cut.</b> Spending cut because customers stopped buying is a warning sign. Spending cut because there is not enough electricity, or the building permit was refused, or the chips are sold out, means the opposite: demand is larger than what can be built.</li>
-    <li><b>When to relax again.</b> One good quarter does not undo a warning. The same patience applies in both directions, otherwise the page ends up permanently alarmed, which is no better than never being alarmed.</li>
+  <p class="intro" style="margin-top:26px">Two judgements no program can make:</p>
+  <ul class="list">
+    <li><b>Why something was cut.</b> Spending cut because customers stopped buying is a warning. Spending cut because there is not enough electricity, the permit was refused, or the chips are sold out means the opposite — demand is larger than what can be built.</li>
+    <li><b>When to relax again.</b> One good quarter does not undo a warning. The same patience applies in both directions; otherwise the page ends up permanently alarmed, which is no more useful than never being alarmed.</li>
   </ul>
 </section>
 
-<section>
-  <h2>Common false alarms</h2>
-  <p class="h2sub">Things that look bad in headlines but are not on this page</p>
-  <ul class="plain">
-    <li><b>Nvidia's share price falls 30%.</b> That can happen simply because growth came in at 40% instead of the 50% investors hoped for. Nothing about the actual building of data centres has changed. No share price appears anywhere on this page, on purpose.</li>
-    <li><b>One company pauses a data-centre lease.</b> They rearrange plans constantly. That is why the stage needs two separate groups to turn, not one company's decision.</li>
-    <li><b>Last year's AI chips get much cheaper.</b> Renting an H100 fell by roughly two thirds from its peak, then rose about 40% again during 2026. Both moves were about which chip people wanted, not whether they wanted chips. Only the current generation is tracked here.</li>
-    <li><b>Memory prices fall.</b> If new factories have just opened, cheaper memory is the shortage being solved, not demand disappearing. That is why factory output is shown alongside prices.</li>
-    <li><b>A company's profit drops because it is spending.</b> Money spent on buildings shows up as lower profit — that is simply what investing looks like. Amazon's profits looked like this for years while it built its cloud business.</li>
+<section id="noise">
+  <p class="eyebrow">Not on this page</p>
+  <h2>Five things that look bad but are not</h2>
+  <ul class="list">
+    <li><b>Nvidia's share price falls 30%.</b> That can happen because growth came in at 40% instead of the hoped-for 50%. Nothing about the actual building has changed. No share price appears anywhere here, on purpose.</li>
+    <li><b>One company pauses a data-centre lease.</b> They rearrange plans constantly, which is why the stage needs two separate groups to turn.</li>
+    <li><b>Last year's AI chips get cheaper.</b> Renting an H100 fell by roughly two thirds from its peak, then rose about 40% again in 2026. Both moves were about which chip people wanted, not whether they wanted chips.</li>
+    <li><b>Memory prices fall.</b> If new factories just opened, cheaper memory is the shortage being solved. That is why factory output sits next to the price.</li>
+    <li><b>Profit drops because a company is spending.</b> Money spent on buildings shows up as lower profit — that is what investing looks like. Amazon's profits looked like this for years.</li>
   </ul>
 </section>
 
-<section>
-  <h2>The other possibility</h2>
-  <p class="h2sub">What would show the worry is unfounded</p>
-  <p>A page that only collects bad news will always find bad news. These are the specific things that would mean there is nothing to watch for:</p>
-  <ul class="plain">
-    <li><b>AI gets cheaper to run faster than people use more of it.</b> Then the shortage resolves itself, and prices for ordinary computers go back to normal without anything breaking. Watch what the AI companies charge per million words processed, and how much work each new chip does per unit of electricity.</li>
-    <li><b>Income catches up with spending.</b> Two quarters in a row, at two or more of the big buyers, where income grows faster than spending. That is the building paying for itself, and it ends the question.</li>
-    <li><b>New chip factories open.</b> Extra capacity arriving through 2027 that brings memory prices back down while AI demand stays strong would mean the shortage was a timing problem, not a permanent shift of hardware away from ordinary buyers.</li>
-    <li><b>People keep buying at the higher prices.</b> If PC, phone and console sales hold up, the step where expensive hardware reduces demand simply does not happen.</li>
+<section id="other">
+  <p class="eyebrow">The other side</p>
+  <h2>What would show the worry is unfounded</h2>
+  <p class="intro">A page that only collects bad news will always find bad news. These are the specific readings that would end the question.</p>
+  <ul class="list">
+    <li><b>AI gets cheaper to run faster than people use more of it.</b> Then the shortage resolves itself and ordinary computer prices return to normal without anything breaking. Watch the price per million words processed, and the work each new chip does per unit of electricity.</li>
+    <li><b>Income catches up.</b> Two quarters running, at two or more of the big buyers, where income grows faster than spending. Nvidia's line in the table already looks like this — but it sells the equipment rather than buying it.</li>
+    <li><b>New chip factories open.</b> Capacity arriving through 2027 that brings memory prices down while AI demand stays strong would mean the shortage was a timing problem, not a permanent shift away from ordinary buyers.</li>
+    <li><b>People keep buying at the higher prices.</b> If PC, phone and console sales hold up, the step where expensive hardware reduces demand simply never happens.</li>
   </ul>
 </section>
 
-<section>
-  <h2>Words used here</h2>
-  <p class="h2sub">Everything you need to read the page</p>
-  <div class="scroll">
-  <table class="gloss">
-    <thead><tr><th>Term</th><th>What it means</th></tr></thead>
-    <tbody>
-      <tr><td>Capex</td><td>Short for capital expenditure: money spent on buildings and equipment rather than day-to-day running costs. Here it is almost entirely data centres and AI chips.</td></tr>
-      <tr><td>Hyperscaler</td><td>The handful of companies that own most of the world's large data centres: Microsoft, Amazon, Google, Meta and Oracle.</td></tr>
-      <tr><td>Operating cash flow</td><td>The cash a business generates from normal trading, before it spends anything on buildings. If capex is larger than this, the difference has to be borrowed or taken from reserves.</td></tr>
-      <tr><td>The gap</td><td>How many percentage points faster spending is growing than income. Positive means spending is running ahead.</td></tr>
-      <tr><td>Basis point (bp)</td><td>One hundredth of a percent. 273bp is 2.73%. Used for what lenders charge above the safest possible loan — higher means more perceived risk.</td></tr>
-      <tr><td>Spot vs contract price</td><td>Spot is what you pay today for immediate delivery. Contract is agreed months ahead. Spot moves first, so it warns earlier.</td></tr>
-      <tr><td>Last four quarters</td><td>The most recent twelve months added together, rather than a single quarter. Seasonal ups and downs cancel out.</td></tr>
-      <tr><td>Year on year</td><td>Compared with the same period twelve months earlier, not with last month.</td></tr>
-    </tbody>
-  </table>
-  </div>
-</section>
-
-<section>
-  <h2>When new information arrives</h2>
-  <p class="h2sub">Checking once a month catches everything</p>
-  <div class="scroll">
-  <table class="cal">
-    <thead><tr><th>How often</th><th>What arrives</th><th>Affects</th></tr></thead>
-    <tbody>
-      <tr><td>Every day</td><td>AI chip rental prices, and what lenders charge risky companies</td><td><b>B1 C2</b></td></tr>
-      <tr><td>Every month</td><td>Official US price statistics for chips and for computers in shops</td><td><b>B4 D2</b></td></tr>
-      <tr><td>End of Jan / Apr / Jul / Oct</td><td>The big spenders publish results. Spending figures update here automatically; what executives said has to be read</td><td><b>A1 A2 D3</b> automatic &middot; <b>A4 C1 C3</b> by hand</td></tr>
-      <tr><td>End of Feb / May / Aug / Nov</td><td>Nvidia publishes, about three weeks after its customers — so their plans are already known. Next: <b>26 August 2026</b></td><td><b>A3</b></td></tr>
-      <tr><td>Every quarter</td><td>Reports on how many PCs and phones were actually sold</td><td><b>D1</b></td></tr>
-      <tr><td>Twice a year</td><td>Property reports on empty data-centre space and new construction</td><td><b>B2 B3</b></td></tr>
-    </tbody>
-  </table>
-  </div>
+<section id="words">
+  <p class="eyebrow">Glossary</p>
+  <h2>Everything you need to read this page</h2>
+  <dl class="gloss">
+    <div class="gterm"><dt>Capex</dt><dd>Capital expenditure: money spent on buildings and equipment rather than day-to-day running costs. Here it is almost entirely data centres and AI chips.</dd></div>
+    <div class="gterm"><dt>Hyperscaler</dt><dd>The handful of companies that own most of the world's large data centres: Microsoft, Amazon, Google, Meta and Oracle.</dd></div>
+    <div class="gterm"><dt>Operating cash flow</dt><dd>The cash a business makes from normal trading, before it spends anything on buildings. If capex exceeds it, the difference is borrowed or taken from reserves.</dd></div>
+    <div class="gterm"><dt>The gap</dt><dd>How many percentage points faster spending grows than income. Positive means spending is running ahead.</dd></div>
+    <div class="gterm"><dt>Basis point</dt><dd>One hundredth of a percent, so 273bp is 2.73%. Used for the extra interest lenders charge above the safest loan; higher means more perceived risk.</dd></div>
+    <div class="gterm"><dt>Spot vs contract</dt><dd>Spot is what you pay today for immediate delivery. Contract is agreed months ahead. Spot moves first, so it warns earlier.</dd></div>
+    <div class="gterm"><dt>Last four quarters</dt><dd>The most recent twelve months added together rather than a single quarter, so seasonal swings cancel out.</dd></div>
+    <div class="gterm"><dt>Year on year</dt><dd>Compared with the same period twelve months earlier, not with last month.</dd></div>
+  </dl>
 </section>
 
 <footer>
-  <p><b>Where the figures come from.</b> Company filings with the US Securities and Exchange Commission, for spending, cash flow and income. The Federal Reserve Bank of St. Louis, for lending costs and official price statistics. The Vast.ai marketplace, for live AI chip rental prices. All public, all free, none behind a paywall.</p>
-  <p><b>How it stays current.</b> A small program runs twice a day on a Mac, takes about a minute, fetches everything and republishes it. It also sends a notification if any sensor changes state, so there is no need to remember to check. On an ordinary day it says nothing.</p>
-  <p>This is a way of reading public data, not financial advice. The automatic readings are mechanical and can be wrong in ways a person would spot. Every threshold is written out above, so you can disagree with any of them.</p>
+  <p><b>Where the figures come from.</b> Company filings with the US Securities and Exchange Commission, for spending, cash flow and income. The Federal Reserve Bank of St. Louis, for lending costs and official price statistics. The Vast.ai marketplace, for live AI chip rental prices. All public, all free.</p>
+  <p><b>How it stays current.</b> A small program runs twice a day on a Mac, takes about a minute, and republishes everything. It sends a notification if any reading changes state, so there is nothing to remember. On an ordinary day it says nothing.</p>
+  <p>A way of reading public data, not financial advice. The automatic readings are mechanical and can be wrong in ways a person would spot. Every threshold is written out above, so you can disagree with any of them.</p>
 </footer>
 
-</div>
+</main>
 <script src="data.js"></script>
 <script>
-const D = window.CAPEX_DATA || {auto:{},manual:{},companies:[],fred:{},gpus:[],gpu_history:[],errors:["data.js not found — run python3 fetch.py"]};
-
 const CLUSTERS = [
  {id:"A",name:"The buyers",q:"Are they still spending?",tag:"changes in words first, in numbers later",sensors:[
   {id:"A1",title:"How much more they are spending",
@@ -475,49 +555,70 @@ const CLUSTERS = [
    src:"Vendor results — read by a person"}]}
 ];
 
+const D = window.CAPEX_DATA || {auto:{},manual:{},companies:[],fred:{},gpus:[],errors:["data.js not found — run python3 fetch.py"],verdict:null};
+const V = D.verdict || null;
+
 const STAGES=[
- {n:"01",name:"Expansion",
-  blurb:"Spending is growing and nothing has broken. This is a normal boom. Costs are high, but the money to pay them is there.",
-  color:"var(--calm)",
-  bottom:"The market looks stable. Spending is growing and nothing has broken."},
- {n:"02",name:"Friction",
-  blurb:"The higher costs are reaching ordinary buyers, and people are starting to ask out loud whether the spending pays for itself. Most booms stop here without becoming a crash — but this is the point where it is worth paying attention.",
-  color:"var(--watch)",
-  bottom:"No crash — but the strain is starting to show."},
- {n:"03",name:"More built than used",
-  blurb:"Capacity is visibly running ahead of use: renting computing power is getting cheaper while new machines keep arriving. Two separate parts of the picture have turned. From here, cutting the spending becomes a decision someone has to make rather than a risk.",
-  color:"var(--turn)",
-  bottom:"Warning: more is being built than is being used."},
- {n:"04",name:"Spending cut",
-  blurb:"Companies are cutting their spending plans, and orders, component prices and lending are moving down together. At this point you are not predicting a crash, you are watching one, and so is everyone else.",
-  color:"var(--turn)",
-  bottom:"The spending is being cut. This is the downturn happening."}
+ {n:1,name:"Expansion",
+  answer:"The market looks stable.",
+  sub:"Spending is growing and nothing has broken. Costs are high, but the money to pay them is there.",
+  kick:"No sign of a crash"},
+ {n:2,name:"Friction",
+  answer:"No crash — but the strain is showing.",
+  sub:"Higher costs are reaching ordinary buyers, and people are starting to ask out loud whether the spending pays for itself. <b>Most booms stop here without becoming a crash.</b>",
+  kick:"Worth paying attention"},
+ {n:3,name:"More built than used",
+  answer:"Warning: more is being built than used.",
+  sub:"Renting computing power is getting cheaper while new machines keep arriving, and two separate parts of the picture have turned. From here, cutting the spending becomes a decision someone has to make.",
+  kick:"Two groups have turned"},
+ {n:4,name:"Spending cut",
+  answer:"The spending is being cut.",
+  sub:"Orders, component prices and lending are moving down together. At this point you are not predicting a downturn, you are watching one.",
+  kick:"The downturn is happening"}
 ];
 const LBL=["Calm","Watch","Turning"];
 const el=id=>document.getElementById(id);
 const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const today=()=>new Date().toISOString().slice(0,10);
+const sign=n=>(n>0?"+":"")+Number(n.toFixed(1));
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
 
-function live(id){ return D.auto[id] || D.manual[id] || null; }
+function live(id){ return (D.auto&&D.auto[id]) || (D.manual&&D.manual[id]) || null; }
 function curState(id){ const l=live(id); return l && typeof l.state==="number" ? l.state : null; }
-
-/* The rules live in fetch.py so there is one implementation of them.
-   This page shows the verdict; it does not work it out again. */
-const V = D.verdict || null;
 function confirmedState(id){
   if(V && V.confirmed && typeof V.confirmed[id]==="number") return V.confirmed[id];
   return curState(id);
 }
+const stateColor=v=>v===2?"var(--turn)":v===1?"var(--watch)":v===0?"var(--calm)":"var(--ink-3)";
 
 function spark(vals,w,h,color){
   if(!vals||vals.length<3) return "";
   const min=Math.min(...vals),max=Math.max(...vals),r=(max-min)||1;
-  const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-min)/r)*h).toFixed(1)}`).join(" ");
+  const pt=(v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-min)/r)*h).toFixed(1)}`;
+  const line=vals.map(pt).join(" ");
   const last=vals[vals.length-1];
-  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h+2}" aria-hidden="true">
-    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.4" stroke-linejoin="round" opacity=".75"/>
-    <circle cx="${w}" cy="${(h-((last-min)/r)*h).toFixed(1)}" r="2.2" fill="${color}"/></svg>`;
+  return `<svg class="spark" width="${w}" height="${h+3}" viewBox="0 0 ${w} ${h+3}" aria-hidden="true">
+    <polygon points="0,${h} ${line} ${w},${h}" fill="${color}" opacity=".10"/>
+    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.6"
+      stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>
+    <circle cx="${w}" cy="${(h-((last-min)/r)*h).toFixed(1)}" r="2.4" fill="${color}"/></svg>`;
 }
 const sparkFor={B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas"};
+
+/* One place decides how a value reads in the collapsed row.
+   The unit strings come from fetch.py: "%", "% YoY", "% QoQ", "pp", "bp",
+   "$/hr H200". Anything not numeric is a phrase and is set smaller. */
+function headVal(l){
+  if(!l || l.value===undefined || l.value===null) return {text:"—",word:false};
+  if(typeof l.value!=="number") return {text:String(l.value),word:true};
+  const n=Number(l.value.toFixed(2)), u=l.unit||"";
+  if(u.startsWith("$")) return {text:"$"+n.toFixed(2),word:false};
+  // "% YoY" / "% QoQ" are changes and take a sign; a bare "%" is a share and does not.
+  if(u.startsWith("%")) return {text:(/YoY|QoQ/.test(u)&&n>0?"+":"")+n+"%",word:false};
+  if(u==="pp")          return {text:(n>0?"+":"")+n+"pts",word:false};
+  if(u==="bp")          return {text:Math.round(n)+"bp",word:false};
+  return {text:String(n),word:false};
+}
 
 function fmtVal(v){
   if(v===null||v===undefined) return "—";
@@ -526,188 +627,259 @@ function fmtVal(v){
     : String(Number(v.toFixed(2)));
   return v;
 }
-const sign=n=>(n>0?"+":"")+Number(n.toFixed(1));
 
-/* ---- plain-language summary, derived from the same readings ---- */
-function plainFacts(){
-  const a=D.auto||{}, out=[];
-  const add=(id,fig,txt,means)=>{
-    const st=a[id]&&typeof a[id].state==="number"?a[id].state:null;
-    out.push(`<li><span class="fig f${st===null?0:st}">${fig}</span>
-      <span class="txt">${txt}<span class="means">${means}</span></span></li>`);
-  };
-  if(a.A1) add("A1", sign(a.A1.value)+"%",
-    "<b>The five biggest buyers spent that much more</b> on data centres than in the previous twelve months.",
-    "Still accelerating. A boom does not end while this number is large and positive.");
-  if(a.A2) add("A2", Number(a.A2.value.toFixed(0))+"%",
-    "<b>That spending equals this share of the cash</b> their businesses actually generate.",
-    "Under 60% is comfortable. Above 100% the difference has to be borrowed.");
-  if(a.D3) add("D3", sign(a.D3.value)+"pts",
-    "<b>Spending is growing faster than income</b> by this many percentage points.",
-    "The building is running ahead of the money coming back. It has to stay wide for three quarters before it counts as a warning.");
-  if(a.D2) add("D2", sign(a.D2.value)+"%",
-    "<b>Computers in shops cost this much more</b> than a year ago.",
-    "Unusual: this measure normally falls a few per cent a year, because the same money buys a faster machine.");
-  if(a.B4) add("B4", sign(a.B4.value)+"%",
-    "<b>Chip factories charge that much more</b> than a year ago.",
-    "This is why devices are getting more expensive. It reaches shop prices a few months later.");
-  if(a.C2) add("C2", Math.round(a.C2.value)+"bp",
-    "<b>Lenders charge riskier companies</b> this much extra interest.",
-    "Under 450bp means lenders see no danger. They usually get nervous before share prices fall, so a calm reading here is real evidence.");
-  return out.join("");
-}
+/* ---------------- hero ---------------- */
+function renderHero(){
+  const conf = V ? {stage:V.stage, scores:V.clusters.map(c=>c.score), red:V.red, amber:V.amber}
+                 : {stage:0, scores:[null,null,null,null], red:0, amber:0};
+  const st=STAGES[conf.stage];
+  const col=conf.stage===0?"var(--calm)":conf.stage===1?"var(--watch)":"var(--turn)";
 
-/* ---- what would have to change, worked out from the actual rule ---- */
-function nextSteps(){
-  if(!V) return "<li>No reading available.</li>";
-  const out=[];
-  CLUSTERS.forEach((c,i)=>{
-    const score=V.clusters[i].score;
-    if(score===2){ out.push(`<li><b>${c.id}. ${c.name}</b> &mdash; already turned.</li>`); return; }
-    let red=0,amber=0;
-    c.sensors.forEach(s=>{const v=confirmedState(s.id); if(v===2)red++; else if(v===1)amber++;});
-    let need;
-    if(red>=1 && amber>=1) need="one more sensor moves to watch or turning";
-    else if(amber>=2) need="one sensor moves to turning";
-    else if(amber===1) need="two more sensors deteriorate";
-    else need="at least three sensors deteriorate";
-    const wl=c.sensors.filter(s=>confirmedState(s.id)===1).map(s=>s.id);
-    out.push(`<li><b>${c.id}. ${c.name}</b> &mdash; turns red once ${need}.` +
-      (wl.length?` Currently on watch: ${wl.join(", ")}.`:" Nothing on watch here yet.")+`</li>`);
+  el("answer").textContent=st.answer;
+  el("answerSub").innerHTML=st.sub;
+  el("heroKicker").textContent=`Stage ${st.n} of 4 · ${st.name} · ${st.kick}`;
+  el("heroDot").style.background=col;
+  el("brandDot").style.background=col;
+
+  el("rail").innerHTML=STAGES.map(()=>`<div class="rail-seg"></div>`).join("");
+  el("rail").querySelectorAll(".rail-seg").forEach((s,i)=>{
+    s.style.background = i<conf.stage ? col : i===conf.stage ? col : "var(--line)";
+    s.style.opacity = i<conf.stage ? ".35" : "1";
   });
-  const red=V.red;
-  out.push(`<li><b>The stage rises</b> when two groups are red at once. ${red===0?"None is red today.":red===1?"One is red today.":red+" are red today."}</li>`);
-  return out.join("");
-}
+  el("railLabels").innerHTML=STAGES.map((s,i)=>
+    `<span class="${i===conf.stage?"on":""}">${s.n}. ${s.name}</span>`).join("");
 
-function render(){
-  const gen=D.generated||"never";
-  const age=D.generated_date?days(D.generated_date,new Date().toISOString().slice(0,10)):999;
-  let stamp=`<span>Figures from <b>${gen}</b></span>`;
-  if(age>3) stamp+=`<span class="warn">· ${age} days old — the update job has stopped</span>`;
-  stamp+=`<span>· <b>${Object.keys(D.auto||{}).length}</b> updated automatically, <b>${Object.keys(D.manual||{}).filter(k=>!k.startsWith("_")).length}</b> checked by hand</span>`;
-  if((D.errors||[]).length) stamp+=`<span class="warn">· ${D.errors.length} problem(s): ${D.errors.join("; ")}</span>`;
-  el("stamp").innerHTML=stamp;
+  el("pills").innerHTML=CLUSTERS.map((c,i)=>{
+    const v=conf.scores[i];
+    const txt=v===2?"Turned":v===1?"Some strain":v===0?"Fine":"No reading";
+    return `<div class="pillcard"><span class="dot" style="background:${stateColor(v)}"></span>
+      <span><span class="n">${c.name}</span><span class="s">${txt}</span></span></div>`;
+  }).join("");
 
   const al=D.alerts||[];
   el("alerts").innerHTML = al.length
-    ? `<div class="alerts"><h4>Changed since the last check</h4><ul>${al.map(a=>`<li>${a}</li>`).join("")}</ul></div>` : "";
+    ? `<div class="alertcard"><h4>Changed since the last check</h4><ul>${al.map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`
+    : "";
 
-  const ip=(D.context&&D.context.semi_ip)||null;
-  const gall=(D.context&&D.context.gpu_all)||[];
-  let ctx="";
-  if(ip&&ip.latest){
-    ctx+=`<div><span class="lab">Chip factory output</span>
-      <span class="val">${ip.yoy==null?"—":sign(ip.yoy)+"%"}</span>
-      ${spark(ip.spark,110,22,"var(--accent)")}
-      <p class="exp">Compared with a year ago. Not scored — it is the check that tells the two apart when chip prices fall: if factories are producing more, cheaper chips mean the shortage is being solved, not that demand vanished.</p></div>`;
-  }
-  if(gall.length){
-    ctx+=`<div><span class="lab">AI chips available to rent</span>
-      <span class="val">${gall.reduce((a,g)=>a+g.offers,0)} on offer</span>
-      <p class="exp">${gall.map(g=>`${g.gpu} at $${g.median.toFixed(2)}/hour, ${g.offers} available`).join(" &middot; ")}. How many are available matters as much as the price: cheaper with fewer machines means scarcity easing, cheaper with more machines means too many were built.</p></div>`;
-  }
-  el("context").innerHTML = ctx ? `<div class="ctx">${ctx}</div>` : "";
+  const age=D.generated_date?days(D.generated_date,today()):999;
+  let stamp=`<span>Figures from <b>${esc(D.generated||"never")}</b></span>`;
+  if(age>3) stamp+=`<span class="warn">${age} days old — the update job has stopped</span>`;
+  stamp+=`<span><b>${Object.keys(D.auto||{}).length}</b> automatic · <b>${Object.keys(D.manual||{}).filter(k=>!k.startsWith("_")).length}</b> by hand</span>`;
+  if(V && !V.confirmation_ready) stamp+=`<span>Changes count after ~30 days; <b>${V.history_days}</b> saved so far</span>`;
+  if((D.errors||[]).length) stamp+=`<span class="warn">${D.errors.length} problem(s): ${esc(D.errors.join("; "))}</span>`;
+  el("stamp").innerHTML=stamp;
+}
 
+/* ---------------- six tiles ---------------- */
+function renderTiles(){
+  const a=D.auto||{}, out=[];
+  const tile=(id,fig,lab,why)=>{
+    const st=a[id]&&typeof a[id].state==="number"?a[id].state:null;
+    out.push(`<div class="tile"><span class="fig f${st===null?0:st}">${fig}</span>
+      <span class="lab">${lab}</span><span class="why">${why}</span></div>`);
+  };
+  if(a.A1) tile("A1", sign(a.A1.value)+"%", "The five biggest buyers spent that much more on data centres than in the previous year.",
+    "Still accelerating. A boom does not end while this is large and positive.");
+  if(a.A2) tile("A2", Math.round(a.A2.value)+"%", "That spending equals this share of the cash their businesses actually generate.",
+    "Under 60% is comfortable. Above 100% the difference has to be borrowed.");
+  if(a.D3) tile("D3", sign(a.D3.value)+"pts", "Spending is growing faster than income by this many percentage points.",
+    "Has to stay this wide for three quarters before it counts as a warning.");
+  if(a.D2) tile("D2", sign(a.D2.value)+"%", "Computers in shops cost that much more than a year ago.",
+    "Unusual: this measure normally falls, because the same money buys a faster machine.");
+  if(a.B4) tile("B4", sign(a.B4.value)+"%", "Chip factories charge that much more than a year ago.",
+    "This is why devices get more expensive, a few months later.");
+  if(a.C2) tile("C2", Math.round(a.C2.value)+"bp", "Lenders charge riskier companies this much extra interest.",
+    "Under 450bp means they see no danger — and they usually worry before share prices fall.");
+  el("tiles").innerHTML=out.join("");
+}
+
+/* ---------------- what would have to change ---------------- */
+function renderNext(){
+  if(!V){ el("nextSteps").innerHTML="<li>No reading available.</li>"; return; }
+  const out=[];
+  CLUSTERS.forEach((c,i)=>{
+    const score=V.clusters[i].score;
+    if(score===2){
+      out.push(`<li><span class="tagdot" style="background:var(--turn)"></span>
+        <span><b>${c.name}</b> — already turned.</span></li>`); return;
+    }
+    let red=0,amber=0;
+    c.sensors.forEach(s=>{const v=confirmedState(s.id); if(v===2)red++; else if(v===1)amber++;});
+    let need;
+    if(red>=1 && amber>=1) need="one more reading moves to watch or turning";
+    else if(amber>=2) need="one reading moves to turning";
+    else if(amber===1) need="two more readings deteriorate";
+    else need="at least three readings deteriorate";
+    const wl=c.sensors.filter(s=>confirmedState(s.id)===1).map(s=>s.id);
+    out.push(`<li><span class="tagdot" style="background:${stateColor(score)}"></span>
+      <span><b>${c.name}</b> turns red once ${need}.` +
+      (wl.length?` On watch now: ${wl.join(", ")}.`:" Nothing on watch here yet.")+`</span></li>`);
+  });
+  out.push(`<li><span class="tagdot" style="background:var(--accent)"></span>
+    <span><b>The stage rises</b> when two groups are red at once. ${
+      V.red===0?"None is red today.":V.red===1?"One is red today.":V.red+" are red today."}</span></li>`);
+  el("nextSteps").innerHTML=out.join("");
+}
+
+/* ---------------- company table ---------------- */
+function renderTable(){
   const cos=(D.companies||[]).filter(c=>!c.error);
   el("coTable").innerHTML=`
-   <thead><tr><th>Company</th><th>Spent (12&nbsp;mo)</th><th>Spending&nbsp;growth</th><th>Income&nbsp;growth</th><th>Gap</th><th>Share of own cash</th><th>Figures to</th></tr></thead>
+   <thead><tr><th>Company</th><th>Spent, 12&nbsp;mo</th><th>Spending</th><th>Income</th><th>Gap</th><th>Share of own cash</th><th>Figures to</th></tr></thead>
    <tbody>${cos.map(c=>{
      const g=c.coverage_gap, r=c.capex_ocf;
-     const gc=g==null?"":(g>50?"hi":g>0?"mid":"v");
-     const rc=r==null?"":(r>100?"hi":r>=60?"mid":"v");
+     const gc=g==null?"":(g>50?"hi":g>0?"mid":"ok");
+     const rc=r==null?"":(r>100?"hi":r>=60?"mid":"ok");
+     const pc=n=>n==null?"—":(n>0?"+":"")+Math.round(n)+"%";
      return `<tr>
-      <td class="v">${c.ticker}${c.stale?' <span style="color:var(--turn)">out of date</span>':''}</td>
+      <td class="name">${c.ticker}${c.stale?' <span style="color:var(--turn);font-weight:400">out of date</span>':''}</td>
       <td>${c.capex_ttm?"$"+(c.capex_ttm/1e9).toFixed(0)+"bn":"—"}</td>
-      <td class="v">${c.capex_growth==null?"—":sign(c.capex_growth).replace(/\.\d$/,"")+"%"}</td>
-      <td class="v">${c.rev_growth==null?"—":sign(c.rev_growth).replace(/\.\d$/,"")+"%"}</td>
-      <td class="${gc}">${g==null?"—":sign(g).replace(/\.\d$/,"")+"pts"}</td>
-      <td class="${rc}">${r==null?"—":r.toFixed(0)+"%"}</td>
+      <td>${pc(c.capex_growth)}</td>
+      <td>${pc(c.rev_growth)}</td>
+      <td class="${gc}">${g==null?"—":(g>0?"+":"")+Math.round(g)+"pts"}</td>
+      <td class="${rc}">${r==null?"—":Math.round(r)+"%"}</td>
       <td>${c.asof||"—"}</td></tr>`;
    }).join("")}</tbody>`;
-  el("coSrc").innerHTML="Last four quarters, from filings with the US Securities and Exchange Commission, updated as each company reports. Red marks a gap above 50 points, or spending above the cash the business produces.";
-
-  el("board").innerHTML=CLUSTERS.map(c=>`
-   <div class="cluster">
-    <div class="cluster-head"><h3>${c.id}. ${c.name}</h3><span class="q">${c.q}</span><span class="tag">${c.tag}</span></div>
-    ${c.sensors.map(s=>{
-      const l=live(s.id), st=curState(s.id), cf=confirmedState(s.id);
-      const auto=!!(D.auto&&D.auto[s.id]);
-      const pill = st===null?`<span class="pill pn">Not enough data yet</span>`:`<span class="pill p${st}">${LBL[st]}</span>`;
-      let num="—",un=auto?"live":"checked by hand",numCls="";
-      if(l){
-        if(l.value!==undefined&&l.value!==null){ num=fmtVal(l.value); numCls=typeof l.value==="number"?"":" str"; }
-        if(l.unit)un=l.unit;
-      }
-      const sp=sparkFor[s.id]&&D.fred&&D.fred[sparkFor[s.id]]
-        ? spark(D.fred[sparkFor[s.id]].spark,86,20, st===2?"var(--turn)":st===1?"var(--watch)":"var(--calm)") : "";
-      const staleManual = !auto && l && l.asof && days(l.asof,new Date().toISOString().slice(0,10))>45;
-      return `<div class="sensor">
-       <div class="srow">
-        <p class="title"><span class="code">${s.id}</span>${s.title}</p>
-        <div class="reading">
-          <div class="readout"><span class="num${numCls}">${num}</span><span class="un">${un}</span>${sp}</div>
-          ${pill}
-        </div>
-       </div>
-       <p class="plainline">${s.plain}</p>
-       ${l&&l.detail?`<p class="note"><span class="k">${auto?"Current reading":"Assessment"}</span>${l.detail}</p>`:""}
-       ${cf!==null&&st!==null&&cf!==st?`<p class="note"><span class="k">Not yet counted</span>This moved to <b>${LBL[st]}</b> within the last month, so it still counts as <b>${LBL[cf]}</b> until the change holds.</p>`:""}
-       <p class="watchline">${s.watch}</p>
-       <div class="thresh">
-        <div class="t-calm${st===0?" on":""}"><b>Calm</b>${s.calm}</div>
-        <div class="t-watch${st===1?" on":""}"><b>Watch</b>${s.watchT}</div>
-        <div class="t-turn${st===2?" on":""}"><b>Turning</b>${s.turn}</div>
-       </div>
-       <div class="notes">${s.notes.map(n=>`<p class="note"><span class="k">${n[0]}</span>${n[1]}</p>`).join("")}</div>
-       <p class="src">${auto?"Automatic":"By hand"} &middot; ${s.src}${l&&l.asof?` &middot; checked ${l.asof}${staleManual?' — out of date, worth re-reading':''}`:""}</p>
-      </div>`;
-    }).join("")}
-   </div>`).join("");
-
-  const conf = V
-    ? {stage:V.stage, scores:V.clusters.map(c=>c.score), red:V.red, amber:V.amber}
-    : {stage:0, scores:[null,null,null,null], red:0, amber:0};
-  const rawStage = V ? V.stage_raw : 0;
-  const ready = V ? V.confirmation_ready : false;
-  const histDays = V ? V.history_days : 0;
-
-  el("rail").innerHTML=STAGES.map((s,i)=>`<div class="rail-seg" data-i="${i}"></div>`).join("");
-  el("railLabels").innerHTML=STAGES.map(s=>`<span>${s.n} ${s.name}</span>`).join("");
-  el("lights").innerHTML=CLUSTERS.map((c,i)=>{
-    const v=conf.scores[i];
-    const col=v===2?"var(--turn)":v===1?"var(--watch)":v===0?"var(--calm)":"var(--ink-3)";
-    const bg=v===2?"var(--turn-bg)":v===1?"var(--watch-bg)":"transparent";
-    const txt=v===2?"TURNED":v===1?"SOME STRAIN":v===0?"FINE":"NO READING";
-    return `<div class="light"><span class="dot" style="background:${col};box-shadow:0 0 0 3px ${bg}"></span>
-      <span><span class="n">${c.id}. ${c.name}</span><span class="s">${txt}</span></span></div>`;
-  }).join("");
-
-  const st=STAGES[conf.stage];
-  el("stageName").innerHTML=`<span class="stage-num">STAGE ${st.n}</span>${st.name}`;
-  el("stageName").style.color=st.color;
-  el("stageBlurb").textContent=st.blurb;
-  el("bottomLine").textContent=st.bottom;
-  el("bottomLine").style.color=st.color;
-  el("plainFacts").innerHTML=plainFacts();
-  el("nextSteps").innerHTML=nextSteps();
-
-  el("rail").querySelectorAll(".rail-seg").forEach((seg,i)=>{
-    seg.style.background=i<=conf.stage?st.color:"var(--rule-soft)";
-    seg.style.opacity=i===conf.stage?"1":i<conf.stage?".42":"1";
-  });
-  el("railLabels").querySelectorAll("span").forEach((s,i)=>s.classList.toggle("on",i===conf.stage));
-
-  let note="";
-  if(!ready){
-    note=`Changes are only counted once they have held for about a month. There ${histDays===1?"is":"are"} ${histDays} day${histDays===1?"":"s"} of saved readings so far, so for now today's values are used directly.`;
-  } else if(rawStage!==conf.stage){
-    note=`Today's raw values would give Stage ${STAGES[rawStage].n} ${STAGES[rawStage].name}, but the changes are less than a month old and are not counted yet. If they hold, the stage moves.`;
-  }
-  note+= (note?" ":"")+`${conf.red===0?"No group has turned":conf.red===1?"One group has turned":conf.red+" groups have turned"}, ${conf.amber} showing strain.`;
-  el("rawNote").textContent=note;
+  el("coSrc").textContent="Last four quarters, from filings with the US Securities and Exchange Commission, updated as each company reports. Red marks a gap above 50 points, or spending larger than the cash the business produces. Nvidia sells the equipment rather than buying it, so it is shown for comparison and left out of the averages.";
 }
-render();
+
+/* ---------------- context strip ---------------- */
+function renderContext(){
+  const ip=(D.context&&D.context.semi_ip)||null;
+  const gall=(D.context&&D.context.gpu_all)||[];
+  let out="";
+  if(ip&&ip.latest){
+    out+=`<div class="tile"><span class="fig f0">${ip.yoy==null?"—":sign(ip.yoy)+"%"}</span>
+      <span class="lab">Chip factory output, against a year ago</span>
+      ${spark(ip.spark,150,30,"var(--accent)")}
+      <span class="why">Not scored. This is the check that tells the two apart when chip prices fall: if factories are producing more, cheaper chips mean the shortage is easing, not that demand vanished.</span></div>`;
+  }
+  if(gall.length){
+    out+=`<div class="tile"><span class="fig f0">${gall.reduce((a,g)=>a+g.offers,0)}</span>
+      <span class="lab">AI chips available to rent right now</span>
+      <span class="why">${gall.map(g=>`${esc(g.gpu)} at $${g.median.toFixed(2)}/hr, ${g.offers} free`).join(" · ")}. How many are available matters as much as the price: cheaper with fewer machines means scarcity easing, cheaper with more means too many were built.</span></div>`;
+  }
+  el("context").innerHTML = out ? `<div class="tiles" style="margin-bottom:26px">${out}</div>` : "";
+}
+
+/* ---------------- the sixteen cards ---------------- */
+function renderBoard(){
+  el("groups").innerHTML=CLUSTERS.map(c=>`
+    <div class="group" data-group="${c.id}">
+      <div class="grouphead"><h3>${c.name}</h3><span class="q">${c.q}</span></div>
+      <div class="cards">
+      ${c.sensors.map(s=>{
+        const l=live(s.id), st=curState(s.id), cf=confirmedState(s.id);
+        const auto=!!(D.auto&&D.auto[s.id]);
+        const label = st===null?"No data yet":LBL[st];
+        const head=headVal(l);
+        const val=head.text, wordCls=head.word?" word":"";
+        const sp=sparkFor[s.id]&&D.fred&&D.fred[sparkFor[s.id]]&&D.fred[sparkFor[s.id]].spark
+          ? spark(D.fred[sparkFor[s.id]].spark,220,34,stateColor(st)) : "";
+        const staleManual = !auto && l && l.asof && days(l.asof,today())>45;
+        return `<div class="card" data-id="${s.id}" data-state="${st===null?-1:st}" data-auto="${auto?1:0}">
+          <button type="button" class="cardhead" aria-expanded="false">
+            <span class="id">${s.id}</span>
+            <span class="t">${s.title}</span>
+            <span class="v${wordCls}">${val}</span>
+            <span class="state s${st===null?"n":st}">${label}</span>
+            <svg class="chev" width="8" height="13" viewBox="0 0 8 13" fill="none" aria-hidden="true">
+              <path d="M1.5 1.5L6.5 6.5L1.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="cardbody"><div><div class="bodyin">
+            <p class="plainline">${s.plain}</p>
+            ${sp?`<div style="margin-top:14px">${sp}</div>`:""}
+            ${l&&l.detail?`<p class="detailline"><b class="k">${auto?"Current reading":"Assessment"}:</b> ${esc(l.detail)}</p>`:""}
+            ${cf!==null&&st!==null&&cf!==st?`<p class="detailline"><b class="k">Not counted yet:</b> this moved to ${LBL[st]} within the last month, so it still scores as ${LBL[cf]}.</p>`:""}
+            <p class="watchline">${s.watch}</p>
+            <div class="thresh">
+              <div class="t0${st===0?" on":""}"><b>Calm</b><span>${s.calm}</span></div>
+              <div class="t1${st===1?" on":""}"><b>Watch</b><span>${s.watchT}</span></div>
+              <div class="t2${st===2?" on":""}"><b>Turning</b><span>${s.turn}</span></div>
+            </div>
+            ${s.notes.map(n=>`<p class="note"><b class="k">${n[0]}:</b> ${n[1]}</p>`).join("")}
+            <p class="srcline">${auto?"Automatic":"Read by a person"} · ${s.src}${l&&l.asof?` · checked ${l.asof}${staleManual?" — out of date":""}`:""}</p>
+          </div></div></div>
+        </div>`;
+      }).join("")}
+      </div>
+    </div>`).join("");
+
+  document.querySelectorAll(".cardhead").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const card=btn.closest(".card"), open=card.classList.toggle("open");
+      btn.setAttribute("aria-expanded",open?"true":"false");
+      syncToggleAll();
+    });
+  });
+}
+
+/* ---------------- filter + expand all ---------------- */
+let filter="all";
+function applyFilter(){
+  let shown=0;
+  document.querySelectorAll(".card").forEach(card=>{
+    const st=Number(card.dataset.state), auto=card.dataset.auto==="1";
+    const ok = filter==="all" ? true
+      : filter==="attn" ? st>=1
+      : filter==="auto" ? auto
+      : !auto;
+    card.style.display = ok ? "" : "none";
+    if(ok) shown++;
+  });
+  document.querySelectorAll(".group").forEach(g=>{
+    const any=[...g.querySelectorAll(".card")].some(c=>c.style.display!=="none");
+    g.style.display=any?"":"none";
+  });
+  el("countNote").textContent = filter==="all"
+    ? `${shown} readings`
+    : `${shown} of 16 shown`;
+}
+document.querySelectorAll(".segmented button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll(".segmented button").forEach(x=>x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    filter=b.dataset.f; applyFilter();
+  });
+});
+function syncToggleAll(){
+  const vis=[...document.querySelectorAll(".card")].filter(c=>c.style.display!=="none");
+  const allOpen=vis.length>0 && vis.every(c=>c.classList.contains("open"));
+  el("toggleAll").textContent=allOpen?"Collapse all":"Expand all";
+}
+el("toggleAll").addEventListener("click",()=>{
+  const vis=[...document.querySelectorAll(".card")].filter(c=>c.style.display!=="none");
+  const open=!(vis.length>0 && vis.every(c=>c.classList.contains("open")));
+  vis.forEach(c=>{
+    c.classList.toggle("open",open);
+    c.querySelector(".cardhead").setAttribute("aria-expanded",open?"true":"false");
+  });
+  syncToggleAll();
+});
+
+/* ---------------- sticky bar + scroll spy ---------------- */
+const bar=el("topbar");
+const links=[...document.querySelectorAll(".navlinks a")];
+const targets=links.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+let ticking=false;
+function onScroll(){
+  bar.classList.toggle("stuck",window.scrollY>8);
+  let active=null;
+  targets.forEach((t,i)=>{ if(t.getBoundingClientRect().top<=120) active=i; });
+  links.forEach((a,i)=>a.classList.toggle("on",i===active));
+  ticking=false;
+}
+addEventListener("scroll",()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true});
+
+renderHero();
+renderTiles();
+renderNext();
+renderTable();
+renderContext();
+renderBoard();
+applyFilter();
+syncToggleAll();
+onScroll();
 </script>
 </body>
 </html>
