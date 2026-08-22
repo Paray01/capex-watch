@@ -40,7 +40,7 @@
   "gpu": {
    "H200": {
     "median": 3.9357,
-    "offers": 3
+    "offers": 5
    },
    "B200": {
     "median": 5.3146,

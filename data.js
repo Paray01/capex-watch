@@ -48,7 +48,7 @@ window.CAPEX_DATA = {
   "history_days": 2
  },
  "alerts": [],
- "generated": "2026-08-22 16:11 UTC",
+ "generated": "2026-08-22 16:48 UTC",
  "generated_date": "2026-08-22",
  "auto": {
   "A2": {
@@ -1241,10 +1241,10 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 3,
+   "offers": 5,
    "median": 3.9357,
    "p25": 3.9357,
-   "min": 3.9357
+   "min": 3.2953
   },
   {
    "gpu": "B200",
@@ -1284,7 +1284,7 @@ window.CAPEX_DATA = {
    "gpu": {
     "H200": {
      "median": 3.9357,
-     "offers": 3
+     "offers": 5
     },
     "B200": {
      "median": 5.3146,
@@ -1436,10 +1436,10 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 3,
+    "offers": 5,
     "median": 3.9357,
     "p25": 3.9357,
-    "min": 3.9357
+    "min": 3.2953
    },
    {
     "gpu": "B200",
