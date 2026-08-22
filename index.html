@@ -298,6 +298,44 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
 .stamp b{color:var(--ink-2);font-weight:560;}
 .stamp .warn{color:var(--turn);font-weight:560;}
 
+/* ---------- the connection map ---------- */
+.mapwrap{position:relative;background:var(--card);border:1px solid var(--line-soft);
+  border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+.mapcanvas{display:block;width:100%;height:600px;touch-action:none;cursor:grab;}
+.mapcanvas.dragging{cursor:grabbing;}
+.maptools{position:absolute;top:14px;left:14px;right:14px;display:flex;gap:8px;
+  align-items:flex-start;flex-wrap:wrap;pointer-events:none;}
+.maptools > *{pointer-events:auto;}
+.mapbtn{appearance:none;border:1px solid var(--line);background:var(--bar);
+  -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  color:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:530;
+  padding:7px 13px;border-radius:980px;cursor:pointer;letter-spacing:-.006em;
+  transition:background .2s ease,border-color .2s ease;}
+.mapbtn:hover{border-color:var(--accent);color:var(--accent);}
+.mapbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;}
+.maplegend{margin-left:auto;display:flex;gap:12px;align-items:center;
+  background:var(--bar);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border:1px solid var(--line);border-radius:980px;padding:7px 14px;font-size:12px;color:var(--ink-2);}
+.maplegend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:-1px;}
+.maphint{position:absolute;bottom:14px;left:14px;font-size:12px;color:var(--ink-3);
+  background:var(--bar);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border:1px solid var(--line);border-radius:980px;padding:6px 13px;pointer-events:none;}
+.maptip{position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-100%);
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow-lift);padding:12px 14px;max-width:270px;z-index:5;
+  transition:opacity .16s ease;}
+.maptip.on{opacity:1;}
+.maptip .tt{font-size:14px;font-weight:600;letter-spacing:-.012em;margin:0 0 3px;}
+.maptip .tv{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:16px;
+  font-weight:600;margin:0 0 6px;}
+.maptip .tw{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0;}
+.maptip .te{font-size:12px;color:var(--ink-3);line-height:1.45;margin:8px 0 0;
+  padding-top:8px;border-top:1px solid var(--line-soft);}
+@media (max-width:640px){
+  .mapcanvas{height:480px;}
+  .maplegend{display:none;}
+}
+
 @media (max-width:640px){
   .cardhead{flex-wrap:wrap;gap:10px;}
   .cardhead .t{flex:1 1 100%;order:1;}
@@ -353,6 +391,28 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
   <h2>What would have to change</h2>
   <p class="intro">Worked out from the same rule the verdict uses, not written by hand. A group turns red when two of its four readings turn, or one turns while two others are on watch. The stage above only rises when <b>two different groups</b> are red at once.</p>
   <div class="nextcard"><ul id="nextSteps"></ul></div>
+</section>
+
+<section id="map">
+  <p class="eyebrow">How it connects</p>
+  <h2>The loop, live</h2>
+  <p class="intro">These are not sixteen separate measurements. They form a circuit: spending pushes chip prices up, chip prices reach shop prices, dearer devices sell less, weaker income makes the spending harder to justify — and the spending falls. Every arrow is a claim about which way influence runs. <b>Drag a bubble, hover for what it pushes.</b></p>
+  <div class="mapwrap">
+    <canvas class="mapcanvas" id="mapCanvas" role="img"
+      aria-label="Network of the sixteen readings, arranged in four groups and joined by arrows showing which one influences which."></canvas>
+    <div class="maptools">
+      <button type="button" class="mapbtn" id="mapFlow" aria-pressed="true">Flow</button>
+      <button type="button" class="mapbtn" id="mapShake">Shake</button>
+      <button type="button" class="mapbtn" id="mapReset">Reset</button>
+      <span class="maplegend">
+        <span><i style="background:var(--calm)"></i>Calm</span>
+        <span><i style="background:var(--watch)"></i>Watch</span>
+        <span><i style="background:var(--turn)"></i>Turning</span>
+      </span>
+    </div>
+    <div class="maphint">Bubble size is how central a reading is to the argument</div>
+    <div class="maptip" id="mapTip"></div>
+  </div>
 </section>
 
 <section id="gap">
@@ -871,6 +931,258 @@ function onScroll(){
 }
 addEventListener("scroll",()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true});
 
+/* =================================================================
+   The connection map.
+   The sixteen readings are not sixteen separate measurements — they
+   are a loop. Spending pushes chip prices, chip prices reach shop
+   prices, dear devices sell less, weaker income makes the spending
+   harder to justify, and the spending falls. Every arrow below is a
+   claim about which way influence runs, drawn so the loop is visible.
+   Canvas rather than SVG: sixteen bodies, twenty springs and a few
+   hundred travelling particles redraw more cheaply on a bitmap.
+   ================================================================= */
+const MAP_SHORT={
+  A1:"Spending growth", A2:"Funded by cash", A3:"Nvidia sales",  A4:"Their language",
+  B1:"Chip rental",     B2:"Empty space",    B3:"Construction",  B4:"Chip prices",
+  C1:"Borrowed",        C2:"Credit cost",    C3:"Asset life",    C4:"Startup funding",
+  D1:"Devices sold",    D2:"Shop prices",    D3:"Income gap",    D4:"AI renewals"
+};
+/* Relative size: how central a reading is to the argument. */
+const MAP_WEIGHT={A1:1.35,A2:1.15,A3:1,A4:.8,B1:1.05,B2:.8,B3:.9,B4:1.15,
+                  C1:.95,C2:1.05,C3:.8,C4:.85,D1:.95,D2:1.1,D3:1.4,D4:.8};
+
+const MAP_EDGES=[
+  ["A4","A1","Cautious wording comes about two quarters before the spending itself changes."],
+  ["A1","B4","Buying on this scale bids up what chip factories can charge."],
+  ["A1","B3","More spending means more data centres under construction."],
+  ["A1","A2","The spending is measured against the cash the businesses actually make."],
+  ["B3","B2","New buildings either fill up or stand empty."],
+  ["B3","B1","More capacity built means more chips available to rent."],
+  ["B2","B1","Empty halls push rental prices down."],
+  ["B4","D2","Component costs reach shop prices a few months later."],
+  ["D2","D1","Dearer devices mean fewer devices sold."],
+  ["A2","C1","Whatever the cash does not cover has to be borrowed."],
+  ["C1","C2","More borrowing, and lenders start repricing the risk."],
+  ["C2","C4","Tighter credit means less money for AI startups."],
+  ["C4","A3","A share of chip demand is investor-funded, and it goes first."],
+  ["A3","A1","If the chip seller slows, its customers already slowed."],
+  ["B1","D3","Cheaper compute means less income per machine built."],
+  ["C3","D3","Stretching how long hardware counts as useful flatters reported profit."],
+  ["D4","D3","Whether companies keep paying for AI is the income side of the gap."],
+  ["D1","D3","Fewer devices sold is less demand flowing back up the chain."],
+  ["D3","A2","If income lags, more of the spending has to come from somewhere else."],
+  ["D3","A1","A gap that stays wide is what eventually forces the spending down."]
+];
+
+function initMap(){
+  const cv=document.getElementById("mapCanvas");
+  if(!cv) return;
+  const ctx=cv.getContext("2d");
+  const tip=document.getElementById("mapTip");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const css=getComputedStyle(document.documentElement);
+  const tok=n=>css.getPropertyValue(n).trim();
+  let COL={};
+  function readTokens(){
+    COL={ calm:tok("--calm"), watch:tok("--watch"), turn:tok("--turn"),
+          ink:tok("--ink"), ink2:tok("--ink-2"), ink3:tok("--ink-3"),
+          line:tok("--line"), accent:tok("--accent"), card:tok("--card") };
+    COL.dark = matchMedia("(prefers-color-scheme: dark)").matches
+      && document.documentElement.getAttribute("data-theme")!=="light"
+      || document.documentElement.getAttribute("data-theme")==="dark";
+  }
+  readTokens();
+
+  /* four anchors on a ring, in the order influence travels:
+     buyers → physical build → paying end → money → back to buyers */
+  const CL=[{id:"A",a:-Math.PI/2},{id:"B",a:0},{id:"D",a:Math.PI/2},{id:"C",a:Math.PI}];
+  const nodes=[], byId={};
+  CLUSTERS.forEach(c=>c.sensors.forEach(s=>{
+    const st=curState(s.id);
+    const n={id:s.id, cluster:c.id, title:s.title, short:MAP_SHORT[s.id]||s.id,
+             state:st, w:MAP_WEIGHT[s.id]||1, x:0,y:0,vx:0,vy:0, fx:null,fy:null,
+             val:(function(){const l=live(s.id);return l?headVal(l).text:"—";})(),
+             plain:s.plain};
+    nodes.push(n); byId[s.id]=n;
+  }));
+  const edges=MAP_EDGES.filter(e=>byId[e[0]]&&byId[e[1]])
+    .map(e=>({a:byId[e[0]],b:byId[e[1]],why:e[2],p:Math.random()}));
+
+  let W=0,H=0,anchors={};
+  function layout(reset){
+    const rect=cv.getBoundingClientRect();
+    const dpr=Math.min(devicePixelRatio||1,2);
+    W=rect.width; H=rect.height;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const rx=Math.min(W*0.30,290), ry=Math.min(H*0.30,190);
+    CL.forEach(c=>{ anchors[c.id]={x:W/2+Math.cos(c.a)*rx, y:H/2+Math.sin(c.a)*ry}; });
+    if(reset){
+      nodes.forEach((n,i)=>{
+        const a=anchors[n.cluster];
+        const k=i%4;
+        n.x=a.x+Math.cos(k*1.6)*46; n.y=a.y+Math.sin(k*1.6)*46;
+        n.vx=n.vy=0; n.fx=n.fy=null;
+      });
+    }
+  }
+  const radius=n=>Math.max(15,Math.min(30, 20*n.w)) * (hover===n?1.14:1);
+
+  function step(){
+    /* pull to the cluster's anchor */
+    nodes.forEach(n=>{
+      const a=anchors[n.cluster];
+      n.vx+=(a.x-n.x)*0.010; n.vy+=(a.y-n.y)*0.010;
+    });
+    /* keep bodies apart */
+    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+      const p=nodes[i],q=nodes[j];
+      let dx=q.x-p.x, dy=q.y-p.y, d=Math.hypot(dx,dy)||.01;
+      const min=radius(p)+radius(q)+26;
+      if(d<min){ const f=(min-d)/d*0.06; p.vx-=dx*f; p.vy-=dy*f; q.vx+=dx*f; q.vy+=dy*f; }
+    }
+    /* springs along the causal arrows */
+    edges.forEach(e=>{
+      let dx=e.b.x-e.a.x, dy=e.b.y-e.a.y, d=Math.hypot(dx,dy)||.01;
+      const f=(d-135)/d*0.0055;
+      e.a.vx+=dx*f; e.a.vy+=dy*f; e.b.vx-=dx*f; e.b.vy-=dy*f;
+    });
+    nodes.forEach(n=>{
+      if(n.fx!==null){ n.x=n.fx; n.y=n.fy; n.vx=n.vy=0; return; }
+      n.vx*=0.86; n.vy*=0.86;
+      n.x+=n.vx; n.y+=n.vy;
+      const r=radius(n)+8;
+      n.x=Math.max(r,Math.min(W-r,n.x)); n.y=Math.max(r+38,Math.min(H-r-16,n.y));
+    });
+  }
+
+  const stateCol=n=>n.state===2?COL.turn:n.state===1?COL.watch:n.state===0?COL.calm:COL.ink3;
+  let hover=null, drag=null, showFlow=true, t=0;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    /* edges */
+    edges.forEach(e=>{
+      const lit = hover && (e.a===hover||e.b===hover);
+      const dim = hover && !lit;
+      ctx.strokeStyle = lit ? COL.accent : COL.line;
+      ctx.globalAlpha = dim ? .18 : lit ? .95 : (COL.dark?.55:.75);
+      ctx.lineWidth = lit ? 1.8 : 1;
+      ctx.beginPath(); ctx.moveTo(e.a.x,e.a.y); ctx.lineTo(e.b.x,e.b.y); ctx.stroke();
+      ctx.globalAlpha=1;
+
+      /* a travelling dot shows which way the influence runs */
+      if(showFlow && !dim){
+        const p=(e.p+t*0.0016)%1;
+        const x=e.a.x+(e.b.x-e.a.x)*p, y=e.a.y+(e.b.y-e.a.y)*p;
+        ctx.fillStyle = lit ? COL.accent : stateCol(e.a);
+        ctx.globalAlpha = lit ? 1 : .8;
+        ctx.beginPath(); ctx.arc(x,y, lit?3.4:2.4, 0, 7); ctx.fill();
+        ctx.globalAlpha=1;
+      }
+    });
+
+    /* nodes */
+    nodes.forEach(n=>{
+      const r=radius(n), c=stateCol(n);
+      const dim = hover && hover!==n && !edges.some(e=>(e.a===hover&&e.b===n)||(e.b===hover&&e.a===n));
+      ctx.globalAlpha = dim ? .32 : 1;
+
+      if(n.state===2){                     /* a turning reading pulses */
+        const pulse=(Math.sin(t*0.004)+1)/2;
+        ctx.beginPath(); ctx.arc(n.x,n.y,r+6+pulse*7,0,7);
+        ctx.fillStyle=c; ctx.globalAlpha=(dim?.06:.16)*(1-pulse); ctx.fill();
+        ctx.globalAlpha=dim?.32:1;
+      }
+      if(COL.dark){                        /* glow reads as light, not as a shadow */
+        const g=ctx.createRadialGradient(n.x,n.y,r*0.4,n.x,n.y,r*2.1);
+        g.addColorStop(0,c); g.addColorStop(1,"rgba(0,0,0,0)");
+        ctx.globalAlpha=dim?.05:.20; ctx.fillStyle=g;
+        ctx.beginPath(); ctx.arc(n.x,n.y,r*2.1,0,7); ctx.fill();
+        ctx.globalAlpha=dim?.32:1;
+      }
+      ctx.beginPath(); ctx.arc(n.x,n.y,r,0,7);
+      ctx.fillStyle=c; ctx.globalAlpha=dim?.32:(COL.dark?.92:1); ctx.fill();
+      if(hover===n){ ctx.lineWidth=2.5; ctx.strokeStyle=COL.accent; ctx.stroke(); }
+      ctx.globalAlpha=dim?.32:1;
+
+      ctx.fillStyle = COL.dark ? "rgba(0,0,0,.82)" : "rgba(255,255,255,.95)";
+      ctx.font="600 11px "+css.getPropertyValue("--mono");
+      ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText(n.id, n.x, n.y);
+
+      ctx.fillStyle=COL.ink2;
+      ctx.font="500 11.5px "+css.getPropertyValue("--sans");
+      ctx.textBaseline="top";
+      ctx.fillText(n.short, n.x, n.y+r+7);
+      ctx.globalAlpha=1;
+    });
+  }
+
+  let raf=null;
+  function frame(){
+    /* A canvas laid out at zero width — hidden tab, pane still settling —
+       would otherwise pin every body at the origin and never recover. */
+    const w=cv.getBoundingClientRect().width;
+    if(w<40){ raf=requestAnimationFrame(frame); return; }
+    if(Math.abs(w-W)>1) layout(W===0);
+    t+=16; step(); draw(); raf=requestAnimationFrame(frame);
+  }
+
+  function pick(mx,my){
+    let best=null,bd=1e9;
+    nodes.forEach(n=>{ const d=Math.hypot(mx-n.x,my-n.y); if(d<radius(n)+10&&d<bd){bd=d;best=n;} });
+    return best;
+  }
+  function pos(ev){ const r=cv.getBoundingClientRect(); return {x:ev.clientX-r.left,y:ev.clientY-r.top}; }
+
+  cv.addEventListener("pointermove",ev=>{
+    const p=pos(ev);
+    if(drag){ drag.fx=Math.max(0,Math.min(W,p.x)); drag.fy=Math.max(0,Math.min(H,p.y)); return; }
+    const n=pick(p.x,p.y);
+    if(n!==hover){
+      hover=n;
+      if(n){
+        const inbound=edges.filter(e=>e.b===n).map(e=>e.a.short);
+        const outbound=edges.filter(e=>e.a===n).map(e=>e.b.short);
+        tip.innerHTML=`<p class="tt">${n.title}</p>
+          <p class="tv" style="color:${stateCol(n)}">${n.val}</p>
+          <p class="tw">${n.plain}</p>
+          <p class="te">${inbound.length?"Pushed by: "+inbound.join(", ")+".":""}
+            ${outbound.length?" Pushes: "+outbound.join(", ")+".":""}</p>`;
+        tip.classList.add("on");
+      } else tip.classList.remove("on");
+    }
+    if(hover){ tip.style.left=hover.x+"px"; tip.style.top=(hover.y-radius(hover)-14)+"px"; }
+  });
+  cv.addEventListener("pointerleave",()=>{ hover=null; tip.classList.remove("on"); });
+  cv.addEventListener("pointerdown",ev=>{
+    const p=pos(ev); const n=pick(p.x,p.y);
+    if(n){ drag=n; n.fx=p.x; n.fy=p.y; cv.setPointerCapture(ev.pointerId); cv.classList.add("dragging"); }
+  });
+  const release=()=>{ if(drag){ drag.fx=drag.fy=null; drag=null; cv.classList.remove("dragging"); } };
+  cv.addEventListener("pointerup",release);
+  cv.addEventListener("pointercancel",release);
+
+  document.getElementById("mapReset").addEventListener("click",()=>{ layout(true); });
+  const flowBtn=document.getElementById("mapFlow");
+  flowBtn.addEventListener("click",()=>{
+    showFlow=!showFlow; flowBtn.setAttribute("aria-pressed",showFlow?"true":"false");
+  });
+  document.getElementById("mapShake").addEventListener("click",()=>{
+    nodes.forEach(n=>{ n.vx+=(Math.random()-.5)*26; n.vy+=(Math.random()-.5)*26; });
+  });
+
+  addEventListener("resize",()=>{ layout(false); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change",readTokens);
+
+  layout(true);
+  if(reduced){ for(let i=0;i<400;i++) step(); showFlow=false; draw(); }
+  else frame();
+}
+
 renderHero();
 renderTiles();
 renderNext();
@@ -880,6 +1192,7 @@ renderBoard();
 applyFilter();
 syncToggleAll();
 onScroll();
+initMap();
 </script>
 </body>
 </html>

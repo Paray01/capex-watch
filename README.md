@@ -54,6 +54,12 @@ python3 make_artifact.py  # a self-contained copy for publishing
 
 The Mac pulls before each run, so manual-sensor updates from the cloud reach it within twelve hours. Only the Mac writes `data.js` and `history.json`; only the cloud writes `manual.json`. Nothing has to be merged.
 
+## The connection map
+
+The page's centrepiece is a canvas force-graph of the same sixteen readings, joined by twenty arrows that encode which one influences which — spending pushes chip prices, chip prices reach shop prices, dearer devices sell less, weaker income makes the spending harder to justify, and the spending falls. The four groups settle onto a ring in the order influence travels, so the feedback loop reads as a loop.
+
+Bubbles are draggable, sized by how central a reading is to the argument, coloured by state, and a reading that has turned pulses. Travelling dots along each edge show the direction of influence. No library: sixteen bodies, twenty springs and a repulsion pass, drawn on a 2D canvas. `prefers-reduced-motion` settles the layout in one go and draws it static.
+
 ## The reading rules
 
 An indicator list without rules of interpretation fires every quarter, and after the third false alarm nobody looks at it. Four of the six rules are enforced in code:
