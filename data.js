@@ -48,7 +48,7 @@ window.CAPEX_DATA = {
   "history_days": 3
  },
  "alerts": [],
- "generated": "2026-08-23 06:19 UTC",
+ "generated": "2026-08-23 17:16 UTC",
  "generated_date": "2026-08-23",
  "auto": {
   "A2": {
@@ -1241,10 +1241,10 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 6,
+   "offers": 4,
    "median": 3.9357,
-   "p25": 3.4581,
-   "min": 3.2953
+   "p25": 3.9357,
+   "min": 3.8712
   },
   {
    "gpu": "B200",
@@ -1255,10 +1255,10 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "H100 SXM",
-   "offers": 16,
+   "offers": 15,
    "median": 2.0022,
-   "p25": 1.7356,
-   "min": 1.3867
+   "p25": 1.4929,
+   "min": 1.1342
   }
  ],
  "gpu_history": [
@@ -1301,7 +1301,7 @@ window.CAPEX_DATA = {
    "gpu": {
     "H200": {
      "median": 3.9357,
-     "offers": 6
+     "offers": 4
     },
     "B200": {
      "median": 5.8778,
@@ -1309,7 +1309,7 @@ window.CAPEX_DATA = {
     },
     "H100 SXM": {
      "median": 2.0022,
-     "offers": 16
+     "offers": 15
     }
    }
   }
@@ -1453,10 +1453,10 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 6,
+    "offers": 4,
     "median": 3.9357,
-    "p25": 3.4581,
-    "min": 3.2953
+    "p25": 3.9357,
+    "min": 3.8712
    },
    {
     "gpu": "B200",
@@ -1467,10 +1467,10 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "H100 SXM",
-    "offers": 16,
+    "offers": 15,
     "median": 2.0022,
-    "p25": 1.7356,
-    "min": 1.3867
+    "p25": 1.4929,
+    "min": 1.1342
    }
   ]
  },
