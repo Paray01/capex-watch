@@ -48,7 +48,7 @@ window.CAPEX_DATA = {
   "history_days": 4
  },
  "alerts": [],
- "generated": "2026-08-24 07:21 UTC",
+ "generated": "2026-08-24 17:16 UTC",
  "generated_date": "2026-08-24",
  "auto": {
   "A2": {
@@ -77,9 +77,9 @@ window.CAPEX_DATA = {
   },
   "C2": {
    "state": 0,
-   "value": 275,
+   "value": 270,
    "unit": "bp",
-   "detail": "US high-yield spread, -35bp over six months"
+   "detail": "US high-yield spread, -42bp over six months"
   },
   "B1": {
    "state": null,
@@ -700,14 +700,13 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-08-20",
-    "v": 2.75
+    "d": "2026-08-21",
+    "v": 2.7
    },
-   "yoy": -3.169014084507037,
-   "chg_6m": -11.290322580645164,
-   "abs_6m": -0.3500000000000001,
+   "yoy": -4.593639575971728,
+   "chg_6m": -13.461538461538458,
+   "abs_6m": -0.41999999999999993,
    "spark": [
-    2.74,
     2.72,
     2.71,
     2.75,
@@ -766,10 +765,10 @@ window.CAPEX_DATA = {
     2.7,
     2.75,
     2.73,
-    2.75
+    2.75,
+    2.7
    ],
    "spark_dates": [
-    "2026-05-31",
     "2026-06-01",
     "2026-06-02",
     "2026-06-03",
@@ -828,9 +827,10 @@ window.CAPEX_DATA = {
     "2026-08-17",
     "2026-08-18",
     "2026-08-19",
-    "2026-08-20"
+    "2026-08-20",
+    "2026-08-21"
    ],
-   "n": 787
+   "n": 785
   },
   "semi_ppi": {
    "series": "PCU3344133441",
@@ -1241,23 +1241,23 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 5,
+   "offers": 4,
    "median": 4.0029,
-   "p25": 3.8712,
-   "min": 3.2953
+   "p25": 4.0029,
+   "min": 3.8712
   },
   {
    "gpu": "B200",
-   "offers": 7,
-   "median": 5.8778,
+   "offers": 5,
+   "median": 5.3146,
    "p25": 5.3146,
    "min": 4.6271
   },
   {
    "gpu": "H100 SXM",
-   "offers": 13,
-   "median": 1.8696,
-   "p25": 1.7356,
+   "offers": 14,
+   "median": 1.9356,
+   "p25": 1.6022,
    "min": 1.3356
   }
  ],
@@ -1318,15 +1318,15 @@ window.CAPEX_DATA = {
    "gpu": {
     "H200": {
      "median": 4.0029,
-     "offers": 5
+     "offers": 4
     },
     "B200": {
-     "median": 5.8778,
-     "offers": 7
+     "median": 5.3146,
+     "offers": 5
     },
     "H100 SXM": {
-     "median": 1.8696,
-     "offers": 13
+     "median": 1.9356,
+     "offers": 14
     }
    }
   }
@@ -1470,23 +1470,23 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 5,
+    "offers": 4,
     "median": 4.0029,
-    "p25": 3.8712,
-    "min": 3.2953
+    "p25": 4.0029,
+    "min": 3.8712
    },
    {
     "gpu": "B200",
-    "offers": 7,
-    "median": 5.8778,
+    "offers": 5,
+    "median": 5.3146,
     "p25": 5.3146,
     "min": 4.6271
    },
    {
     "gpu": "H100 SXM",
-    "offers": 13,
-    "median": 1.8696,
-    "p25": 1.7356,
+    "offers": 14,
+    "median": 1.9356,
+    "p25": 1.6022,
     "min": 1.3356
    }
   ]
