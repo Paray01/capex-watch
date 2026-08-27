@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 6
+  "history_days": 7
  },
  "alerts": [],
- "generated": "2026-08-26 17:16 UTC",
- "generated_date": "2026-08-26",
+ "generated": "2026-08-27 06:55 UTC",
+ "generated_date": "2026-08-27",
  "auto": {
   "A2": {
    "state": 1,
@@ -65,9 +65,9 @@ window.CAPEX_DATA = {
   },
   "A3": {
    "state": 0,
-   "value": 19.8,
+   "value": 17.9,
    "unit": "% QoQ",
-   "detail": "prior quarter 19.5% \u2014 total revenue, the data-centre split needs the release itself"
+   "detail": "prior quarter 19.8% \u2014 total revenue, the data-centre split needs the release itself"
   },
   "D3": {
    "state": 1,
@@ -83,9 +83,9 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": null,
-   "value": 4.0029,
+   "value": 3.9371,
    "unit": "$/hr H200",
-   "detail": "6 day(s) of history \u2014 a trend needs about a month"
+   "detail": "7 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -599,30 +599,26 @@ window.CAPEX_DATA = {
   {
    "ticker": "NVDA",
    "name": "Nvidia",
-   "asof": "2026-04-26",
+   "asof": "2026-07-26",
    "stale": false,
    "tags": {
     "capex": "PaymentsToAcquireProductiveAssets",
     "revenue": "Revenues"
    },
-   "capex_ttm": 6572000000,
-   "ocf_ttm": 125648000000,
-   "rev_ttm": 253491000000,
-   "capex_ocf": 5.230485164905132,
-   "capex_ocf_prev": 5.882123873128371,
-   "capex_growth": 60.5276013678554,
-   "rev_growth": 70.68376931623068,
-   "coverage_gap": -10.156167948375284,
+   "capex_ttm": 7354000000,
+   "ocf_ttm": 134360000000,
+   "rev_ttm": 302969000000,
+   "capex_ocf": 5.473355165227747,
+   "capex_ocf_prev": 5.230485164905132,
+   "capex_growth": 46.72785315243416,
+   "rev_growth": 83.37529809100704,
+   "coverage_gap": -36.64744493857288,
    "coverage_gap_hist": [
+    -36.64744493857288,
     -10.156167948375284,
-    21.238454321153654,
-    76.59608759825367
+    21.238454321153654
    ],
    "rev_q": [
-    {
-     "end": "2024-04-28",
-     "val": 26044000000
-    },
     {
      "end": "2024-07-28",
      "val": 30040000000
@@ -654,13 +650,13 @@ window.CAPEX_DATA = {
     {
      "end": "2026-04-26",
      "val": 81615000000
+    },
+    {
+     "end": "2026-07-26",
+     "val": 96221000000
     }
    ],
    "capex_q": [
-    {
-     "end": "2024-04-28",
-     "val": 369000000
-    },
     {
      "end": "2024-07-28",
      "val": 977000000
@@ -692,6 +688,10 @@ window.CAPEX_DATA = {
     {
      "end": "2026-04-26",
      "val": 1757000000
+    },
+    {
+     "end": "2026-07-26",
+     "val": 2677000000
     }
    ]
   }
@@ -1241,23 +1241,23 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 7,
-   "median": 4.0029,
-   "p25": 3.2953,
-   "min": 2.8969
+   "offers": 6,
+   "median": 3.9371,
+   "p25": 3.7504,
+   "min": 3.2917
   },
   {
    "gpu": "B200",
    "offers": 6,
-   "median": 6.4108,
+   "median": 6.6924,
    "p25": 5.3146,
-   "min": 4.8698
+   "min": 4.8448
   },
   {
    "gpu": "H100 SXM",
    "offers": 15,
-   "median": 2.1622,
-   "p25": 1.8689,
+   "median": 2.2693,
+   "p25": 1.9822,
    "min": 1.3356
   }
  ],
@@ -1360,6 +1360,23 @@ window.CAPEX_DATA = {
     },
     "H100 SXM": {
      "median": 2.1622,
+     "offers": 15
+    }
+   }
+  },
+  {
+   "date": "2026-08-27",
+   "gpu": {
+    "H200": {
+     "median": 3.9371,
+     "offers": 6
+    },
+    "B200": {
+     "median": 6.6924,
+     "offers": 6
+    },
+    "H100 SXM": {
+     "median": 2.2693,
      "offers": 15
     }
    }
@@ -1504,23 +1521,23 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 7,
-    "median": 4.0029,
-    "p25": 3.2953,
-    "min": 2.8969
+    "offers": 6,
+    "median": 3.9371,
+    "p25": 3.7504,
+    "min": 3.2917
    },
    {
     "gpu": "B200",
     "offers": 6,
-    "median": 6.4108,
+    "median": 6.6924,
     "p25": 5.3146,
-    "min": 4.8698
+    "min": 4.8448
    },
    {
     "gpu": "H100 SXM",
     "offers": 15,
-    "median": 2.1622,
-    "p25": 1.8689,
+    "median": 2.2693,
+    "p25": 1.9822,
     "min": 1.3356
    }
   ]
@@ -1689,6 +1706,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-08-26",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-08-27",
   "states": {
    "A2": 1,
    "A1": 0,
