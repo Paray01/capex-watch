@@ -219,19 +219,19 @@
   "date": "2026-08-27",
   "gpu": {
    "H200": {
-    "median": 3.9371,
-    "offers": 6
+    "median": 3.8712,
+    "offers": 3
    },
    "B200": {
-    "median": 6.6924,
-    "offers": 6
+    "median": 5.7566,
+    "offers": 8
    },
    "H100 SXM": {
-    "median": 2.2693,
-    "offers": 15
+    "median": 2.0622,
+    "offers": 9
    }
   },
-  "hy_oas": 2.7,
+  "hy_oas": 2.67,
   "states": {
    "A2": 1,
    "A1": 0,
