@@ -38,13 +38,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 8
+  "history_days": 9
  },
- "alerts": [
-  "STAGE eased back to 01 Expansion"
- ],
- "generated": "2026-08-28 18:47 UTC",
- "generated_date": "2026-08-28",
+ "alerts": [],
+ "generated": "2026-08-29 07:35 UTC",
+ "generated_date": "2026-08-29",
  "auto": {},
  "companies": [
   {
@@ -340,6 +338,10 @@ window.CAPEX_DATA = {
   {
    "date": "2026-08-28",
    "gpu": {}
+  },
+  {
+   "date": "2026-08-29",
+   "gpu": {}
   }
  ],
  "context": {
@@ -561,6 +563,19 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-08-28",
+  "states": {
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-08-29",
   "states": {
    "A4": 0,
    "B2": 0,
