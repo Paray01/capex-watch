@@ -41,7 +41,7 @@ window.CAPEX_DATA = {
   "history_days": 9
  },
  "alerts": [],
- "generated": "2026-08-29 07:35 UTC",
+ "generated": "2026-08-29 18:59 UTC",
  "generated_date": "2026-08-29",
  "auto": {},
  "companies": [
