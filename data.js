@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 12
+  "history_days": 13
  },
  "alerts": [],
- "generated": "2026-09-01 17:16 UTC",
- "generated_date": "2026-09-01",
+ "generated": "2026-09-02 06:50 UTC",
+ "generated_date": "2026-09-02",
  "auto": {
   "A2": {
    "state": 1,
@@ -83,9 +83,9 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": null,
-   "value": 4.4894,
+   "value": 3.9766,
    "unit": "$/hr H200",
-   "detail": "12 day(s) of history \u2014 a trend needs about a month"
+   "detail": "13 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -1241,22 +1241,22 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 4,
-   "median": 4.4894,
-   "p25": 3.9766,
-   "min": 3.8712
+   "offers": 3,
+   "median": 3.9766,
+   "p25": 2.7654,
+   "min": 2.7654
   },
   {
    "gpu": "B200",
-   "offers": 7,
-   "median": 5.6354,
-   "p25": 5.3146,
-   "min": 4.3854
+   "offers": 4,
+   "median": 7.6313,
+   "p25": 7.5104,
+   "min": 6.0104
   },
   {
    "gpu": "H100 SXM",
-   "offers": 16,
-   "median": 1.7624,
+   "offers": 9,
+   "median": 2.3896,
    "p25": 1.6689,
    "min": 1.3356
   }
@@ -1439,6 +1439,23 @@ window.CAPEX_DATA = {
      "offers": 16
     }
    }
+  },
+  {
+   "date": "2026-09-02",
+   "gpu": {
+    "H200": {
+     "median": 3.9766,
+     "offers": 3
+    },
+    "B200": {
+     "median": 7.6313,
+     "offers": 4
+    },
+    "H100 SXM": {
+     "median": 2.3896,
+     "offers": 9
+    }
+   }
   }
  ],
  "context": {
@@ -1580,22 +1597,22 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 4,
-    "median": 4.4894,
-    "p25": 3.9766,
-    "min": 3.8712
+    "offers": 3,
+    "median": 3.9766,
+    "p25": 2.7654,
+    "min": 2.7654
    },
    {
     "gpu": "B200",
-    "offers": 7,
-    "median": 5.6354,
-    "p25": 5.3146,
-    "min": 4.3854
+    "offers": 4,
+    "median": 7.6313,
+    "p25": 7.5104,
+    "min": 6.0104
    },
    {
     "gpu": "H100 SXM",
-    "offers": 16,
-    "median": 1.7624,
+    "offers": 9,
+    "median": 2.3896,
     "p25": 1.6689,
     "min": 1.3356
    }
@@ -1871,6 +1888,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-09-01",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-09-02",
   "states": {
    "A2": 1,
    "A1": 0,
