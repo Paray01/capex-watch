@@ -48,7 +48,7 @@ window.CAPEX_DATA = {
   "history_days": 14
  },
  "alerts": [],
- "generated": "2026-09-03 06:50 UTC",
+ "generated": "2026-09-03 17:16 UTC",
  "generated_date": "2026-09-03",
  "auto": {
   "A2": {
@@ -77,9 +77,9 @@ window.CAPEX_DATA = {
   },
   "C2": {
    "state": 0,
-   "value": 265,
+   "value": 266,
    "unit": "bp",
-   "detail": "US high-yield spread, -41bp over six months"
+   "detail": "US high-yield spread, -43bp over six months"
   },
   "B1": {
    "state": null,
@@ -700,14 +700,13 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-09-01",
-    "v": 2.65
+    "d": "2026-09-02",
+    "v": 2.66
    },
-   "yoy": -5.01792114695341,
-   "chg_6m": -13.398692810457522,
-   "abs_6m": -0.41000000000000014,
+   "yoy": -4.659498207885301,
+   "chg_6m": -13.915857605177983,
+   "abs_6m": -0.4299999999999997,
    "spark": [
-    2.8,
     2.78,
     2.71,
     2.66,
@@ -766,10 +765,10 @@ window.CAPEX_DATA = {
     2.63,
     2.6,
     2.63,
-    2.65
+    2.65,
+    2.66
    ],
    "spark_dates": [
-    "2026-06-10",
     "2026-06-11",
     "2026-06-12",
     "2026-06-15",
@@ -828,9 +827,10 @@ window.CAPEX_DATA = {
     "2026-08-27",
     "2026-08-28",
     "2026-08-31",
-    "2026-09-01"
+    "2026-09-01",
+    "2026-09-02"
    ],
-   "n": 786
+   "n": 787
   },
   "semi_ppi": {
    "series": "PCU3344133441",
@@ -1248,14 +1248,14 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "B200",
-   "offers": 5,
-   "median": 7.5104,
+   "offers": 2,
+   "median": 6.1792,
    "p25": 4.8479,
-   "min": 4.3847
+   "min": 4.8479
   },
   {
    "gpu": "H100 SXM",
-   "offers": 15,
+   "offers": 13,
    "median": 2.3896,
    "p25": 1.6689,
    "min": 1.3356
@@ -1465,12 +1465,12 @@ window.CAPEX_DATA = {
      "offers": 2
     },
     "B200": {
-     "median": 7.5104,
-     "offers": 5
+     "median": 6.1792,
+     "offers": 2
     },
     "H100 SXM": {
      "median": 2.3896,
-     "offers": 15
+     "offers": 13
     }
    }
   }
@@ -1621,14 +1621,14 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "B200",
-    "offers": 5,
-    "median": 7.5104,
+    "offers": 2,
+    "median": 6.1792,
     "p25": 4.8479,
-    "min": 4.3847
+    "min": 4.8479
    },
    {
     "gpu": "H100 SXM",
-    "offers": 15,
+    "offers": 13,
     "median": 2.3896,
     "p25": 1.6689,
     "min": 1.3356
