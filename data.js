@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 13
+  "history_days": 14
  },
  "alerts": [],
- "generated": "2026-09-02 17:16 UTC",
- "generated_date": "2026-09-02",
+ "generated": "2026-09-03 06:50 UTC",
+ "generated_date": "2026-09-03",
  "auto": {
   "A2": {
    "state": 1,
@@ -85,7 +85,7 @@ window.CAPEX_DATA = {
    "state": null,
    "value": 4.4894,
    "unit": "$/hr H200",
-   "detail": "13 day(s) of history \u2014 a trend needs about a month"
+   "detail": "14 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -1248,16 +1248,16 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "B200",
-   "offers": 7,
+   "offers": 5,
    "median": 7.5104,
-   "p25": 5.8778,
+   "p25": 4.8479,
    "min": 4.3847
   },
   {
    "gpu": "H100 SXM",
-   "offers": 7,
-   "median": 1.6689,
-   "p25": 1.4689,
+   "offers": 15,
+   "median": 2.3896,
+   "p25": 1.6689,
    "min": 1.3356
   }
  ],
@@ -1456,6 +1456,23 @@ window.CAPEX_DATA = {
      "offers": 7
     }
    }
+  },
+  {
+   "date": "2026-09-03",
+   "gpu": {
+    "H200": {
+     "median": 4.4894,
+     "offers": 2
+    },
+    "B200": {
+     "median": 7.5104,
+     "offers": 5
+    },
+    "H100 SXM": {
+     "median": 2.3896,
+     "offers": 15
+    }
+   }
   }
  ],
  "context": {
@@ -1604,16 +1621,16 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "B200",
-    "offers": 7,
+    "offers": 5,
     "median": 7.5104,
-    "p25": 5.8778,
+    "p25": 4.8479,
     "min": 4.3847
    },
    {
     "gpu": "H100 SXM",
-    "offers": 7,
-    "median": 1.6689,
-    "p25": 1.4689,
+    "offers": 15,
+    "median": 2.3896,
+    "p25": 1.6689,
     "min": 1.3356
    }
   ]
@@ -1908,6 +1925,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-09-02",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-09-03",
   "states": {
    "A2": 1,
    "A1": 0,
