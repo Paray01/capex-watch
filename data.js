@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 14
+  "history_days": 15
  },
  "alerts": [],
- "generated": "2026-09-03 17:16 UTC",
- "generated_date": "2026-09-03",
+ "generated": "2026-09-04 06:29 UTC",
+ "generated_date": "2026-09-04",
  "auto": {
   "A2": {
    "state": 1,
@@ -85,7 +85,7 @@ window.CAPEX_DATA = {
    "state": null,
    "value": 4.4894,
    "unit": "$/hr H200",
-   "detail": "14 day(s) of history \u2014 a trend needs about a month"
+   "detail": "15 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -1248,14 +1248,14 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "B200",
-   "offers": 2,
-   "median": 6.1792,
-   "p25": 4.8479,
-   "min": 4.8479
+   "offers": 3,
+   "median": 6.6007,
+   "p25": 6.0104,
+   "min": 6.0104
   },
   {
    "gpu": "H100 SXM",
-   "offers": 13,
+   "offers": 17,
    "median": 2.3896,
    "p25": 1.6689,
    "min": 1.3356
@@ -1473,6 +1473,23 @@ window.CAPEX_DATA = {
      "offers": 13
     }
    }
+  },
+  {
+   "date": "2026-09-04",
+   "gpu": {
+    "H200": {
+     "median": 4.4894,
+     "offers": 2
+    },
+    "B200": {
+     "median": 6.6007,
+     "offers": 3
+    },
+    "H100 SXM": {
+     "median": 2.3896,
+     "offers": 17
+    }
+   }
   }
  ],
  "context": {
@@ -1621,14 +1638,14 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "B200",
-    "offers": 2,
-    "median": 6.1792,
-    "p25": 4.8479,
-    "min": 4.8479
+    "offers": 3,
+    "median": 6.6007,
+    "p25": 6.0104,
+    "min": 6.0104
    },
    {
     "gpu": "H100 SXM",
-    "offers": 13,
+    "offers": 17,
     "median": 2.3896,
     "p25": 1.6689,
     "min": 1.3356
@@ -1945,6 +1962,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-09-03",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-09-04",
   "states": {
    "A2": 1,
    "A1": 0,
