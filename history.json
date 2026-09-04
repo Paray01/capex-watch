@@ -471,15 +471,15 @@
     "offers": 2
    },
    "B200": {
-    "median": 6.6007,
-    "offers": 3
+    "median": 7.3507,
+    "offers": 5
    },
    "H100 SXM": {
-    "median": 2.3896,
-    "offers": 17
+    "median": 2.1348,
+    "offers": 15
    }
   },
-  "hy_oas": 2.66,
+  "hy_oas": 2.65,
   "states": {
    "A2": 1,
    "A1": 0,
