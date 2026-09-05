@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 15
+  "history_days": 16
  },
  "alerts": [],
- "generated": "2026-09-04 17:16 UTC",
- "generated_date": "2026-09-04",
+ "generated": "2026-09-05 06:31 UTC",
+ "generated_date": "2026-09-05",
  "auto": {
   "A2": {
    "state": 1,
@@ -85,7 +85,7 @@ window.CAPEX_DATA = {
    "state": null,
    "value": 4.4894,
    "unit": "$/hr H200",
-   "detail": "15 day(s) of history \u2014 a trend needs about a month"
+   "detail": "16 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -1248,16 +1248,16 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "B200",
-   "offers": 5,
-   "median": 7.3507,
+   "offers": 4,
+   "median": 6.8812,
    "p25": 6.0104,
-   "min": 5.2604
+   "min": 5.3146
   },
   {
    "gpu": "H100 SXM",
-   "offers": 15,
-   "median": 2.1348,
-   "p25": 1.6022,
+   "offers": 17,
+   "median": 2.0022,
+   "p25": 1.6689,
    "min": 1.3356
   }
  ],
@@ -1490,6 +1490,23 @@ window.CAPEX_DATA = {
      "offers": 15
     }
    }
+  },
+  {
+   "date": "2026-09-05",
+   "gpu": {
+    "H200": {
+     "median": 4.4894,
+     "offers": 2
+    },
+    "B200": {
+     "median": 6.8812,
+     "offers": 4
+    },
+    "H100 SXM": {
+     "median": 2.0022,
+     "offers": 17
+    }
+   }
   }
  ],
  "context": {
@@ -1638,16 +1655,16 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "B200",
-    "offers": 5,
-    "median": 7.3507,
+    "offers": 4,
+    "median": 6.8812,
     "p25": 6.0104,
-    "min": 5.2604
+    "min": 5.3146
    },
    {
     "gpu": "H100 SXM",
-    "offers": 15,
-    "median": 2.1348,
-    "p25": 1.6022,
+    "offers": 17,
+    "median": 2.0022,
+    "p25": 1.6689,
     "min": 1.3356
    }
   ]
@@ -1982,6 +1999,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-09-04",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-09-05",
   "states": {
    "A2": 1,
    "A1": 0,
