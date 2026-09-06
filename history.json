@@ -539,16 +539,16 @@
   "date": "2026-09-06",
   "gpu": {
    "H200": {
-    "median": 3.7654,
-    "offers": 6
+    "median": 2.1067,
+    "offers": 7
    },
    "B200": {
     "median": 7.6313,
     "offers": 4
    },
    "H100 SXM": {
-    "median": 2.3295,
-    "offers": 16
+    "median": 1.6022,
+    "offers": 13
    }
   },
   "hy_oas": 2.65,
