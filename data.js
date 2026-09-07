@@ -45,11 +45,11 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": false,
-  "history_days": 17
+  "history_days": 18
  },
  "alerts": [],
- "generated": "2026-09-06 17:16 UTC",
- "generated_date": "2026-09-06",
+ "generated": "2026-09-07 06:16 UTC",
+ "generated_date": "2026-09-07",
  "auto": {
   "A2": {
    "state": 1,
@@ -83,9 +83,9 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": null,
-   "value": 2.1067,
+   "value": 3.1594,
    "unit": "$/hr H200",
-   "detail": "17 day(s) of history \u2014 a trend needs about a month"
+   "detail": "18 day(s) of history \u2014 a trend needs about a month"
   },
   "D2": {
    "state": 1,
@@ -1241,22 +1241,22 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 7,
-   "median": 2.1067,
-   "p25": 2.1067,
-   "min": 2.1067
+   "offers": 3,
+   "median": 3.1594,
+   "p25": 3.1594,
+   "min": 3.1594
   },
   {
    "gpu": "B200",
-   "offers": 4,
-   "median": 7.6313,
+   "offers": 5,
+   "median": 7.7521,
    "p25": 7.5104,
    "min": 7.5104
   },
   {
    "gpu": "H100 SXM",
-   "offers": 13,
-   "median": 1.6022,
+   "offers": 14,
+   "median": 1.9896,
    "p25": 1.4689,
    "min": 1.3356
   }
@@ -1524,6 +1524,23 @@ window.CAPEX_DATA = {
      "offers": 13
     }
    }
+  },
+  {
+   "date": "2026-09-07",
+   "gpu": {
+    "H200": {
+     "median": 3.1594,
+     "offers": 3
+    },
+    "B200": {
+     "median": 7.7521,
+     "offers": 5
+    },
+    "H100 SXM": {
+     "median": 1.9896,
+     "offers": 14
+    }
+   }
   }
  ],
  "context": {
@@ -1665,22 +1682,22 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 7,
-    "median": 2.1067,
-    "p25": 2.1067,
-    "min": 2.1067
+    "offers": 3,
+    "median": 3.1594,
+    "p25": 3.1594,
+    "min": 3.1594
    },
    {
     "gpu": "B200",
-    "offers": 4,
-    "median": 7.6313,
+    "offers": 5,
+    "median": 7.7521,
     "p25": 7.5104,
     "min": 7.5104
    },
    {
     "gpu": "H100 SXM",
-    "offers": 13,
-    "median": 1.6022,
+    "offers": 14,
+    "median": 1.9896,
     "p25": 1.4689,
     "min": 1.3356
    }
@@ -2056,6 +2073,26 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-09-06",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "D2": 1,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-09-07",
   "states": {
    "A2": 1,
    "A1": 0,
