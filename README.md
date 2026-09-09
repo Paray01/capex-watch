@@ -60,6 +60,12 @@ The page's centrepiece is a canvas force-graph of the same sixteen readings, joi
 
 Bubbles are draggable, sized by how central a reading is to the argument, coloured by state, and a reading that has turned pulses. Travelling dots along each edge show the direction of influence. No library: sixteen bodies, twenty springs and a repulsion pass, drawn on a 2D canvas. `prefers-reduced-motion` settles the layout in one go and draws it static.
 
+## The six headline numbers
+
+The page opens on six readings, and each one is a button: tapping it draws the series the reading is scored from, with its own thresholds as dashed lines. The three filing-derived numbers plot one point per quarter, each a trailing twelve months and a median of the five buyers, three years back. The two price indices plot the change against the same month a year earlier, five years back. The credit spread plots the level in basis points over about six months of trading days.
+
+`fetch.py` emits both the series and the threshold lines, so the chart cannot disagree with the verdict — the page still only draws what it is given. A threshold too far outside the data to fit on the scale is named in words under the chart rather than flattening the line: the credit spread sits near 270bp and its thresholds are 450 and 600.
+
 ## The reading rules
 
 An indicator list without rules of interpretation fires every quarter, and after the third false alarm nobody looks at it. Four of the six rules are enforced in code:

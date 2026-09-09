@@ -167,6 +167,31 @@ h2{font-size:clamp(27px,3.6vw,38px);line-height:1.12;letter-spacing:-.022em;font
 .tile .why{font-size:13.5px;color:var(--ink-2);line-height:1.45;}
 .f0{color:var(--calm);} .f1{color:var(--watch);} .f2{color:var(--turn);}
 
+/* ---------- a tile opens its own history ---------- */
+button.tile{font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none;
+  transition:box-shadow .2s ease,border-color .2s ease;}
+button.tile:hover{border-color:var(--line);box-shadow:var(--shadow-lift);}
+button.tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+button.tile[aria-expanded="true"]{border-color:var(--accent);box-shadow:var(--shadow-lift);}
+.tile .peek{margin-top:auto;padding-top:12px;font-size:12.5px;color:var(--ink-3);
+  display:flex;align-items:center;gap:6px;}
+button.tile:hover .peek,button.tile[aria-expanded="true"] .peek{color:var(--accent);}
+.chartpanel{grid-column:1/-1;background:var(--card);border:1px solid var(--line-soft);
+  border-radius:var(--r);box-shadow:var(--shadow);padding:20px 20px 16px;}
+@media (max-width:520px){.chartpanel{padding:16px 12px 14px;}}
+.chartpanel .ph{display:flex;align-items:flex-start;gap:16px;}
+.chartpanel h3{font-size:19px;font-weight:600;letter-spacing:-.02em;margin:0 0 3px;}
+.chartpanel .sub{font-size:13.5px;color:var(--ink-2);line-height:1.45;margin:0;}
+.chartpanel .x{margin-left:auto;flex:none;background:var(--raised);border:0;border-radius:50%;
+  width:28px;height:28px;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;}
+.chartpanel .x:hover{color:var(--ink);}
+.chartpanel svg.chart{display:block;width:100%;height:auto;margin-top:16px;}
+.chartpanel .foot{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;
+  font-size:12.5px;color:var(--ink-3);margin-top:12px;}
+.chartpanel .foot a{color:var(--accent);text-decoration:none;}
+.chartpanel .foot a:hover{text-decoration:underline;}
+.chartpanel .nochart{font-size:13.5px;color:var(--ink-2);margin:16px 0 0;}
+
 /* ---------- next steps ---------- */
 .nextcard{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);
   padding:8px 20px;box-shadow:var(--shadow);margin-top:12px;}
@@ -384,7 +409,7 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
 <section id="numbers">
   <p class="eyebrow">The short version</p>
   <h2>Six numbers, and what each one means</h2>
-  <p class="intro">Everything on this page comes back to these. They update by themselves twice a day, straight from official filings and live markets.</p>
+  <p class="intro">Everything on this page comes back to these. They update by themselves twice a day, straight from official filings and live markets. <b>Tap any number to see how it got there</b> — the same series the reading is scored from, with its thresholds drawn in.</p>
   <div class="tiles" id="tiles"></div>
 
   <p class="eyebrow" style="margin-top:44px">Next</p>
@@ -730,28 +755,177 @@ function renderHero(){
   el("stamp").innerHTML=stamp;
 }
 
-/* ---------------- six tiles ---------------- */
+/* ---------------- six tiles, each opening its own history ---------------- */
+/* The series and the threshold lines both come from fetch.py — the page draws
+   them and does not decide where a line belongs. */
+const TILES=[
+  ["A1", a=>sign(a.value)+"%",
+   "The five biggest buyers spent that much more on data centres than in the previous year.",
+   "Still accelerating. A boom does not end while this is large and positive."],
+  ["A2", a=>Math.round(a.value)+"%",
+   "That spending equals this share of the cash their businesses actually generate.",
+   "Under 60% is comfortable. Above 100% the difference has to be borrowed."],
+  ["D3", a=>sign(a.value)+"pts",
+   "Spending is growing faster than income by this many percentage points.",
+   "Has to stay this wide for three quarters before it counts as a warning."],
+  ["D2", a=>sign(a.value)+"%",
+   "Computers in shops cost that much more than a year ago.",
+   "Unusual: this measure normally falls, because the same money buys a faster machine."],
+  ["B4", a=>sign(a.value)+"%",
+   "Chip factories charge that much more than a year ago.",
+   "This is why devices get more expensive, a few months later."],
+  ["C2", a=>Math.round(a.value)+"bp",
+   "Lenders charge riskier companies this much extra interest.",
+   "Under 450bp means they see no danger — and they usually worry before share prices fall."]
+];
+
 function renderTiles(){
-  const a=D.auto||{}, out=[];
-  const tile=(id,fig,lab,why)=>{
-    const st=a[id]&&typeof a[id].state==="number"?a[id].state:null;
-    out.push(`<div class="tile"><span class="fig f${st===null?0:st}">${fig}</span>
-      <span class="lab">${lab}</span><span class="why">${why}</span></div>`);
-  };
-  if(a.A1) tile("A1", sign(a.A1.value)+"%", "The five biggest buyers spent that much more on data centres than in the previous year.",
-    "Still accelerating. A boom does not end while this is large and positive.");
-  if(a.A2) tile("A2", Math.round(a.A2.value)+"%", "That spending equals this share of the cash their businesses actually generate.",
-    "Under 60% is comfortable. Above 100% the difference has to be borrowed.");
-  if(a.D3) tile("D3", sign(a.D3.value)+"pts", "Spending is growing faster than income by this many percentage points.",
-    "Has to stay this wide for three quarters before it counts as a warning.");
-  if(a.D2) tile("D2", sign(a.D2.value)+"%", "Computers in shops cost that much more than a year ago.",
-    "Unusual: this measure normally falls, because the same money buys a faster machine.");
-  if(a.B4) tile("B4", sign(a.B4.value)+"%", "Chip factories charge that much more than a year ago.",
-    "This is why devices get more expensive, a few months later.");
-  if(a.C2) tile("C2", Math.round(a.C2.value)+"bp", "Lenders charge riskier companies this much extra interest.",
-    "Under 450bp means they see no danger — and they usually worry before share prices fall.");
-  el("tiles").innerHTML=out.join("");
+  const a=D.auto||{};
+  el("tiles").innerHTML=TILES.filter(t=>a[t[0]]).map(([id,fig,lab,why])=>{
+    const s=a[id], st=typeof s.state==="number"?s.state:null;
+    const has=(s.series||[]).length>2;
+    return `<button type="button" class="tile" data-id="${id}" aria-expanded="false"
+      aria-controls="chartPanel"${has?"":" disabled"}>
+      <span class="fig f${st===null?0:st}">${fig(s)}</span>
+      <span class="lab">${lab}</span><span class="why">${why}</span>
+      ${has?`<span class="peek">
+        <svg width="15" height="11" viewBox="0 0 15 11" fill="none" aria-hidden="true">
+          <path d="M1 9.5L5 4.5L8.5 7L14 1.5" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"/></svg>See the history</span>`:""}
+    </button>`;
+  }).join("");
+  document.querySelectorAll("button.tile").forEach(b=>{
+    b.addEventListener("click",()=>toggleChart(b.dataset.id));
+  });
 }
+
+/* ---------------- the history chart ---------------- */
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const monthYear=d=>{const p=String(d).split("-"); return `${MONTHS[+p[1]-1]} ${p[0]}`;};
+
+/* Same convention as the tiles: a share carries no sign, a change does. */
+function axisVal(v,u,exact){
+  const n=x=>exact?Number(x.toFixed(1)):Math.round(x);
+  if(u==="bp") return Math.round(v)+"bp";
+  if(u==="pp") return (v>0?"+":"")+n(v)+(exact?"pts":"pp");
+  if(u==="%")  return n(v)+"%";
+  return (v>0?"+":"")+n(v)+"%";
+}
+const guideColor=lab=>/turning/i.test(lab)?"var(--turn)":/watch/i.test(lab)?"var(--watch)":"var(--calm)";
+
+function chartSvg(s,color){
+  const ser=(s.series||[]).filter(p=>p&&typeof p.v==="number");
+  if(ser.length<3) return {svg:"",off:[]};
+  // The SVG scales to the column it sits in, so its own coordinate system has
+  // to shrink with the screen — otherwise the labels scale down with it and a
+  // phone gets five-pixel type.
+  const narrow=window.innerWidth<700;
+  const W=narrow?330:760, H=narrow?240:260, L=narrow?42:62, R=narrow?10:18,
+        T=18, B=32, iw=W-L-R, ih=H-T-B, u=s.unit||"";
+  const vals=ser.map(p=>p.v);
+  let lo=Math.min(...vals), hi=Math.max(...vals);
+  // A threshold far outside the data would flatten the line into a straight
+  // one, which hides the very movement the chart exists to show.
+  const span=(hi-lo)||Math.abs(hi)||1;
+  const fits=g=>g.v>=lo-span*1.2&&g.v<=hi+span*1.2;
+  const guides=(s.guides||[]).filter(fits), off=(s.guides||[]).filter(g=>!fits(g));
+  guides.forEach(g=>{lo=Math.min(lo,g.v);hi=Math.max(hi,g.v);});
+  const pad=((hi-lo)||1)*.12; lo-=pad; hi+=pad;
+  const X=i=>L+(i/(ser.length-1))*iw, Y=v=>T+ih-((v-lo)/(hi-lo))*ih;
+  const pts=ser.map((p,i)=>`${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join(" ");
+
+  const grid=[0,.5,1].map(f=>{const v=lo+(hi-lo)*f, y=Y(v);
+    return `<line x1="${L}" y1="${y.toFixed(1)}" x2="${W-R}" y2="${y.toFixed(1)}"
+      stroke="var(--line-soft)" stroke-width="1"/>
+    <text x="${L-10}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="12"
+      fill="var(--ink-3)" font-family="var(--mono)">${axisVal(v,u)}</text>`;}).join("");
+
+  const zero=(lo<0&&hi>0)?`<line x1="${L}" y1="${Y(0).toFixed(1)}" x2="${W-R}" y2="${Y(0).toFixed(1)}"
+      stroke="var(--ink-3)" stroke-width="1" opacity=".55"/>`:"";
+
+  const gl=guides.map(g=>`<line x1="${L}" y1="${Y(g.v).toFixed(1)}" x2="${W-R}" y2="${Y(g.v).toFixed(1)}"
+      stroke="${guideColor(g.label)}" stroke-width="1.3" stroke-dasharray="5 4" opacity=".75"/>
+    <text x="${L+6}" y="${(Y(g.v)-7).toFixed(1)}" font-size="${narrow?11:12}" fill="${guideColor(g.label)}"
+      opacity=".95">${esc(narrow?g.label.split(",")[0]:g.label)}</text>`).join("");
+
+  const dots=ser.length<=16
+    ? ser.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="2.6" fill="${color}"/>`).join("")
+    : "";
+  const lastI=ser.length-1, last=ser[lastI];
+  const mid=ser[Math.floor(lastI/2)];
+
+  return {off, svg:`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img"
+    aria-label="${esc(monthYear(ser[0].d))} to ${esc(monthYear(last.d))}, now ${axisVal(last.v,u,true)}">
+    ${grid}${zero}
+    <polygon points="${L},${T+ih} ${pts} ${W-R},${T+ih}" fill="${color}" opacity=".10"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.2"
+      stroke-linejoin="round" stroke-linecap="round"/>
+    ${gl}${dots}
+    <circle cx="${X(lastI).toFixed(1)}" cy="${Y(last.v).toFixed(1)}" r="4.5" fill="${color}"/>
+    <text x="${W-R}" y="${(Y(last.v)-12).toFixed(1)}" text-anchor="end" font-size="13"
+      font-weight="600" fill="${color}" font-family="var(--mono)">${axisVal(last.v,u,true)}</text>
+    <text x="${L}" y="${H-8}" font-size="12" fill="var(--ink-3)">${monthYear(ser[0].d)}</text>
+    ${narrow?"":`<text x="${(L+iw/2).toFixed(0)}" y="${H-8}" text-anchor="middle" font-size="12"
+      fill="var(--ink-3)">${monthYear(mid.d)}</text>`}
+    <text x="${W-R}" y="${H-8}" text-anchor="end" font-size="12"
+      fill="var(--ink-3)">${monthYear(last.d)}</text>
+  </svg>`};
+}
+
+function sensorMeta(id){
+  for(const c of CLUSTERS) for(const s of c.sensors) if(s.id===id) return s;
+  return null;
+}
+
+function closeChart(){
+  const p=el("chartPanel"); if(p) p.remove();
+  document.querySelectorAll("button.tile").forEach(b=>b.setAttribute("aria-expanded","false"));
+}
+
+function toggleChart(id){
+  const btn=document.querySelector(`button.tile[data-id="${id}"]`);
+  const wasOpen=btn && btn.getAttribute("aria-expanded")==="true";
+  closeChart();
+  if(wasOpen||!btn) return;
+  const s=(D.auto||{})[id], meta=sensorMeta(id);
+  const panel=document.createElement("div");
+  panel.className="chartpanel"; panel.id="chartPanel";
+  const c=chartSvg(s,stateColor(curState(id)));
+  // A threshold far outside the data is stated rather than drawn: forcing it
+  // onto the scale would flatten the line the chart exists to show.
+  const offNote=c.off.length
+    ? `<span>Off this scale: ${c.off.map(g=>esc(g.label)).join(", ")}.</span>` : "";
+  panel.innerHTML=`<div class="ph"><div>
+      <h3>${meta?esc(meta.title):id}</h3>
+      <p class="sub">${esc(s.detail||"")}</p></div>
+      <button type="button" class="x" aria-label="Close the history">&#10005;</button></div>
+    ${c.svg||`<p class="nochart">No history has been saved for this reading yet.</p>`}
+    <div class="foot"><span>${esc(s.series_note||"")}</span>${offNote}
+      <a href="#board" data-card="${id}">Open the full card for ${id}</a></div>`;
+  btn.after(panel);
+  btn.setAttribute("aria-expanded","true");
+  panel.querySelector(".x").addEventListener("click",()=>{closeChart(); btn.focus();});
+  const link=panel.querySelector("a[data-card]");
+  if(link) link.addEventListener("click",()=>openCard(id));
+}
+
+/* Jump from a tile to the reading's own card, opened. */
+function openCard(id){
+  const card=document.querySelector(`.card[data-id="${id}"]`);
+  if(!card) return;
+  card.classList.add("open");
+  card.querySelector(".cardhead").setAttribute("aria-expanded","true");
+  syncToggleAll();
+}
+
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeChart(); });
+let chartResize;
+window.addEventListener("resize",()=>{
+  const open=document.querySelector('button.tile[aria-expanded="true"]');
+  if(!open) return;
+  clearTimeout(chartResize);
+  chartResize=setTimeout(()=>{ const id=open.dataset.id; toggleChart(id); toggleChart(id); },200);
+});
 
 /* ---------------- what would have to change ---------------- */
 function renderNext(){

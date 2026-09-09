@@ -78,6 +78,11 @@ FRED_SERIES = {
 # Current-generation accelerators. Last-generation prices are deliberately excluded:
 # cheap old silicon is the value cascade working, not demand failing (Rule 04).
 GPUS_CURRENT = ["H200", "B200", "H100 SXM"]
+# Quarters of history kept for the six headline numbers. Three years is
+# enough to show where a reading came from without bloating data.js.
+QHIST = 12
+QUARTERLY_NOTE = ("one point per quarter, each a trailing twelve months, "
+                  "median of the five buyers")
 
 
 # --------------------------------------------------------------------------
@@ -170,6 +175,31 @@ def ttm(series, back=0):
     return sum(v for _, v in series[end - 4:end])
 
 
+def median_series(companies, key):
+    """
+    The median of the five buyers at each quarterly offset, oldest point first.
+
+    Aligned by offset rather than by calendar date, because Oracle keeps its own
+    fiscal year — exactly how the current reading is built, one quarter at a time.
+    Each point is dated by the newest filing that contributed to it.
+    """
+    out = []
+    for b in range(QHIST):
+        vals, ends = [], []
+        for c in companies:
+            if c.get("stale") or c["ticker"] == "NVDA":
+                continue
+            h, q = c.get(key) or [], c.get("q_ends") or []
+            if b < len(h) and h[b] is not None:
+                vals.append(h[b])
+                if b < len(q) and q[b]:
+                    ends.append(q[b])
+        if vals and ends:
+            out.append({"d": max(ends), "v": round(statistics.median(vals), 1)})
+    out.reverse()
+    return out
+
+
 def edgar():
     if not CONTACT:
         raise RuntimeError(
@@ -223,8 +253,16 @@ def edgar():
                 (pct(ttm(capex, b), ttm(capex, b + 4)) - pct(ttm(rev, b), ttm(rev, b + 4)))
                 if (ttm(capex, b) and ttm(capex, b + 4) and ttm(rev, b) and ttm(rev, b + 4))
                 else None
-                for b in (0, 1, 2)
+                for b in range(QHIST)
             ],
+            # The same three readings one quarter at a time, so the page can
+            # draw where each headline number came from. Index is quarters back.
+            "capex_growth_hist": [pct(ttm(capex, b), ttm(capex, b + 4)) for b in range(QHIST)],
+            "capex_ocf_hist": [
+                (ttm(capex, b) / ttm(ocf, b) * 100) if (ttm(capex, b) and ttm(ocf, b)) else None
+                for b in range(QHIST)
+            ],
+            "q_ends": [capex[-1 - b][0] if len(capex) > b else None for b in range(QHIST)],
             "rev_q": [{"end": e, "val": v} for e, v in rev[-9:]],
             "capex_q": [{"end": e, "val": v} for e, v in capex[-9:]],
         })
@@ -269,6 +307,18 @@ def fred_all():
         # Monthly series: 12 observations back is a year. Daily: ~252.
         step = 252 if key == "hy_oas" else 12
         half = 126 if key == "hy_oas" else 6
+        # The chart carries the unit the headline number is quoted in, not the
+        # raw index: the credit spread is read as a level in basis points, the
+        # two price indices as a change against a year earlier.
+        if key == "hy_oas":
+            chart = [{"d": p["d"], "v": round(p["v"] * 100)} for p in pts[-130:]]
+        else:
+            chart = []
+            for i in range(step, len(pts)):
+                y = pct(pts[i]["v"], pts[i - step]["v"])
+                if y is not None:
+                    chart.append({"d": pts[i]["d"], "v": round(y, 2)})
+            chart = chart[-60:]
         out[key] = {
             "series": sid,
             "latest": latest,
@@ -277,6 +327,7 @@ def fred_all():
             "abs_6m": (latest["v"] - at_offset(pts, half)) if latest and at_offset(pts, half) else None,
             "spark": [p["v"] for p in pts[-60:]],
             "spark_dates": [p["d"] for p in pts[-60:]],
+            "chart": chart,
             "n": len(pts),
         }
     return out
@@ -395,7 +446,11 @@ def score(companies, f, gpus, hist):
         elif med >= 60:
             st = 1
         s["A2"] = {"state": st, "value": round(med, 1), "unit": "%",
-                   "detail": f"median of {len(ratios)} hyperscalers, trailing twelve months"}
+                   "detail": f"median of {len(ratios)} hyperscalers, trailing twelve months",
+                   "series": median_series(companies, "capex_ocf_hist"),
+                   "series_note": QUARTERLY_NOTE,
+                   "guides": [{"v": 60, "label": "watch above 60%"},
+                              {"v": 100, "label": "turning above 100%, two quarters running"}]}
 
     # A1 — capex growth. Guidance itself is not machine-readable; realised
     # trailing-twelve-month growth is, and it is what guidance eventually becomes.
@@ -405,7 +460,11 @@ def score(companies, f, gpus, hist):
         med = statistics.median(gr)
         st = 0 if med > 10 else (1 if med > -5 else 2)
         s["A1"] = {"state": st, "value": round(med, 1), "unit": "% YoY",
-                   "detail": "median realised capex growth, trailing twelve months"}
+                   "detail": "median realised capex growth, trailing twelve months",
+                   "series": median_series(companies, "capex_growth_hist"),
+                   "series_note": QUARTERLY_NOTE,
+                   "guides": [{"v": 10, "label": "watch below +10%"},
+                              {"v": -5, "label": "turning below -5%"}]}
 
     # A3 — Nvidia revenue, sequential.
     nv = next((c for c in companies if c["ticker"] == "NVDA"), None)
@@ -438,7 +497,11 @@ def score(companies, f, gpus, hist):
                    "detail": "median capex growth minus total revenue growth, trailing twelve months. "
                              "Prior two quarters: "
                              + ", ".join(f"{round(p,1)}pp" if p is not None else "—" for p in persist[1:])
-                             + ". A proxy — total revenue dilutes AI revenue, so the true AI-level gap is smaller."}
+                             + ". A proxy — total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
+                   "series": median_series(companies, "coverage_gap_hist"),
+                   "series_note": QUARTERLY_NOTE,
+                   "guides": [{"v": 0, "label": "calm at or below zero"},
+                              {"v": 50, "label": "turning above 50pp in each of three quarters"}]}
 
     # C2 — credit. Level and six-month direction, in basis points.
     hy = f.get("hy_oas", {})
@@ -451,7 +514,11 @@ def score(companies, f, gpus, hist):
         elif lvl > 4.5 or chg > 50:
             st = 1
         s["C2"] = {"state": st, "value": round(lvl * 100), "unit": "bp",
-                   "detail": f"US high-yield spread, {'+' if chg>=0 else ''}{round(chg)}bp over six months"}
+                   "detail": f"US high-yield spread, {'+' if chg>=0 else ''}{round(chg)}bp over six months",
+                   "series": hy.get("chart", []),
+                   "series_note": "one point per trading day, about six months",
+                   "guides": [{"v": 450, "label": "watch above 450bp"},
+                              {"v": 600, "label": "turning above 600bp"}]}
 
     # B1 — the live GPU rental market: price and depth together.
     if gpus:
@@ -479,7 +546,11 @@ def score(companies, f, gpus, hist):
         y = pcc["yoy"]
         st = 0 if y < 0 else (1 if y < 5 else 2)
         s["D2"] = {"state": st, "value": round(y, 1), "unit": "% YoY",
-                   "detail": "CPI, personal computers and peripherals — this series normally declines"}
+                   "detail": "CPI, personal computers and peripherals — this series normally declines",
+                   "series": pcc.get("chart", []),
+                   "series_note": "one point per month, against the same month a year earlier",
+                   "guides": [{"v": 0, "label": "watch above zero — this index normally falls"},
+                              {"v": 5, "label": "turning above +5%"}]}
 
     # B4 — component price pressure, and the roll-over that ends it.
     pp = f.get("semi_ppi", {})
@@ -491,7 +562,10 @@ def score(companies, f, gpus, hist):
         elif y > 10:
             st = 1
         s["B4"] = {"state": st, "value": round(y, 1), "unit": "% YoY",
-                   "detail": f"PPI semiconductors, six-month change {round(m6,1) if m6 is not None else '—'}% — a proxy; spot DRAM leads it"}
+                   "detail": f"PPI semiconductors, six-month change {round(m6,1) if m6 is not None else '—'}% — a proxy; spot DRAM leads it",
+                   "series": pp.get("chart", []),
+                   "series_note": "one point per month, against the same month a year earlier",
+                   "guides": [{"v": 10, "label": "watch above +10%"}]}
 
     return s
 
@@ -635,6 +709,27 @@ def main():
         # First pass writes today's GPU prices so the trend used by B1 includes them.
         hist = update_history(gpus, fredd)
     auto = score(companies, fredd, gpus, hist)
+
+    # The per-quarter arrays behind the filing charts are working material for
+    # median_series, not something the page reads — they leave with the medians
+    # already computed. A rescore has no filings to rebuild them from, so it
+    # carries the last fetch's chart through rather than dropping it.
+    if rescore:
+        for sid, prev_sensor in (prev.get("auto") or {}).items():
+            if sid in auto and not auto[sid].get("series") and prev_sensor.get("series"):
+                for k in ("series", "series_note", "guides"):
+                    if prev_sensor.get(k):
+                        auto[sid][k] = prev_sensor[k]
+    for c in companies:
+        for k in ("capex_growth_hist", "capex_ocf_hist", "q_ends"):
+            c.pop(k, None)
+        if c.get("coverage_gap_hist"):
+            c["coverage_gap_hist"] = c["coverage_gap_hist"][:3]
+    # Same for the FRED chart series: it now lives on the sensor that quotes it,
+    # and storing it twice would double the file for nothing.
+    for entry in fredd.values():
+        if isinstance(entry, dict):
+            entry.pop("chart", None)
 
     manual_path = os.path.join(HERE, "manual.json")
     try:
