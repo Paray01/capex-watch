@@ -49,7 +49,8 @@ window.CAPEX_DATA = {
   "history_days": 21
  },
  "alerts": [
-  "D2 worsened: watch -> turning"
+  "C4 worsened: calm -> watch",
+  "D1 worsened: watch -> turning"
  ],
  "generated": "2026-10-16 23:57 UTC",
  "generated_date": "2026-10-16",
@@ -2979,59 +2980,59 @@ window.CAPEX_DATA = {
   "_comment": "Sensors with no machine-readable feed. Updated by research, not by fetch.py. Each carries its own 'asof' date; the dashboard marks anything older than 45 days as stale so a forgotten sensor cannot quietly pass for a current reading. state: 0 calm, 1 watch, 2 turning.",
   "A4": {
    "state": 0,
-   "value": "supply-constrained, no optimisation language",
-   "detail": "The Q2 2026 calls in late July went the other way. Jassy: Amazon 'will still not have enough capacity to meet all the demand we have in 2026', and expects the same in 2027; Alphabet also described itself as supply-constrained; Microsoft's Hood said that outside the useful-life change 'our calendar year 2026 CapEx investment expectations remain unchanged' while Nadella brought 31 new data centres online in the quarter. All four raised guidance: Amazon to about $220bn, Alphabet to $195-205bn, Meta's floor to $130-145bn. Amazon's 'disciplined ROIC framework' is exactly the false positive this sensor's note warns about \u2014 discipline said to investors alongside a raise, not instead of one.",
-   "asof": "2026-09-09",
-   "source": "Q2 2026 earnings calls (Amazon, Alphabet, Microsoft, Meta), late July 2026"
+   "value": "still supply-constrained; Oracle raises again",
+   "detail": "No hyperscaler has reported since the late-July calls; Q3 results land in the last week of October and are the next real reading. The one call since points the same way: Oracle (FY2027 Q1, 2026-09-10) booked another $30bn+ of AI cloud contracts, took remaining performance obligations to $664bn, spent $28.5bn of capex in the quarter and holds $90-95bn for the year, delivering 300,000 GPUs and 850 MW of new capacity. Alphabet's July warning of Q3 cloud-margin pressure from renting third-party capacity is a supply complaint, not a demand one. No 'digesting', 'measured' or 'optimising' language from any of the five.",
+   "asof": "2026-10-17",
+   "source": "Oracle FY2027 Q1 release and call (2026-09-10); Q2 2026 calls of Amazon, Alphabet, Microsoft, Meta (late July 2026)"
   },
   "B2": {
    "state": 0,
-   "value": "1.0-1.4% vacancy, 25 GW absorbed in H1",
-   "detail": "CBRE puts primary-market vacancy at 1.4%, down from 1.6% a year earlier; JLL has North America at about 1%. Both are record lows. H1 2026 absorption was 25 GW, double the year-earlier half. Preleasing rose to 80.4% of all capacity under construction from 74.3%, and under 1,500 MW of future capacity is available across all primary markets \u2014 roughly six months of demand at the current rate.",
-   "asof": "2026-09-09",
-   "source": "CBRE North America Data Center Trends H1 2026; JLL midyear 2026"
+   "value": "1.0-1.4% vacancy, no newer survey",
+   "detail": "The H1 2026 surveys published in September are still the latest: CBRE primary-market vacancy a record 1.4% (Northern Virginia 0.2%), JLL North America about 1% for the third year running, 25 GW absorbed in H1 and most tenants now contracting for 2028 deliveries. JLL counts 66 GW under construction, 95% pre-committed. Nothing points to space coming free; the next reading is the year-end round in February and March.",
+   "asof": "2026-10-17",
+   "source": "CBRE North America Data Center Trends H1 2026 (2026-09-08); JLL North America Data Center Report midyear 2026"
   },
   "B3": {
    "state": 1,
-   "value": "record 7,481 MW building, cancellations clustering",
-   "detail": "The August reading \u2014 construction falling for the first time since 2020 \u2014 has been overtaken. Capacity under construction across the US primary markets rose 24.8% in H1 2026 to a record 7,481 MW, past the old 6,350 MW peak. The watch stands on the other half of the sensor: cancellations are clustering, not isolated. Twenty US projects were killed in Q1 2026 alone after 25 in all of 2025 and 6 in 2024, and Data Center Watch counts $130bn of projects blocked or delayed by community opposition in Q1 2026 \u2014 about as much in one quarter as in all of 2025. Rule 05 applies with full force: the stated reasons are power, transformers, permits and local opposition, which is the opposite of demand failing.",
-   "asof": "2026-09-09",
-   "source": "CBRE H1 2026 pipeline data; Data Center Watch (June 2026); cancellation reporting"
+   "value": "record build, cancellations doubling, for local reasons",
+   "detail": "Construction is still at a record \u2014 CBRE 7,481 MW under way in the primary markets, +24.8% in H1. The cancellation half keeps clustering: Uptime Institute counts 26 cancelled giant campuses in H1 2026 against 12 in all of 2025, Data Center Watch 45 US projects worth about $68bn blocked or delayed in Q2 after about $130bn in Q1, and New York stopped taking proposals for large new facilities in July. Rule 05 holds: the stated reasons are local opposition, power and permits, not tenants walking away. Watch, not turning, because construction is rising, not down 15%.",
+   "asof": "2026-10-17",
+   "source": "CBRE H1 2026; Uptime Institute Update 528 (September 2026); Data Center Watch Q2 2026; Heatmap cancellation tracking"
   },
   "C1": {
    "state": 1,
-   "value": "~$220bn issued by August, ~40% of the buildout debt-funded",
-   "detail": "Hyperscalers issued roughly $121bn of bonds in 2025, more than four times the five-year average; by 2026-08-10 the same group had issued about $220bn, and AI accounts for roughly 30% of net US investment-grade issuance. Off the balance sheet: Meta's Beignet joint venture raised $27bn, and Blue Owl and JPMorgan put about $13bn into the SPV owning Oracle's OpenAI site at Abilene. Microsoft added a quieter version in July \u2014 extending building useful lives moves future data-centre leases from finance to operating leases, cutting reported 2026 capex from about $190bn to $175bn with the economic plan unchanged; the commitment leaves the capex line without leaving the company. Still short of the turn: Morgan Stanley's split of the ~$2.9tn to 2028 is about $800bn private credit, $200bn bonds and $150bn securitised \u2014 near 40%, not most.",
-   "asof": "2026-09-09",
-   "source": "BIS Quarterly Review (March 2026); Morgan Stanley buildout financing estimates; Microsoft FY2026 Q4 disclosure"
+   "value": "~$200-225bn of bonds by mid-year, demand cooling",
+   "detail": "Amazon, Alphabet, Meta and Oracle had issued about $194bn of bonds by early July, up 79% on 2025; counting Microsoft's $19.75bn deal of 2026-08-01 and Nvidia the group is near $225bn, and Goldman expects about $250bn for the year and $400bn in 2027. The new signs are on the lender side: Amazon's July 30-year tranche drew the weakest book of the four, and median spreads on their 2-4 year paper widened to 40bp from 30bp. Oracle added a $20bn share sale in its August quarter and says its newest contracts are structured not to need more outside capital. Still short of the turn: bonds plus the known SPVs (Meta's $27bn Beignet, the Abilene vehicle) remain well under half of the buildout.",
+   "asof": "2026-10-17",
+   "source": "Reuters hyperscaler issuance tally (late July 2026); Goldman Sachs issuance forecast; Oracle FY2027 Q1 release; Microsoft bond 2026-08-01"
   },
   "C3": {
    "state": 1,
-   "value": "5-6 years for servers, Microsoft stretches buildings 15 to 25",
-   "detail": "Microsoft extends the useful life of data centres and office buildings from 15 to 25 years with FY2027, on 'our operating history and expected use of these assets'. On servers the group still points in two directions: Amazon shortened a subset from six years to five citing the pace of AI development, booking $920m of accelerated depreciation and a $700m hit to operating income, while Meta extended to 5.5 years and took $2.9bn less depreciation. Critics put $176bn of understated depreciation across 2026-2028 if economic life is nearer three years. The turn is a shortening across the group or a write-down; one filer moving alone is not it.",
-   "asof": "2026-09-09",
-   "source": "10-K and 10-Q useful-life disclosures; Microsoft FY2026 Q4 call; depreciation debate coverage"
+   "value": "no new change; Microsoft's 25-year buildings now in force",
+   "detail": "No filer has changed server lives or written down AI equipment since September. The standing picture: Microsoft's longer life for data centres and office buildings (15 to 25 years) applies from FY2027, which began in July, so its first effect shows in the late-October results. Amazon remains the one company to have shortened (a subset of servers, six to five years), Meta the one to have stretched (5.5 years). The 10-Qs due in late October and early November are the next check.",
+   "asof": "2026-10-17",
+   "source": "10-K and 10-Q useful-life disclosures; Microsoft FY2026 Q4 disclosure"
   },
   "C4": {
-   "state": 0,
-   "value": "record $510bn in H1, structures still clean",
-   "detail": "Global venture funding hit a record $510bn in H1 2026, more than the $440bn of all 2025, and AI took over 70% of Q2 dollars. OpenAI and Anthropic alone account for $217bn, 43% of the half. The half splits $305bn in Q1 and $205bn in Q2 \u2014 a sequential fall, but off a concentration spike rather than a broad retreat, and the turn needs two consecutive falling quarters. Q3 closes on 2026-09-30 and is the first real test. No reporting yet of ratchets, preference stacks or compute credits substituting for cash.",
-   "asof": "2026-09-09",
-   "source": "Crunchbase Q2 and H1 2026 global funding data"
+   "state": 1,
+   "value": "$308bn, $212bn, $159bn: two falls, both from the two labs",
+   "detail": "Global venture funding fell for a second quarter, to $159bn in Q3 from $212bn in Q2 and $308bn in Q1 (Crunchbase), which meets the letter of the turn. Read as the sensor's note asks, it does not meet the substance: Q1 held $188bn in four rounds (OpenAI $122bn, Anthropic $30bn, xAI $20bn, Waymo $16bn), and without OpenAI and Anthropic the quarters run roughly $156bn, $147bn, $159bn \u2014 flat to up. Q3 was +53% year on year, AI took $102bn (64%), and a record 27 companies raised $1bn or more. No reporting of ratchets, preference stacks or down rounds at the large labs. Raised to watch because the headline now falls and the next lab round decides the direction; scored turning only if amounts fall without the mega-round explanation or terms harden.",
+   "asof": "2026-10-17",
+   "source": "Crunchbase News Q3 2026 global funding report (early October 2026); Crunchbase Q1 and H1 2026 data"
   },
   "D1": {
-   "state": 1,
-   "value": "PCs -4.9%, phones -6.7%, one quarter short of the turn",
-   "detail": "Both device markets are now falling in units. PCs shipped 68.2m in Q2 2026, down 4.9% year on year \u2014 the first decline after nine quarters of growth. Smartphones fell 6.7% to 277.5m, the second consecutive year-on-year decline after -4.1% in Q1. Revenue keeps rising as memory costs are passed through: memory is up nearly 300% year on year and is over 65% of the bill of materials at the low end, and IDC does not expect the shortage to ease before early 2028. IDC's full-year 2026 smartphone forecast has been cut from -13.9% to -16.7%. The threshold is more than 5% down for two quarters running: phones cleared 5% only in Q2, PCs only once. One more quarter at this pace turns this sensor.",
-   "asof": "2026-09-09",
-   "source": "IDC quarterly shipment trackers, Q1 and Q2 2026"
+   "state": 2,
+   "value": "phones -6.7% then -20%, PCs -20.1%",
+   "detail": "The turn the September reading expected has come. Smartphones fell 6.7% in Q2 (IDC) and about 20% in Q3 (Counterpoint, preliminary; the lowest third quarter since 2012) \u2014 two quarters beyond -5%. PCs fell 20.1% to 62.7m in Q3 after a revised -3.8% in Q2 (IDC). China alone fell 15.4%, its sixth straight decline. Every source names the same cause: memory and component costs pushing up shelf prices. The caveat for PCs is real \u2014 IDC says buyers stocked up early in the year ahead of price rises, borrowing from H2 \u2014 but the phone decline has no such pull-in behind it, and IDC expects the next few quarters to get worse before they improve. IDC's own global phone figure for Q3 is still due.",
+   "asof": "2026-10-17",
+   "source": "IDC PC tracker Q3 2026 (2026-10-08); IDC China smartphone Q3 2026 (2026-10-13); Counterpoint global smartphone Q3 2026 preliminary; IDC Q2 2026"
   },
   "D4": {
    "state": 0,
-   "value": "budgets still expanding, renewal cliff ahead",
-   "detail": "No reported cancellation wave at the large sellers, and the budget direction is still up: 86% of enterprises plan to raise AI budgets in 2026 against about 2% planning a cut, roughly 40% by 10% or more, after enterprise generative-AI spending tripled from $11.5bn in 2024 to $37bn in 2025. The counterweight is that only 5-8% report measurable at-scale ROI, and Gartner frames 2026 as the year the 2025 contracts come up for renewal and have to justify themselves. That is a forecast, not an observation \u2014 and per the sensor's own note, qualitative evidence scores watch at most.",
-   "asof": "2026-09-09",
-   "source": "Forrester and Gartner 2026 enterprise AI outlooks; vendor results"
+   "value": "AI seats and ARR still expanding",
+   "detail": "The large sellers still report expansion, not cancellation. Salesforce (Q2 FY2027, 2026-08-26) put Agentforce ARR above $1.5bn, up over 240%, and AI plus Data 360 near $3.9bn \u2014 flattered by a wider definition from this quarter. Microsoft 365 Copilot went from 15m paid seats in January to about 30m by the June quarter, with net adds more than doubling. Against that: surveys of mid-market buyers describe 2026 as the year 2024-25 AI commitments meet real usage data, and only a minority report the returns they bought for. That is anecdote and forecast, which the sensor caps at watch, and no seller has reported a cancellation wave.",
+   "asof": "2026-10-17",
+   "source": "Salesforce Q2 FY2027 results; Microsoft FY2026 Q3/Q4 calls; RBC CIO survey and renewal commentary (2026)"
   }
  },
  "errors": []
@@ -3439,8 +3440,8 @@ window.CAPEX_HISTORY = [
    "B3": 1,
    "C1": 1,
    "C3": 1,
-   "C4": 0,
-   "D1": 1,
+   "C4": 1,
+   "D1": 2,
    "D4": 0
   }
  }
