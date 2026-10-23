@@ -5,7 +5,10 @@ Capex Cycle Watch — data fetcher.
 Pulls the automatable sensors from three free, key-less public sources:
 
   SEC EDGAR (data.sec.gov)   capex, operating cash flow, revenue per company
-  FRED      (stlouisfed.org) credit spreads, semiconductor PPI, consumer hardware CPI
+  FRED      (stlouisfed.org) credit spreads, semiconductor PPI, consumer hardware CPI,
+                             and the market around the cycle: weakest-borrower
+                             spreads, volatility, financial conditions, real
+                             yields, the recession signal, equity value vs GDP
   Vast.ai   (console.vast.ai) live GPU rental market: price and depth
 
 Writes data.js (consumed by index.html via <script src>, so the dashboard works
@@ -64,20 +67,45 @@ TAGS_REV = [
     "RevenueFromContractWithCustomerIncludingAssessedTax",
 ]
 
+# key: (FRED id, kind, observations per year). The kind decides what the chart
+# carries: "bp" a spread level in basis points, "level" the value as published,
+# "yoy" the change against a year earlier.
 FRED_SERIES = {
     # High Yield Option-Adjusted Spread — credit stress, daily.
-    "hy_oas": "BAMLH0A0HYM2",
+    "hy_oas": ("BAMLH0A0HYM2", "bp", 252),
     # PPI: semiconductor and related device manufacturing — component price pressure.
-    "semi_ppi": "PCU3344133441",
+    "semi_ppi": ("PCU3344133441", "yoy", 12),
     # CPI: personal computers and peripheral equipment — where the squeeze reaches a household.
-    "pc_cpi": "CUSR0000SEEE01",
+    "pc_cpi": ("CUSR0000SEEE01", "yoy", 12),
     # Industrial production: semiconductors and electronic components — physical capacity.
-    "semi_ip": "IPG3344S",
+    "semi_ip": ("IPG3344S", "yoy", 12),
+    # ---- cluster E, the market around the cycle ----
+    # CCC-and-below spread. The builders that borrow against GPUs sit here; the
+    # broad high-yield index averages them away. In October 2026 it stood at
+    # 1,300bp while the broad index read a calm 327bp.
+    "ccc_oas": ("BAMLH0A3HYC", "bp", 252),
+    # VIX — what insurance against a falling market costs, daily.
+    "vix": ("VIXCLS", "level", 252),
+    # Chicago Fed National Financial Conditions Index, weekly. Zero is average,
+    # positive is tighter than average.
+    "nfci": ("NFCI", "level", 52),
+    # 10-year real yield: what money costs after inflation, and so what a
+    # forecast of income ten years out is worth today.
+    "real10": ("DFII10", "level", 252),
+    # Sahm rule, real-time: the recession signal from unemployment.
+    "sahm": ("SAHMREALTIME", "level", 12),
+    # Context, not scored: market value of corporate equities against GDP.
+    "mktcap": ("NCBEILQ027S", "level", 4),
+    "gdp": ("GDP", "level", 4),
 }
 
 # Current-generation accelerators. Last-generation prices are deliberately excluded:
 # cheap old silicon is the value cascade working, not demand failing (Rule 04).
 GPUS_CURRENT = ["H200", "B200", "H100 SXM"]
+# Below this many listings across all models, a change in offer depth is a
+# handful of hosts coming and going, not supply. The price still reads; the
+# depth does not, and B1 cannot turn on it.
+MIN_OFFERS = 8
 # Quarters of history kept for the six headline numbers. Three years is
 # enough to show where a reading came from without bloating data.js.
 QHIST = 12
@@ -213,6 +241,16 @@ def edgar():
             capex, t_capex = concept(cik, TAGS_CAPEX)
             ocf, _ = concept(cik, TAGS_OCF)
             rev, t_rev = concept(cik, TAGS_REV)
+            # concept() reads a failed request as "tag not used", so one EDGAR
+            # hiccup used to drop a filer's cash flow silently — Alphabet's on
+            # 2026-10-16, leaving A2 a median of four. One slower second try.
+            for _ in range(1):
+                if capex and ocf and rev:
+                    break
+                time.sleep(3)
+                capex, t_capex = (capex, t_capex) if capex else concept(cik, TAGS_CAPEX)
+                ocf = ocf or concept(cik, TAGS_OCF)[0]
+                rev, t_rev = (rev, t_rev) if rev else concept(cik, TAGS_REV)
             time.sleep(0.3)                                  # be polite to EDGAR
         except Exception as e:                               # noqa: BLE001
             rows.append({"ticker": ticker, "name": name, "error": str(e)})
@@ -297,21 +335,22 @@ def at_offset(pts, n):
 
 def fred_all():
     out = {}
-    for key, sid in FRED_SERIES.items():
+    for key, (sid, kind, step) in FRED_SERIES.items():
         try:
             pts = fred(sid)
         except Exception as e:                               # noqa: BLE001
             out[key] = {"error": str(e), "series": sid}
             continue
         latest = pts[-1] if pts else None
-        # Monthly series: 12 observations back is a year. Daily: ~252.
-        step = 252 if key == "hy_oas" else 12
-        half = 126 if key == "hy_oas" else 6
+        # `step` observations back is a year: 252 for daily, 52 weekly, 12 monthly.
+        half, quarter = step // 2, step // 4
         # The chart carries the unit the headline number is quoted in, not the
-        # raw index: the credit spread is read as a level in basis points, the
-        # two price indices as a change against a year earlier.
-        if key == "hy_oas":
+        # raw index: a credit spread is read as a level in basis points, the
+        # price indices as a change against a year earlier.
+        if kind == "bp":
             chart = [{"d": p["d"], "v": round(p["v"] * 100)} for p in pts[-130:]]
+        elif kind == "level":
+            chart = [{"d": p["d"], "v": round(p["v"], 2)} for p in pts[-130:]]
         else:
             chart = []
             for i in range(step, len(pts)):
@@ -324,7 +363,10 @@ def fred_all():
             "latest": latest,
             "yoy": pct(latest["v"], at_offset(pts, step)) if latest else None,
             "chg_6m": pct(latest["v"], at_offset(pts, half)) if latest else None,
-            "abs_6m": (latest["v"] - at_offset(pts, half)) if latest and at_offset(pts, half) else None,
+            "abs_6m": (latest["v"] - at_offset(pts, half)) if latest and at_offset(pts, half) is not None else None,
+            "abs_3m": (latest["v"] - at_offset(pts, quarter)) if latest and at_offset(pts, quarter) is not None else None,
+            # A single day of a daily series is noise; markets are scored on a week.
+            "avg5": round(statistics.mean(p["v"] for p in pts[-5:]), 2) if len(pts) >= 5 else None,
             "spark": [p["v"] for p in pts[-60:]],
             "spark_dates": [p["d"] for p in pts[-60:]],
             "chart": chart,
@@ -520,23 +562,33 @@ def score(companies, f, gpus, hist):
                    "guides": [{"v": 450, "label": "watch above 450bp"},
                               {"v": 600, "label": "turning above 600bp"}]}
 
-    # B1 — the live GPU rental market: price and depth together.
+    # B1 — the live GPU rental market: price and depth together. Read across
+    # every current model that has a month of history, not just the first one
+    # returned: the market is thin enough that a single model with four
+    # listings swung the reading by itself, and whichever model happened to
+    # come back first used to become the "lead".
     if gpus:
-        lead = gpus[0]
-        t30 = gpu_trend(hist, lead["gpu"], 30)
-        if t30 is None:
+        lead = next((g for g in gpus if g["gpu"] == GPUS_CURRENT[0]), gpus[0])
+        trends = [t for t in (gpu_trend(hist, g["gpu"], 30) for g in gpus)
+                  if t and t["price"] is not None and t["offers"] is not None]
+        listed = sum(g["offers"] for g in gpus)
+        if not trends:
             st, detail = None, f"{len(hist)} day(s) of history — a trend needs about a month"
-            val = lead["median"]
         else:
-            p, o = t30["price"], t30["offers"]
+            p = statistics.median(t["price"] for t in trends)
+            o = statistics.median(t["offers"] for t in trends)
+            thin = listed < MIN_OFFERS
             st = 0
-            if p < -25 and o > 0:
+            if p < -25 and o > 0 and not thin:
                 st = 2                                        # cheaper while capacity grows
             elif p < -10:
                 st = 1
-            val = lead["median"]
-            detail = f"{round(p,1)}% price and {round(o,1)}% supply depth over {t30['days']} days"
-        s["B1"] = {"state": st, "value": val, "unit": f"$/hr {lead['gpu']}", "detail": detail}
+            detail = (f"median of {len(trends)} model(s): {round(p,1)}% price and {round(o,1)}% "
+                      f"listings over ~{max(t['days'] for t in trends)} days")
+            if thin:
+                detail += (f". Only {listed} listings in all, too few to read supply depth, "
+                           "so this reading cannot turn on its own")
+        s["B1"] = {"state": st, "value": lead["median"], "unit": f"$/hr {lead['gpu']}", "detail": detail}
 
     # D2 — consumer hardware prices. This index normally falls a few per cent a
     # year through quality adjustment, so flat is already pressure and rising is
@@ -567,7 +619,91 @@ def score(companies, f, gpus, hist):
                    "series_note": "one point per month, against the same month a year earlier",
                    "guides": [{"v": 10, "label": "watch above +10%"}]}
 
+    # ---------------- cluster E: the market around the cycle ----------------
+    # Not part of the cycle stage. The four clusters above ask whether the AI
+    # build is turning; these ask whether the money around it is panicking.
+    # The two come apart: a market can fall hard while the build holds
+    # (October 2026), and a turning build does far more damage when the market
+    # is already strained. Thresholds sit on past episodes, not on this week.
+    # Scored on the day, without Rule 01's month: markets move in days.
+    ccc = f.get("ccc_oas", {})
+    if ccc.get("latest"):
+        lvl = ccc["latest"]["v"] * 100
+        chg = (ccc.get("abs_6m") or 0) * 100
+        st = 2 if (lvl >= 1500 or chg >= 400) else 1 if (lvl >= 1000 or chg >= 150) else 0
+        hy_now = round(hy["latest"]["v"] * 100) if hy.get("latest") else None
+        s["E1"] = {"state": st, "value": round(lvl), "unit": "bp",
+                   "detail": f"US CCC-and-below spread, {'+' if chg >= 0 else ''}{round(chg)}bp over six months"
+                             + (f"; the broad high-yield index in C2 reads {hy_now}bp" if hy_now else ""),
+                   "series": ccc.get("chart", []),
+                   "series_note": "one point per trading day, about six months",
+                   "guides": [{"v": 1000, "label": "watch above 1,000bp, or +150bp in six months"},
+                              {"v": 1500, "label": "turning above 1,500bp, or +400bp in six months"}]}
+
+    vx = f.get("vix", {})
+    if vx.get("avg5") is not None:
+        v5 = vx["avg5"]
+        st = 2 if v5 >= 30 else 1 if v5 >= 20 else 0
+        s["E2"] = {"state": st, "value": v5, "unit": "VIX",
+                   "detail": f"VIX, five-day average; latest close {vx['latest']['v']} on {vx['latest']['d']}",
+                   "series": vx.get("chart", []),
+                   "series_note": "one point per trading day, about six months",
+                   "guides": [{"v": 20, "label": "watch above 20"},
+                              {"v": 30, "label": "turning above 30"}]}
+
+    nf = f.get("nfci", {})
+    if nf.get("latest"):
+        lvl, c3 = nf["latest"]["v"], nf.get("abs_3m") or 0
+        st = 2 if lvl >= 0 else 1 if (lvl >= -0.25 or c3 >= 0.25) else 0
+        s["E3"] = {"state": st, "value": round(lvl, 2), "unit": "NFCI",
+                   "detail": f"Chicago Fed financial conditions, {'+' if c3 >= 0 else ''}{round(c3, 2)} over three months. "
+                             "Zero is average; below it money is easier to get than usual",
+                   "series": nf.get("chart", []),
+                   "series_note": "one point per week, about two and a half years",
+                   "guides": [{"v": -0.25, "label": "watch above -0.25, or +0.25 in three months"},
+                              {"v": 0, "label": "turning above zero: tighter than average"}]}
+
+    ry = f.get("real10", {})
+    if ry.get("latest"):
+        lvl, chg = ry["latest"]["v"], (ry.get("abs_6m") or 0) * 100
+        st = 2 if chg >= 100 else 1 if (chg >= 50 or lvl >= 2.5) else 0
+        s["E4"] = {"state": st, "value": round(lvl, 2), "unit": "% real",
+                   "detail": f"10-year real Treasury yield, {'+' if chg >= 0 else ''}{round(chg)}bp over six months. "
+                             "Income expected years out is worth less today when this rises",
+                   "series": ry.get("chart", []),
+                   "series_note": "one point per trading day, about six months",
+                   "guides": [{"v": 2.5, "label": "watch above 2.5%, or +50bp in six months"}]}
+
+    sh = f.get("sahm", {})
+    if sh.get("latest"):
+        v = sh["latest"]["v"]
+        st = 2 if v >= 0.5 else 1 if v >= 0.3 else 0
+        s["E5"] = {"state": st, "value": round(v, 2), "unit": "Sahm",
+                   "detail": f"Sahm rule, real-time, {sh['latest']['d'][:7]}: rise in the three-month unemployment average over its low of the past year",
+                   "series": sh.get("chart", [])[-60:],
+                   "series_note": "one point per month",
+                   "guides": [{"v": 0.3, "label": "watch at 0.3"},
+                              {"v": 0.5, "label": "turning at 0.5: every recession since 1970 crossed it"}]}
+
     return s
+
+
+def valuation(f):
+    """
+    Context, not scored: the market value of US corporate equities against GDP.
+    Valuation decides how far a fall can go, not when it starts — so it sits
+    beside the board instead of on it.
+    """
+    mc, gd = f.get("mktcap", {}), f.get("gdp", {})
+    if not (mc.get("chart") and gd.get("chart")):
+        return {}
+    g = {p["d"]: p["v"] for p in gd["chart"]}
+    ser = [{"d": p["d"], "v": round(p["v"] / 1000 / g[p["d"]] * 100, 1)}
+           for p in mc["chart"] if g.get(p["d"])]
+    if not ser:
+        return {}
+    peak = max(ser[:-1], key=lambda p: p["v"]) if len(ser) > 1 else ser[-1]
+    return {"latest": ser[-1], "prior_peak": peak, "series": ser[-60:]}
 
 
 # --------------------------------------------------------------------------
@@ -580,42 +716,67 @@ def score(companies, f, gpus, hist):
 CLUSTER_MAP = [
     ("A", "Demand", ["A1", "A2", "A3", "A4"]),
     ("B", "Physical supply", ["B1", "B2", "B3", "B4"]),
-    ("C", "Financing", ["C1", "C2", "C3", "C4"]),
+    # C5 joined on 2026-10-23: vendors financing their own customers is the
+    # one way the build can be paid for that none of C1-C4 sees.
+    ("C", "Financing", ["C1", "C2", "C3", "C4", "C5"]),
     ("D", "The paying end", ["D1", "D2", "D3", "D4"]),
 ]
 STAGE_NAMES = ["Expansion", "Friction", "Mismatch", "Reversal"]
+# The market around the cycle. Scored with the same cluster rule, reported
+# beside the stage and never folded into it: the stage answers whether the
+# AI build is turning, this whether the money around it is panicking.
+MARKET = ("E", "The market around it", ["E1", "E2", "E3", "E4", "E5"])
+MARKET_IDS = set(MARKET[2])
+MARKET_NAMES = ["Calm", "Strained", "Acute"]
 
 
 def confirmed_states(states, hist):
     """
-    Rule 01 — a move counts only once it has held about a month. Each sensor
-    scores at the milder of today's reading and the reading ~30 days ago.
+    Rules 01 and 06 — a move counts only once it has held about a month, in
+    either direction. Until then a sensor keeps scoring at the reading it had
+    before the move. This used to take the milder of today and thirty days
+    ago, which let an easing count at once and broke Rule 06 ("one calm
+    quarter does not clear a red cluster").
+
+    "Held" is read off every saved day, not one sample a month back: a move
+    counts once every reading since it began agrees with today and the first
+    of them is at least 28 days old. Days without a reading are skipped.
+    The market cluster is exempt; it moves in days and is read on the day.
     """
-    out, ready = {}, False
-    past = None
-    for h in reversed(hist[:-1]):
-        if h.get("states") and days(h["date"], TODAY) >= 28:
-            past, ready = h["states"], True
-            break
+    rows = [h for h in hist if h.get("states") and h["date"] != TODAY]
+    ready = bool(rows) and days(rows[0]["date"], TODAY) >= 28
+    out = {}
     for sid, v in states.items():
-        p = (past or {}).get(sid)
-        out[sid] = min(v, p) if isinstance(p, int) else v
+        if sid in MARKET_IDS:
+            out[sid] = v
+            continue
+        since, before = TODAY, None
+        for h in reversed(rows):
+            p = h["states"].get(sid)
+            if p is None:
+                continue
+            if p == v:
+                since = h["date"]
+                continue
+            before = p
+            break
+        out[sid] = v if (before is None or days(since, TODAY) >= 28) else before
     return out, ready
 
 
-def cluster_scores(states):
+def cluster_score(states, ids):
     """Rule 02 — a cluster turns on two reds, or one red plus two ambers."""
-    out = []
-    for _, _, ids in CLUSTER_MAP:
-        vals = [states[i] for i in ids if i in states]
-        if not vals:
-            out.append(None)
-            continue
-        red = sum(1 for v in vals if v == 2)
-        amber = sum(1 for v in vals if v == 1)
-        out.append(2 if (red >= 2 or (red >= 1 and amber >= 2))
-                   else 1 if (red >= 1 or amber >= 2) else 0)
-    return out
+    vals = [states[i] for i in ids if i in states]
+    if not vals:
+        return None
+    red = sum(1 for v in vals if v == 2)
+    amber = sum(1 for v in vals if v == 1)
+    return (2 if (red >= 2 or (red >= 1 and amber >= 2))
+            else 1 if (red >= 1 or amber >= 2) else 0)
+
+
+def cluster_scores(states):
+    return [cluster_score(states, ids) for _, _, ids in CLUSTER_MAP]
 
 
 def stage_from(scores):
@@ -630,7 +791,13 @@ def verdict(states, hist):
     cs = cluster_scores(conf)
     stage, red, amber = stage_from(cs)
     raw_stage, _, _ = stage_from(cluster_scores(states))
+    m = cluster_score(states, MARKET[2])
+    mids = MARKET[2]
     return {
+        "market": {"id": MARKET[0], "name": MARKET[1], "score": m,
+                   "level": MARKET_NAMES[m] if m is not None else None,
+                   "watch": [i for i in mids if states.get(i) == 1],
+                   "turning": [i for i in mids if states.get(i) == 2]},
         "stage": stage,
         "stage_raw": raw_stage,
         "stage_name": STAGE_NAMES[stage],
@@ -648,12 +815,16 @@ def verdict(states, hist):
 # alerts — a board nobody opens is not a watch
 # --------------------------------------------------------------------------
 
-def alerts(states, prev_states, v, prev_stage, manual):
+def alerts(states, prev_states, v, prev_stage, manual, prev_market=None):
     """Everything worth interrupting someone for. Empty list is the normal case."""
     out = []
     if prev_stage is not None and v["stage"] != prev_stage:
         direction = "escalated to" if v["stage"] > prev_stage else "eased back to"
         out.append(f"STAGE {direction} 0{v['stage']+1} {v['stage_name']}")
+    m = v["market"]["score"]
+    if isinstance(prev_market, int) and m is not None and m != prev_market:
+        direction = "rose to" if m > prev_market else "eased to"
+        out.append(f"MARKET stress {direction} {MARKET_NAMES[m]}")
     names = {"0": "calm", "1": "watch", "2": "turning"}
     for sid in sorted(states):
         old, new = prev_states.get(sid), states[sid]
@@ -709,6 +880,9 @@ def main():
         # First pass writes today's GPU prices so the trend used by B1 includes them.
         hist = update_history(gpus, fredd)
     auto = score(companies, fredd, gpus, hist)
+    # Built from the chart series, so before they are dropped below. A rescore
+    # has no charts and carries the last fetch's figure through.
+    valuation_ctx = valuation(fredd) or ((prev.get("context") or {}).get("valuation", {}) if rescore else {})
 
     # The per-quarter arrays behind the filing charts are working material for
     # median_series, not something the page reads — they leave with the medians
@@ -752,6 +926,7 @@ def main():
         prev_row = next((h for h in reversed(hist) if h["date"] != TODAY and h.get("states")), None)
     prev_states = (prev_row or {}).get("states", {})
     prev_stage = (prev_row or {}).get("stage")
+    prev_market = (prev_row or {}).get("market")
 
     if not rescore:
         hist = update_history(gpus, fredd, states)
@@ -759,17 +934,26 @@ def main():
     if hist:
         hist[-1]["states"] = states
         hist[-1]["stage"] = v["stage"]
+        hist[-1]["market"] = v["market"]["score"]
     if not rescore:
         with open(os.path.join(HERE, HISTORY_FILE), "w") as fh:
             json.dump(hist, fh, indent=1)
 
-    fired = alerts(states, prev_states, v, prev_stage, manual)
+    fired = alerts(states, prev_states, v, prev_stage, manual, prev_market)
     with open(os.path.join(HERE, "alert.txt"), "w") as fh:
         fh.write("\n".join(fired))
     if fired:
-        with open(os.path.join(HERE, "alerts.log"), "a") as fh:
+        # A second run on the same day compares against the same yesterday and
+        # fires the same lines again; the log keeps each one once per day.
+        log_path = os.path.join(HERE, "alerts.log")
+        try:
+            seen = set(open(log_path).read().splitlines())
+        except OSError:
+            seen = set()
+        with open(log_path, "a") as fh:
             for line in fired:
-                fh.write(f"{TODAY}  {line}\n")
+                if f"{TODAY}  {line}" not in seen:
+                    fh.write(f"{TODAY}  {line}\n")
 
     # Per-source failures are recorded inside fred/companies. Lift them to the
     # top level so the page's stamp shows a warning instead of rendering an
@@ -781,8 +965,18 @@ def main():
     dead = [c["ticker"] for c in companies if c.get("stale") or c.get("error")]
     if dead:
         errors.append("sec-edgar: no usable filings for " + ", ".join(dead))
+    # A filer with capex but no cash flow or revenue drops out of A2 or D3
+    # without anything saying so. Say so.
+    partial = [f"{c['ticker']} ({', '.join(k for k, f in (('cash flow', 'ocf_ttm'), ('revenue', 'rev_ttm')) if c.get(f) is None)})"
+               for c in companies
+               if not (c.get("stale") or c.get("error")) and (c.get("ocf_ttm") is None or c.get("rev_ttm") is None)]
+    if partial and not rescore:
+        errors.append("sec-edgar: incomplete figures for " + ", ".join(partial))
     if not gpus:
         errors.append("vast.ai: no GPU offers returned")
+    elif len(gpus) < len(GPUS_CURRENT) and not rescore:
+        missing = [g for g in GPUS_CURRENT if g not in {x["gpu"] for x in gpus}]
+        errors.append(f"vast.ai: no offers for {', '.join(missing)} — B1 reads the remaining models")
     if not auto:
         errors.append("NO AUTOMATIC SENSORS — the board is running on manual "
                       "assessments alone and must not be read as a verdict")
@@ -806,6 +1000,7 @@ def main():
         "context": {
             "semi_ip": fredd.get("semi_ip", {}),
             "gpu_all": gpus,
+            "valuation": valuation_ctx,
         },
         "manual": manual,
         "errors": errors,
@@ -823,6 +1018,7 @@ def main():
         fh.write(";\n")
 
     print(f"[{payload['generated']}]{' rescored ·' if rescore else ''} stage 0{v['stage'] + 1} {v['stage_name']} · "
+          f"market {v['market']['level'] or '—'} · "
           f"{len(auto)} automatic sensors, {len(companies)} filers, "
           f"{len(gpus)} GPU feeds, {len(errors)} errors"
           + (f" · {len(fired)} ALERT(S): " + "; ".join(fired) if fired else ""))

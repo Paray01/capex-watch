@@ -55,5 +55,12 @@
   "detail": "The large sellers still report expansion, not cancellation. Salesforce (Q2 FY2027, 2026-08-26) put Agentforce ARR above $1.5bn, up over 240%, and AI plus Data 360 near $3.9bn — flattered by a wider definition from this quarter. Microsoft 365 Copilot went from 15m paid seats in January to about 30m by the June quarter, with net adds more than doubling. Against that: surveys of mid-market buyers describe 2026 as the year 2024-25 AI commitments meet real usage data, and only a minority report the returns they bought for. That is anecdote and forecast, which the sensor caps at watch, and no seller has reported a cancellation wave.",
   "asof": "2026-10-17",
   "source": "Salesforce Q2 FY2027 results; Microsoft FY2026 Q3/Q4 calls; RBC CIO survey and renewal commentary (2026)"
+ },
+ "C5": {
+  "state": 1,
+  "value": "vendors fund and guarantee their own buyers",
+  "detail": "The chip sellers have become lenders to the people who buy their chips. Nvidia is putting about $30bn into OpenAI and guaranteeing up to $105bn for an OpenAI-leased campus in Ohio (figures differ between reports), and in August set up a platform with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to raise more than $500bn for chip buyers, offering residual-value support of up to 25% per deal. AMD effectively guarantees a $300m Goldman loan to Crusoe that is secured on AMD chips. GPU-backed loans are now routine (CoreWeave $8.5bn in March, secured on chips plus a Meta contract). The buyer at the centre runs about $50bn of annual revenue against compute plans reported at $600bn to 2030, cut from about $1.4tn. Watch, not turning: no guarantee has been called and no vendor-financed buyer has missed a payment. The cut in OpenAI's plan is the thing to follow; a renegotiated contract with a vendor would be the turn.",
+  "asof": "2026-10-23",
+  "source": "Yahoo Finance and The Conversation on Nvidia's OpenAI and Ohio commitments (Aug-Oct 2026); Nvidia financing platform announcement (August 2026); DCD on AMD and Crusoe; Bloomberg Law on CoreWeave's GPU loan; DCD on OpenAI's revised compute plan"
  }
 }

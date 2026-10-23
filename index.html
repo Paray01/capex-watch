@@ -384,7 +384,7 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
     <nav class="navlinks">
       <a href="#numbers">Numbers</a>
       <a href="#gap">Main number</a>
-      <a href="#board">All 16</a>
+      <a href="#board">All 22</a>
       <a href="#how">Method</a>
       <a href="#words">Glossary</a>
     </nav>
@@ -408,23 +408,23 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
 
 <section id="numbers">
   <p class="eyebrow">The short version</p>
-  <h2>Six numbers, and what each one means</h2>
+  <h2>Seven numbers, and what each one means</h2>
   <p class="intro">Everything on this page comes back to these. They update by themselves twice a day, straight from official filings and live markets. <b>Tap any number to see how it got there</b> — the same series the reading is scored from, with its thresholds drawn in.</p>
   <div class="tiles" id="tiles"></div>
 
   <p class="eyebrow" style="margin-top:44px">Next</p>
   <h2>What would have to change</h2>
-  <p class="intro">Worked out from the same rule the verdict uses, not written by hand. A group turns red when two of its four readings turn, or one turns while two others are on watch. The stage above only rises when <b>two different groups</b> are red at once.</p>
+  <p class="intro">Worked out from the same rule the verdict uses, not written by hand. A group turns red when two of its readings turn, or one turns while two others are on watch. The stage above only rises when <b>two different groups</b> are red at once.</p>
   <div class="nextcard"><ul id="nextSteps"></ul></div>
 </section>
 
 <section id="map">
   <p class="eyebrow">How it connects</p>
   <h2>The loop, live</h2>
-  <p class="intro">These are not sixteen separate measurements. They form a circuit: spending pushes chip prices up, chip prices reach shop prices, dearer devices sell less, weaker income makes the spending harder to justify — and the spending falls. Every arrow is a claim about which way influence runs. <b>Drag a bubble, hover for what it pushes.</b></p>
+  <p class="intro">These are not twenty-two separate measurements. They form a circuit: spending pushes chip prices up, chip prices reach shop prices, dearer devices sell less, weaker income makes the spending harder to justify — and the spending falls. Every arrow is a claim about which way influence runs. <b>Drag a bubble, hover for what it pushes.</b></p>
   <div class="mapwrap">
     <canvas class="mapcanvas" id="mapCanvas" role="img"
-      aria-label="Network of the sixteen readings, arranged in four groups and joined by arrows showing which one influences which."></canvas>
+      aria-label="Network of the twenty-two readings, arranged in four groups around the market at the centre and joined by arrows showing which one influences which."></canvas>
     <div class="maptools">
       <button type="button" class="mapbtn" id="mapFlow" aria-pressed="true">Flow</button>
       <button type="button" class="mapbtn" id="mapShake">Shake</button>
@@ -453,8 +453,8 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
 
 <section id="board">
   <p class="eyebrow">The detail</p>
-  <h2>All sixteen readings</h2>
-  <p class="intro">Tap any row to see what it measures, the exact numbers that decide its colour, and how it can mislead. Eight update automatically; eight are read by a person and show when they were last checked.</p>
+  <h2>All twenty-two readings</h2>
+  <p class="intro">Tap any row to see what it measures, the exact numbers that decide its colour, and how it can mislead. Thirteen update automatically; nine are read by a person and show when they were last checked. The fifth group, the market around the cycle, is shown last and never counts towards the stage.</p>
   <div id="context"></div>
   <div class="controls">
     <div class="segmented" role="group" aria-label="Filter readings">
@@ -472,12 +472,13 @@ footer code{font-family:var(--mono);font-size:12.5px;background:var(--line-soft)
 <section id="how">
   <p class="eyebrow">Method</p>
   <h2>How the verdict is worked out</h2>
-  <p class="intro">Four rules, so that one odd reading never sets off an alarm.</p>
+  <p class="intro">Five rules, so that one odd reading never sets off an alarm, and one calm one never clears it.</p>
   <ol class="steps">
-    <li><b>A group counts, not a single reading.</b> A group turns red when two of its four readings are turning, or one is turning and two are on watch.</li>
+    <li><b>A group counts, not a single reading.</b> A group turns red when two of its readings are turning, or one is turning and two are on watch.</li>
     <li><b>The stage rises only when two different groups turn red.</b> Chip prices, factory output and delivery times all measure the same shortage. Moving together, they are one piece of news, not three. Two separate groups moving is two pieces of news.</li>
-    <li><b>A change must last about a month.</b> Every reading is saved daily, and each one is scored at the milder of today's value and the value thirty days ago. A single strange week changes nothing.</li>
+    <li><b>A change must last about a month, in either direction.</b> Every reading is saved daily. A move counts once every saved reading since it began agrees with today and the first of them is a month old; until then the reading keeps scoring at its earlier value. A single strange week changes nothing, and neither does a single calm one.</li>
     <li><b>Devices sold, not money taken.</b> If prices rise 20% while sales fall 20%, revenue looks unchanged though a fifth of the market has gone. Anything about consumers here is counted in devices.</li>
+    <li><b>The market around it is reported, never counted.</b> Five readings of the weakest borrowers' credit, fear, money conditions, real interest rates and the recession signal say whether a fall would land on a calm market or a nervous one. A market can fall hard while the build holds; that is a repricing. It becomes a crash when market stress and a turning cycle meet. So these sit beside the stage, are read on the day rather than after a month, and never raise it.</li>
   </ol>
   <p class="intro" style="margin-top:26px">Two judgements no program can make:</p>
   <ul class="list">
@@ -611,7 +612,13 @@ const CLUSTERS = [
    watch:"Amount raised in money, not the number of deals, plus the terms: plain shares, or arrangements that protect investors if things go badly.",
    calm:"Amounts growing, terms straightforward.",watchT:"Flat amounts with more protective terms appearing.",turn:"Two quarters of falling amounts, or large companies raising at a lower valuation than before.",
    notes:[["Careful","When money concentrates into fewer, larger deals, counting deals looks like a collapse. Count the money."]],
-   src:"Venture funding reports — read by a person"}]},
+   src:"Venture funding reports — read by a person"},
+  {id:"C5",title:"Sellers lending to their own buyers",
+   plain:"When the companies that sell AI chips start financing the companies that buy them, demand that looks real can rest on the seller's own money. If the buyer stumbles, the seller loses the sale and the loan at once.",
+   watch:"Vendor investments in and guarantees for their customers, chips used as collateral for loans, and how far the largest buyers' commitments run ahead of their revenue.",
+   calm:"Buyers pay from their own cash or from independent capital.",watchT:"Vendors investing in, lending to or guaranteeing their own buyers at scale.",turn:"A vendor guarantee is called, or a vendor-financed buyer misses payments or renegotiates.",
+   notes:[["Why it was added","The other four money readings see bonds, credit costs, accounting and venture rounds. None of them sees a chip seller paying for its own demand, which by 2026 had become one of the largest sources of AI financing."],["Careful","Vendor financing is ordinary in many industries. It matters here because it is concentrated on a few buyers whose commitments run far ahead of their revenue."]],
+   src:"Company announcements and reporting — read by a person"}]},
 
  {id:"D",name:"Where the money comes back",q:"Is anyone paying for all this?",tag:"where it is actually decided",sensors:[
   {id:"D1",title:"Devices people actually buy",
@@ -637,7 +644,39 @@ const CLUSTERS = [
    watch:"Whether existing customers renew and expand, and whether trials turn into paid use, at the large AI software sellers.",
    calm:"Customers expanding their use.",watchT:"Flat usage, trials not converting, discounts needed to renew.",turn:"Reported cancellations at two or more large sellers.",
    notes:[["Careful","The hardest thing here to see from outside. Anecdotes count as watch at most, never as turning on their own."]],
-   src:"Vendor results — read by a person"}]}
+   src:"Vendor results — read by a person"}]},
+
+ {id:"E",name:"The market around it",q:"Could the money panic anyway?",tag:"reported beside the stage, never counted in it",market:true,sensors:[
+  {id:"E1",title:"What the weakest borrowers pay",
+   plain:"The extra interest charged to the riskiest companies, rated CCC and below. The AI builders that borrow against their chips sit in or near this group, and it cracks before the wider market does.",
+   watch:"The CCC-and-below spread from the same index family as C2, its level and its change over six months. C2 averages every high-yield borrower together; this is the tail.",
+   calm:"Below 1,000bp and not rising fast.",watchT:"Above 1,000bp, or 150bp higher than six months ago.",turn:"Above 1,500bp, or 400bp higher than six months ago.",
+   notes:[["Why it was added","In October 2026 this stood at 1,300bp, higher than in the April 2025 tariff crash, while the broad index in C2 still read a calm 327bp. The stress was in the tail, where the board could not see it."],["Limit","The free series only reaches back three years, so the thresholds lean on published history (about 1,250bp in mid-2022, near 2,000bp in March 2020) rather than on data drawn here."]],
+   src:"ICE BofA CCC and lower US high-yield spread, via FRED"},
+  {id:"E2",title:"How nervous the stock market is",
+   plain:"The VIX: what investors pay to insure against the market falling over the next month. It jumps in a panic and stays low otherwise.",
+   watch:"The five-day average of the daily close, so one bad afternoon does not count.",
+   calm:"Below 20.",watchT:"20 to 30: nervous.",turn:"Above 30: fear, the level of a crash or a sharp correction.",
+   notes:[["Careful","The VIX measures fear, not its cause. It reached 52 in April 2025 and 38 in August 2024 without either becoming a lasting downturn. It means something only together with E1 and E3."]],
+   src:"Cboe VIX, via FRED"},
+  {id:"E3",title:"How easy money is to get",
+   plain:"One number that sums up over a hundred measures of credit, borrowing and markets. Below zero, money is easier to get than usual; above zero, harder.",
+   watch:"The Chicago Fed's National Financial Conditions Index, weekly: its level and its change over three months.",
+   calm:"Below -0.25: easier than usual.",watchT:"Above -0.25, or 0.25 tighter than three months ago.",turn:"Above zero: tighter than average.",
+   notes:[["Why it matters","A build paid for with borrowed money stops when borrowing gets hard, whatever the demand. This is the broad version of that question."]],
+   src:"Chicago Fed NFCI, via FRED"},
+  {id:"E4",title:"What money costs after inflation",
+   plain:"The interest on a ten-year US government bond minus expected inflation. When it rises, income expected years from now is worth less today, so an investment that pays off in 2030 looks worse.",
+   watch:"The 10-year real yield and its change over six months.",
+   calm:"Below 2.5% and up less than half a point in six months.",watchT:"Above 2.5%, or up half a point in six months.",turn:"Up a full point or more in six months: a rate shock, as in 2022.",
+   notes:[["Why it matters","Nearly all of the AI build is a bet on income years away. The higher this goes, the less that income is worth now, which is why rising rates hit AI shares first and hardest."]],
+   src:"10-year inflation-indexed Treasury yield, via FRED"},
+  {id:"E5",title:"Whether a recession is starting",
+   plain:"A rule of thumb that has flagged every US recession since 1970: the unemployment rate rising half a point above its low of the past year.",
+   watch:"The Sahm rule in its real-time version, monthly.",
+   calm:"Below 0.3.",watchT:"0.3 to 0.5: unemployment drifting up.",turn:"0.5 or above: the recession signal.",
+   notes:[["Why it matters","In a recession households buy fewer devices and companies cut software budgets: the paying end of the cycle. It is also what turns a market fall into a long one."],["Limit","Slow by design, and it gave a false signal in 2024."]],
+   src:"Sahm rule, real-time, via FRED"}]}
 ];
 
 const D = window.CAPEX_DATA || {auto:{},manual:{},companies:[],fred:{},gpus:[],errors:["data.js not found — run python3 fetch.py"],verdict:null};
@@ -662,6 +701,8 @@ const STAGES=[
   kick:"The downturn is happening"}
 ];
 const LBL=["Calm","Watch","Turning"];
+const MKT_WORD={E1:"the weakest borrowers' credit",E2:"stock-market fear",E3:"financial conditions",
+  E4:"real interest rates",E5:"the recession signal"};
 const el=id=>document.getElementById(id);
 const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
 const today=()=>new Date().toISOString().slice(0,10);
@@ -688,7 +729,7 @@ function spark(vals,w,h,color){
       stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>
     <circle cx="${w}" cy="${(h-((last-min)/r)*h).toFixed(1)}" r="2.4" fill="${color}"/></svg>`;
 }
-const sparkFor={B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas"};
+const sparkFor={B4:"semi_ppi",D2:"pc_cpi",C2:"hy_oas",E1:"ccc_oas",E2:"vix",E3:"nfci",E4:"real10"};
 
 /* One place decides how a value reads in the collapsed row.
    The unit strings come from fetch.py: "%", "% YoY", "% QoQ", "pp", "bp",
@@ -699,9 +740,13 @@ function headVal(l){
   const n=Number(l.value.toFixed(2)), u=l.unit||"";
   if(u.startsWith("$")) return {text:"$"+n.toFixed(2),word:false};
   // "% YoY" / "% QoQ" are changes and take a sign; a bare "%" is a share and does not.
+  if(u==="% real")      return {text:n.toFixed(2)+"%",word:false};
   if(u.startsWith("%")) return {text:(/YoY|QoQ/.test(u)&&n>0?"+":"")+n+"%",word:false};
   if(u==="pp")          return {text:(n>0?"+":"")+n+"pts",word:false};
   if(u==="bp")          return {text:Math.round(n)+"bp",word:false};
+  if(u==="VIX")         return {text:n.toFixed(1),word:false};
+  if(u==="NFCI")        return {text:(n>0?"+":"")+n.toFixed(2),word:false};
+  if(u==="Sahm")        return {text:n.toFixed(2),word:false};
   return {text:String(n),word:false};
 }
 
@@ -718,11 +763,32 @@ function renderHero(){
   const conf = V ? {stage:V.stage, scores:V.clusters.map(c=>c.score), red:V.red, amber:V.amber}
                  : {stage:0, scores:[null,null,null,null], red:0, amber:0};
   const st=STAGES[conf.stage];
-  const col=conf.stage===0?"var(--calm)":conf.stage===1?"var(--watch)":"var(--turn)";
+  const M=V&&V.market&&typeof V.market.score==="number"?V.market.score:null;
+  const col=(conf.stage===0&&!M)?"var(--calm)":(conf.stage<=1&&M!==2)?"var(--watch)":"var(--turn)";
 
-  el("answer").textContent=st.answer;
-  el("answerSub").innerHTML=st.sub;
-  el("heroKicker").textContent=`Stage ${st.n} of 4 · ${st.name} · ${st.kick}`;
+  /* The stage says whether the AI build is turning; the market reading says
+     whether the money around it is panicking. A crash needs the second, and
+     is worst when both meet, so the headline has to say both. */
+  let answer=st.answer, sub=st.sub, kick=st.kick;
+  if(M>=1){
+    const ids=[...(V.market.turning||[]),...(V.market.watch||[])];
+    const what=ids.map(id=>MKT_WORD[id]||id);
+    const list=what.length>1?what.slice(0,-1).join(", ")+" and "+what[what.length-1]:what.join("");
+    if(conf.stage<=1){
+      answer = M===2 ? "The cycle holds — the market around it does not."
+                     : "The cycle holds — the market around it is strained.";
+      sub = `The AI build itself has not turned${conf.stage===1?", though its costs are reaching ordinary buyers":""}. `+
+        `The money around it is under strain: <b>${esc(list)}</b>. `+
+        `A market can fall hard while the build holds; that is a repricing, and it usually passes. `+
+        `<b>It becomes a crash when the stress spreads from the weakest borrowers to the wider market, or when the cycle turns as well.</b>`;
+      kick = M===2 ? "Market stress acute" : "Market under strain";
+    } else {
+      sub += ` <b>The market around it is ${M===2?"in acute stress":"strained"} as well</b> (${esc(list)}), which makes this turn more dangerous.`;
+    }
+  }
+  el("answer").textContent=answer;
+  el("answerSub").innerHTML=sub;
+  el("heroKicker").textContent=`Stage ${st.n} of 4 · ${st.name} · ${kick}`;
   el("heroDot").style.background=col;
   el("brandDot").style.background=col;
 
@@ -735,8 +801,9 @@ function renderHero(){
     `<span class="${i===conf.stage?"on":""}">${s.n}. ${s.name}</span>`).join("");
 
   el("pills").innerHTML=CLUSTERS.map((c,i)=>{
-    const v=conf.scores[i];
-    const txt=v===2?"Turned":v===1?"Some strain":v===0?"Fine":"No reading";
+    const v=c.market?M:conf.scores[i];
+    const txt=c.market?(v===2?"Acute · not in the stage":v===1?"Strained · not in the stage":v===0?"Calm · not in the stage":"No reading")
+                      :(v===2?"Turned":v===1?"Some strain":v===0?"Fine":"No reading");
     return `<div class="pillcard"><span class="dot" style="background:${stateColor(v)}"></span>
       <span><span class="n">${c.name}</span><span class="s">${txt}</span></span></div>`;
   }).join("");
@@ -776,7 +843,10 @@ const TILES=[
    "This is why devices get more expensive, a few months later."],
   ["C2", a=>Math.round(a.value)+"bp",
    "Lenders charge riskier companies this much extra interest.",
-   "Under 450bp means they see no danger — and they usually worry before share prices fall."]
+   "Under 450bp means they see no danger — and they usually worry before share prices fall."],
+  ["E1", a=>Math.round(a.value)+"bp",
+   "The riskiest borrowers pay this much extra interest.",
+   "The tail of the credit market, where AI builders on borrowed money sit. It cracks before the average does."]
 ];
 
 function renderTiles(){
@@ -807,6 +877,10 @@ const monthYear=d=>{const p=String(d).split("-"); return `${MONTHS[+p[1]-1]} ${p
 function axisVal(v,u,exact){
   const n=x=>exact?Number(x.toFixed(1)):Math.round(x);
   if(u==="bp") return Math.round(v)+"bp";
+  if(u==="VIX") return String(exact?Number(v.toFixed(1)):Math.round(v));
+  if(u==="NFCI") return (v>0?"+":"")+v.toFixed(2);
+  if(u==="Sahm") return v.toFixed(2);
+  if(u==="% real") return v.toFixed(exact?2:1)+"%";
   if(u==="pp") return (v>0?"+":"")+n(v)+(exact?"pts":"pp");
   if(u==="%")  return n(v)+"%";
   return (v>0?"+":"")+n(v)+"%";
@@ -932,6 +1006,21 @@ function renderNext(){
   if(!V){ el("nextSteps").innerHTML="<li>No reading available.</li>"; return; }
   const out=[];
   CLUSTERS.forEach((c,i)=>{
+    if(c.market){
+      const M=V.market||{};
+      let red=0,amber=0;
+      c.sensors.forEach(s=>{const v=curState(s.id); if(v===2)red++; else if(v===1)amber++;});
+      const need = M.score===2 ? "it is acute now"
+        : (red>=1&&amber>=1) ? "acute once one more reading moves to watch or turning"
+        : amber>=2 ? "acute once one of these turns"
+        : "strained once two readings move to watch";
+      const on=[...(M.turning||[]),...(M.watch||[])];
+      out.push(`<li><span class="tagdot" style="background:${stateColor(M.score)}"></span>
+        <span><b>${c.name}</b>: ${M.level?M.level.toLowerCase():"no reading"}, ${need}.`+
+        (on.length?` On watch or turning: ${on.join(", ")}.`:"")+
+        ` It never raises the stage; it says whether a fall would land on a calm market or a nervous one.</span></li>`);
+      return;
+    }
     const score=V.clusters[i].score;
     if(score===2){
       out.push(`<li><span class="tagdot" style="background:var(--turn)"></span>
@@ -993,6 +1082,14 @@ function renderContext(){
       <span class="lab">AI chips available to rent right now</span>
       <span class="why">${gall.map(g=>`${esc(g.gpu)} at $${g.median.toFixed(2)}/hr, ${g.offers} free`).join(" · ")}. How many are available matters as much as the price: cheaper with fewer machines means scarcity easing, cheaper with more means too many were built.</span></div>`;
   }
+  const va=(D.context&&D.context.valuation)||null;
+  if(va&&va.latest&&va.prior_peak){
+    const above=va.latest.v>va.prior_peak.v;
+    out+=`<div class="tile"><span class="fig f${above?1:0}">${Math.round(va.latest.v)}%</span>
+      <span class="lab">US stock market value against the size of the economy, ${esc(va.latest.d.slice(0,7))}</span>
+      ${spark((va.series||[]).map(p=>p.v),150,30,"var(--accent)")}
+      <span class="why">Not scored. ${above?"A record: the":"The"} previous high was ${Math.round(va.prior_peak.v)}% in ${esc(va.prior_peak.d.slice(0,4))}. Valuation decides how far a fall can go, not when it starts, which is why it sits beside the board and not on it. Quarterly and about three months behind.</span></div>`;
+  }
   el("context").innerHTML = out ? `<div class="tiles" style="margin-bottom:26px">${out}</div>` : "";
 }
 
@@ -1000,7 +1097,7 @@ function renderContext(){
 function renderBoard(){
   el("groups").innerHTML=CLUSTERS.map(c=>`
     <div class="group" data-group="${c.id}">
-      <div class="grouphead"><h3>${c.name}</h3><span class="q">${c.q}</span></div>
+      <div class="grouphead"><h3>${c.name}</h3><span class="q">${c.q}${c.market?" · "+c.tag:""}</span></div>
       <div class="cards">
       ${c.sensors.map(s=>{
         const l=live(s.id), st=curState(s.id), cf=confirmedState(s.id);
@@ -1067,7 +1164,7 @@ function applyFilter(){
   });
   el("countNote").textContent = filter==="all"
     ? `${shown} readings`
-    : `${shown} of 16 shown`;
+    : `${shown} of ${document.querySelectorAll(".card").length} shown`;
 }
 document.querySelectorAll(".segmented button").forEach(b=>{
   b.addEventListener("click",()=>{
@@ -1119,11 +1216,14 @@ const MAP_SHORT={
   A1:"Spending growth", A2:"Funded by cash", A3:"Nvidia sales",  A4:"Their language",
   B1:"Chip rental",     B2:"Empty space",    B3:"Construction",  B4:"Chip prices",
   C1:"Borrowed",        C2:"Credit cost",    C3:"Asset life",    C4:"Startup funding",
-  D1:"Devices sold",    D2:"Shop prices",    D3:"Income gap",    D4:"AI renewals"
+  D1:"Devices sold",    D2:"Shop prices",    D3:"Income gap",    D4:"AI renewals",
+  C5:"Vendor money",
+  E1:"Weakest credit",  E2:"Fear gauge",     E3:"Money conditions", E4:"Real rates", E5:"Recession"
 };
 /* Relative size: how central a reading is to the argument. */
 const MAP_WEIGHT={A1:1.35,A2:1.15,A3:1,A4:.8,B1:1.05,B2:.8,B3:.9,B4:1.15,
-                  C1:.95,C2:1.05,C3:.8,C4:.85,D1:.95,D2:1.1,D3:1.4,D4:.8};
+                  C1:.95,C2:1.05,C3:.8,C4:.85,C5:.95,D1:.95,D2:1.1,D3:1.4,D4:.8,
+                  E1:1.05,E2:.8,E3:.85,E4:.95,E5:.85};
 
 const MAP_EDGES=[
   ["A4","A1","Cautious wording comes about two quarters before the spending itself changes."],
@@ -1145,7 +1245,16 @@ const MAP_EDGES=[
   ["D4","D3","Whether companies keep paying for AI is the income side of the gap."],
   ["D1","D3","Fewer devices sold is less demand flowing back up the chain."],
   ["D3","A2","If income lags, more of the spending has to come from somewhere else."],
-  ["D3","A1","A gap that stays wide is what eventually forces the spending down."]
+  ["D3","A1","A gap that stays wide is what eventually forces the spending down."],
+  ["C5","A3","Money the chip seller lends its buyers comes back as the seller's own sales."],
+  ["C5","C1","Vendor loans and guarantees are borrowing by another name."],
+  ["C1","E1","The most indebted builders are the borrowers this spread prices."],
+  ["E1","C2","Trouble at the weakest borrowers spreads to the wider credit market."],
+  ["E4","D3","Higher real rates shrink what income years from now is worth today."],
+  ["E4","C1","Dearer money makes building on borrowed money harder."],
+  ["E3","C4","When money tightens, startup funding goes first."],
+  ["E2","E3","Fear in shares tightens the conditions everyone borrows on."],
+  ["E5","D1","In a recession households buy fewer devices."]
 ];
 
 function initMap(){
@@ -1192,6 +1301,8 @@ function initMap(){
     ctx.setTransform(dpr,0,0,dpr,0,0);
     const rx=Math.min(W*0.30,290), ry=Math.min(H*0.30,190);
     CL.forEach(c=>{ anchors[c.id]={x:W/2+Math.cos(c.a)*rx, y:H/2+Math.sin(c.a)*ry}; });
+    /* the market sits in the middle of the loop: it touches every part of it */
+    anchors.E={x:W/2, y:H/2};
     if(reset){
       nodes.forEach((n,i)=>{
         const a=anchors[n.cluster];
