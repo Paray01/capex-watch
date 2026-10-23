@@ -46,68 +46,65 @@ window.CAPEX_DATA = {
    "D4": 0
   },
   "confirmation_ready": true,
-  "history_days": 21
+  "history_days": 22
  },
- "alerts": [
-  "C4 worsened: calm -> watch",
-  "D1 worsened: watch -> turning"
- ],
- "generated": "2026-10-16 23:57 UTC",
- "generated_date": "2026-10-16",
+ "alerts": [],
+ "generated": "2026-10-23 00:56 UTC",
+ "generated_date": "2026-10-23",
  "auto": {
   "A2": {
    "state": 1,
-   "value": 87.9,
+   "value": 78.5,
    "unit": "%",
-   "detail": "median of 4 hyperscalers, trailing twelve months",
+   "detail": "median of 5 hyperscalers, trailing twelve months",
    "series": [
     {
-     "d": "2023-11-30",
-     "v": 41.7
+     "d": "2023-12-31",
+     "v": 38.0
     },
     {
-     "d": "2024-02-29",
-     "v": 36.2
+     "d": "2024-03-31",
+     "v": 34.3
     },
     {
-     "d": "2024-05-31",
-     "v": 36.3
+     "d": "2024-06-30",
+     "v": 36.5
     },
     {
-     "d": "2024-08-31",
-     "v": 39.3
+     "d": "2024-09-30",
+     "v": 41.1
     },
     {
-     "d": "2024-11-30",
-     "v": 46.7
+     "d": "2024-12-31",
+     "v": 46.9
     },
     {
-     "d": "2025-02-28",
-     "v": 57.9
+     "d": "2025-03-31",
+     "v": 45.6
     },
     {
-     "d": "2025-05-31",
-     "v": 64.3
+     "d": "2025-06-30",
+     "v": 51.0
     },
     {
-     "d": "2025-08-31",
-     "v": 69.9
+     "d": "2025-09-30",
+     "v": 58.3
     },
     {
-     "d": "2025-11-30",
-     "v": 75.1
+     "d": "2025-12-31",
+     "v": 60.2
     },
     {
-     "d": "2026-02-28",
-     "v": 77.3
+     "d": "2026-03-31",
+     "v": 61.1
     },
     {
-     "d": "2026-05-31",
-     "v": 81.4
+     "d": "2026-06-30",
+     "v": 68.6
     },
     {
-     "d": "2026-08-31",
-     "v": 87.9
+     "d": "2026-09-30",
+     "v": 78.5
     }
    ],
    "series_note": "one point per quarter, each a trailing twelve months, median of the five buyers",
@@ -129,51 +126,51 @@ window.CAPEX_DATA = {
    "detail": "median realised capex growth, trailing twelve months",
    "series": [
     {
-     "d": "2023-11-30",
-     "v": 1.7
+     "d": "2023-12-31",
+     "v": -4.8
     },
     {
-     "d": "2024-02-29",
-     "v": -13.3
+     "d": "2024-03-31",
+     "v": -17.2
     },
     {
-     "d": "2024-05-31",
-     "v": -15.0
+     "d": "2024-06-30",
+     "v": -7.9
     },
     {
-     "d": "2024-08-31",
-     "v": 1.7
+     "d": "2024-09-30",
+     "v": 7.7
     },
     {
-     "d": "2024-11-30",
+     "d": "2024-12-31",
      "v": 54.9
     },
     {
-     "d": "2025-02-28",
-     "v": 57.8
+     "d": "2025-03-31",
+     "v": 62.9
     },
     {
-     "d": "2025-05-31",
-     "v": 64.5
+     "d": "2025-06-30",
+     "v": 74.2
     },
     {
-     "d": "2025-08-31",
+     "d": "2025-09-30",
      "v": 80.6
     },
     {
-     "d": "2025-11-30",
+     "d": "2025-12-31",
      "v": 72.2
     },
     {
-     "d": "2026-02-28",
-     "v": 74.1
-    },
-    {
-     "d": "2026-05-31",
+     "d": "2026-03-31",
      "v": 73.0
     },
     {
-     "d": "2026-08-31",
+     "d": "2026-06-30",
+     "v": 71.2
+    },
+    {
+     "d": "2026-09-30",
      "v": 79.6
     }
    ],
@@ -199,54 +196,54 @@ window.CAPEX_DATA = {
    "state": 1,
    "value": 61.8,
    "unit": "pp",
-   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 48.0pp, 52.5pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
+   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 48.0pp, 46.8pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
    "series": [
     {
-     "d": "2023-11-30",
-     "v": -8.2
+     "d": "2023-12-31",
+     "v": -24.2
     },
     {
-     "d": "2024-02-29",
+     "d": "2024-03-31",
      "v": -29.0
     },
     {
-     "d": "2024-05-31",
+     "d": "2024-06-30",
      "v": -27.1
     },
     {
-     "d": "2024-08-31",
+     "d": "2024-09-30",
      "v": -10.6
     },
     {
-     "d": "2024-11-30",
-     "v": 15.5
+     "d": "2024-12-31",
+     "v": 15.8
     },
     {
-     "d": "2025-02-28",
-     "v": 42.8
-    },
-    {
-     "d": "2025-05-31",
+     "d": "2025-03-31",
      "v": 45.1
     },
     {
-     "d": "2025-08-31",
+     "d": "2025-06-30",
      "v": 62.6
     },
     {
-     "d": "2025-11-30",
+     "d": "2025-09-30",
+     "v": 69.7
+    },
+    {
+     "d": "2025-12-31",
      "v": 60.7
     },
     {
-     "d": "2026-02-28",
-     "v": 52.5
+     "d": "2026-03-31",
+     "v": 46.8
     },
     {
-     "d": "2026-05-31",
+     "d": "2026-06-30",
      "v": 48.0
     },
     {
-     "d": "2026-08-31",
+     "d": "2026-09-30",
      "v": 61.8
     }
    ],
@@ -264,26 +261,10 @@ window.CAPEX_DATA = {
   },
   "C2": {
    "state": 0,
-   "value": 323,
+   "value": 327,
    "unit": "bp",
-   "detail": "US high-yield spread, +37bp over six months",
+   "detail": "US high-yield spread, +45bp over six months",
    "series": [
-    {
-     "d": "2026-04-20",
-     "v": 287
-    },
-    {
-     "d": "2026-04-21",
-     "v": 285
-    },
-    {
-     "d": "2026-04-22",
-     "v": 284
-    },
-    {
-     "d": "2026-04-23",
-     "v": 286
-    },
     {
      "d": "2026-04-24",
      "v": 286
@@ -787,6 +768,22 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-15",
      "v": 323
+    },
+    {
+     "d": "2026-10-16",
+     "v": 331
+    },
+    {
+     "d": "2026-10-19",
+     "v": 329
+    },
+    {
+     "d": "2026-10-20",
+     "v": 333
+    },
+    {
+     "d": "2026-10-21",
+     "v": 327
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -803,9 +800,9 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": 0,
-   "value": 3.9488,
+   "value": 4.6075,
    "unit": "$/hr H200",
-   "detail": "-0.7% price and -20.0% supply depth over 37 days"
+   "detail": "15.9% price and -80.0% supply depth over 44 days"
   },
   "D2": {
    "state": 2,
@@ -1531,10 +1528,10 @@ window.CAPEX_DATA = {
     "revenue": "Revenues"
    },
    "capex_ttm": 132402000000,
-   "ocf_ttm": null,
+   "ocf_ttm": 185675000000,
    "rev_ttm": 445867000000,
-   "capex_ocf": null,
-   "capex_ocf_prev": null,
+   "capex_ocf": 71.30846909923252,
+   "capex_ocf_prev": 63.04680733913383,
    "capex_growth": 97.6739325171693,
    "rev_growth": 20.050673265140727,
    "coverage_gap": 77.62325925202857,
@@ -1623,30 +1620,26 @@ window.CAPEX_DATA = {
   {
    "ticker": "META",
    "name": "Meta",
-   "asof": "2026-06-30",
+   "asof": "2026-09-30",
    "stale": false,
    "tags": {
     "capex": "PaymentsToAcquirePropertyPlantAndEquipment",
     "revenue": "RevenueFromContractWithCustomerExcludingAssessedTax"
    },
-   "capex_ttm": 89325000000,
-   "ocf_ttm": 130301000000,
-   "rev_ttm": 228247000000,
-   "capex_ocf": 68.55281233451777,
-   "capex_ocf_prev": 61.08629032258065,
-   "capex_growth": 71.24535102181665,
-   "rev_growth": 27.65206594930762,
-   "coverage_gap": 43.593285072509026,
+   "capex_ttm": 104438000000,
+   "ocf_ttm": 133087000000,
+   "rev_ttm": 241606000000,
+   "capex_ocf": 78.47347975384523,
+   "capex_ocf_prev": 68.55281233451777,
+   "capex_growth": 66.48016195622719,
+   "rev_growth": 27.5255071071536,
+   "coverage_gap": 38.95465484907359,
    "coverage_gap_hist": [
+    38.95465484907359,
     43.593285072509026,
-    46.76843298100225,
-    64.89262919564821
+    46.76843298100225
    ],
    "rev_q": [
-    {
-     "end": "2024-06-30",
-     "val": 39071000000
-    },
     {
      "end": "2024-09-30",
      "val": 40589000000
@@ -1678,13 +1671,13 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 60801000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 64601000000
     }
    ],
    "capex_q": [
-    {
-     "end": "2024-06-30",
-     "val": 8173000000
-    },
     {
      "end": "2024-09-30",
      "val": 8258000000
@@ -1716,6 +1709,10 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 30116000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 33942000000
     }
    ]
   },
@@ -1922,17 +1919,13 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-10-15",
-    "v": 3.23
+    "d": "2026-10-21",
+    "v": 3.27
    },
-   "yoy": 13.33333333333333,
-   "chg_6m": 12.93706293706294,
-   "abs_6m": 0.3700000000000001,
+   "yoy": 7.213114754098368,
+   "chg_6m": 15.957446808510644,
+   "abs_6m": 0.4500000000000002,
    "spark": [
-    2.79,
-    2.81,
-    2.84,
-    2.87,
     2.84,
     2.85,
     2.78,
@@ -1988,13 +1981,13 @@ window.CAPEX_DATA = {
     3.11,
     3.16,
     3.25,
-    3.23
+    3.23,
+    3.31,
+    3.29,
+    3.33,
+    3.27
    ],
    "spark_dates": [
-    "2026-07-24",
-    "2026-07-27",
-    "2026-07-28",
-    "2026-07-29",
     "2026-07-30",
     "2026-07-31",
     "2026-08-03",
@@ -2050,7 +2043,11 @@ window.CAPEX_DATA = {
     "2026-10-12",
     "2026-10-13",
     "2026-10-14",
-    "2026-10-15"
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21"
    ],
    "n": 786
   },
@@ -2463,24 +2460,17 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 4,
-   "median": 3.9488,
-   "p25": 3.9488,
-   "min": 3.9488
+   "offers": 1,
+   "median": 4.6075,
+   "p25": 4.6075,
+   "min": 4.6075
   },
   {
    "gpu": "B200",
-   "offers": 4,
-   "median": 7.8312,
-   "p25": 7.0521,
+   "offers": 3,
+   "median": 6.2521,
+   "p25": 6.2521,
    "min": 6.2521
-  },
-  {
-   "gpu": "H100 SXM",
-   "offers": 6,
-   "median": 2.7182,
-   "p25": 2.4015,
-   "min": 2.1622
   }
  ],
  "gpu_history": [
@@ -2814,6 +2804,19 @@ window.CAPEX_DATA = {
      "offers": 6
     }
    }
+  },
+  {
+   "date": "2026-10-23",
+   "gpu": {
+    "H200": {
+     "median": 4.6075,
+     "offers": 1
+    },
+    "B200": {
+     "median": 6.2521,
+     "offers": 3
+    }
+   }
   }
  ],
  "context": {
@@ -2955,24 +2958,17 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 4,
-    "median": 3.9488,
-    "p25": 3.9488,
-    "min": 3.9488
+    "offers": 1,
+    "median": 4.6075,
+    "p25": 4.6075,
+    "min": 4.6075
    },
    {
     "gpu": "B200",
-    "offers": 4,
-    "median": 7.8312,
-    "p25": 7.0521,
+    "offers": 3,
+    "median": 6.2521,
+    "p25": 6.2521,
     "min": 6.2521
-   },
-   {
-    "gpu": "H100 SXM",
-    "offers": 6,
-    "median": 2.7182,
-    "p25": 2.4015,
-    "min": 2.1622
    }
   ]
  },
@@ -2980,10 +2976,10 @@ window.CAPEX_DATA = {
   "_comment": "Sensors with no machine-readable feed. Updated by research, not by fetch.py. Each carries its own 'asof' date; the dashboard marks anything older than 45 days as stale so a forgotten sensor cannot quietly pass for a current reading. state: 0 calm, 1 watch, 2 turning.",
   "A4": {
    "state": 0,
-   "value": "still supply-constrained; Oracle raises again",
-   "detail": "No hyperscaler has reported since the late-July calls; Q3 results land in the last week of October and are the next real reading. The one call since points the same way: Oracle (FY2027 Q1, 2026-09-10) booked another $30bn+ of AI cloud contracts, took remaining performance obligations to $664bn, spent $28.5bn of capex in the quarter and holds $90-95bn for the year, delivering 300,000 GPUs and 850 MW of new capacity. Alphabet's July warning of Q3 cloud-margin pressure from renting third-party capacity is a supply complaint, not a demand one. No 'digesting', 'measured' or 'optimising' language from any of the five.",
-   "asof": "2026-10-17",
-   "source": "Oracle FY2027 Q1 release and call (2026-09-10); Q2 2026 calls of Amazon, Alphabet, Microsoft, Meta (late July 2026)"
+   "value": "Meta raises the floor, Huang: demand 'off the charts'",
+   "detail": "The first Q3 call is in and still contains no cautious language. Meta (2026-10-21) narrowed its 2026 capex range upward to $135-145bn from $130-145bn, spent $34.9bn in the quarter and went to negative free cash flow (about -$2.1bn), saying it is still building the 2027 plan and will keep funding AI capacity; more detail comes on the Q4 call. Nvidia's Huang (GTC Berlin, 2026-10-22) called neocloud demand 'off the charts' and said the constraint is capital, not customers. That is the most important new nuance here: it is not 'digesting' language, but it names financing as the bottleneck, which is a C-cluster problem, not an A-cluster one. Oracle (2026-09-10) still holds $90-95bn for its fiscal year. Microsoft, Alphabet and Amazon have not reported Q3 yet; they are the real test, and the stock-market selloff of the week of 2026-10-19 does not count under the 'no share prices' rule.",
+   "asof": "2026-10-23",
+   "source": "Meta Q3 2026 release and call (2026-10-21); CNBC interview with Jensen Huang (2026-10-22); Oracle FY2027 Q1 (2026-09-10)"
   },
   "B2": {
    "state": 0,
@@ -3001,10 +2997,10 @@ window.CAPEX_DATA = {
   },
   "C1": {
    "state": 1,
-   "value": "~$200-225bn of bonds by mid-year, demand cooling",
-   "detail": "Amazon, Alphabet, Meta and Oracle had issued about $194bn of bonds by early July, up 79% on 2025; counting Microsoft's $19.75bn deal of 2026-08-01 and Nvidia the group is near $225bn, and Goldman expects about $250bn for the year and $400bn in 2027. The new signs are on the lender side: Amazon's July 30-year tranche drew the weakest book of the four, and median spreads on their 2-4 year paper widened to 40bp from 30bp. Oracle added a $20bn share sale in its August quarter and says its newest contracts are structured not to need more outside capital. Still short of the turn: bonds plus the known SPVs (Meta's $27bn Beignet, the Abilene vehicle) remain well under half of the buildout.",
-   "asof": "2026-10-17",
-   "source": "Reuters hyperscaler issuance tally (late July 2026); Goldman Sachs issuance forecast; Oracle FY2027 Q1 release; Microsoft bond 2026-08-01"
+   "value": "lenders push back on the most-indebted builders",
+   "detail": "The volume has kept rising: Barclays counts $346bn of capital raised by hyperscalers, data-centre operators and neoclouds so far in 2026, against $172bn for all of 2025. The new part is the lender side, which since mid-October has started to refuse the weakest borrowers. CoreWeave's five-year CDS went above 1,100bp (CNBC, 2026-10-15) and its unsecured bonds yield about 15%; Oracle's spread was 308bp on 2026-10-21 against 141bp on 2026-01-02; SoftBank's CDS is near a four-year high above 420bp; Meta's CDS is reported at a record of about 115bp; a Korean neocloud IPO failed (PitchBook). Evercore's desk sums up the market's line as no more AI debt without operating cash flow behind it, and Huang publicly called capital 'scarce'. Still watch, not turning: the turn needs most new spending to be borrowed, and the five large buyers still pay most of it from cash (see A2). But this is the sensor closest to turning, and the stress sits exactly where the thesis expects it: with the companies that build on borrowed money rather than with the cash-rich hyperscalers. C2 cannot see this, because it measures the whole high-yield market.",
+   "asof": "2026-10-23",
+   "source": "CNBC on CoreWeave CDS (2026-10-15) and Oracle spreads (2026-10-21/22); Barclays research via Yahoo Finance (October 2026); PitchBook on the Korean neocloud IPO; CNBC Huang interview (2026-10-22)"
   },
   "C3": {
    "state": 1,
@@ -3016,9 +3012,9 @@ window.CAPEX_DATA = {
   "C4": {
    "state": 1,
    "value": "$308bn, $212bn, $159bn: two falls, both from the two labs",
-   "detail": "Global venture funding fell for a second quarter, to $159bn in Q3 from $212bn in Q2 and $308bn in Q1 (Crunchbase), which meets the letter of the turn. Read as the sensor's note asks, it does not meet the substance: Q1 held $188bn in four rounds (OpenAI $122bn, Anthropic $30bn, xAI $20bn, Waymo $16bn), and without OpenAI and Anthropic the quarters run roughly $156bn, $147bn, $159bn \u2014 flat to up. Q3 was +53% year on year, AI took $102bn (64%), and a record 27 companies raised $1bn or more. No reporting of ratchets, preference stacks or down rounds at the large labs. Raised to watch because the headline now falls and the next lab round decides the direction; scored turning only if amounts fall without the mega-round explanation or terms harden.",
-   "asof": "2026-10-17",
-   "source": "Crunchbase News Q3 2026 global funding report (early October 2026); Crunchbase Q1 and H1 2026 data"
+   "detail": "Global venture funding fell for a second quarter, to $159bn in Q3 from $212bn in Q2 and $308bn in Q1 (Crunchbase), which meets the letter of the turn. Read as the sensor's note asks, it does not meet the substance: Q1 held $188bn in four rounds (OpenAI $122bn, Anthropic $30bn, xAI $20bn, Waymo $16bn), and without OpenAI and Anthropic the quarters run roughly $156bn, $147bn, $159bn \u2014 flat to up. Q3 was +53% year on year, AI took $102bn (64%), and a record 27 companies raised $1bn or more. No reporting of ratchets, preference stacks or down rounds at the large labs. Raised to watch because the headline now falls and the next lab round decides the direction; scored turning only if amounts fall without the mega-round explanation or terms harden. Update 2026-10-23: no new quarterly figure (Q4 data comes in early January), but the terms side is hardening at the edge: a Korean neocloud IPO failed in October and Huang called capital 'scarce' for neoclouds. These are public markets and credit, not venture rounds, so they do not move the sensor yet; the next lab round decides.",
+   "asof": "2026-10-23",
+   "source": "Crunchbase News Q3 2026 global funding report (early October 2026); Crunchbase Q1 and H1 2026 data; PitchBook (October 2026); CNBC Huang interview (2026-10-22)"
   },
   "D1": {
    "state": 2,
@@ -3426,6 +3422,27 @@ window.CAPEX_HISTORY = [
  },
  {
   "date": "2026-10-16",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "B1": 0,
+   "D2": 2,
+   "B4": 1,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 0,
+   "D1": 1,
+   "D4": 0
+  }
+ },
+ {
+  "date": "2026-10-23",
   "states": {
    "A2": 1,
    "A1": 0,
