@@ -982,9 +982,17 @@ def main():
                       "assessments alone and must not be read as a verdict")
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    # A rescore compares against today's own row, so it only sees what the
+    # manual edits changed. It used to replace the page's alerts with that,
+    # wiping what the fetch it is based on had found (E1 and C2 on 2026-10-28).
+    # It adds to them instead.
+    shown = fired
+    if rescore:
+        shown = list(prev.get("alerts") or [])
+        shown += [a for a in fired if a not in shown]
     payload = {
         "verdict": v,
-        "alerts": fired,
+        "alerts": shown,
         # A rescore did not generate new readings, so it keeps the original
         # stamp. Otherwise it dirties data.js in the cloud checkout for nothing,
         # and the page would claim data fresher than it is.

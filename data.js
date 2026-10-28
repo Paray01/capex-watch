@@ -66,7 +66,10 @@ window.CAPEX_DATA = {
   "confirmation_ready": true,
   "history_days": 23
  },
- "alerts": [],
+ "alerts": [
+  "C2 worsened: calm -> watch",
+  "E1 worsened: watch -> turning"
+ ],
  "generated": "2026-10-28 02:49 UTC",
  "generated_date": "2026-10-28",
  "auto": {
