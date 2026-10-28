@@ -6,10 +6,11 @@ window.CAPEX_DATA = {
    "score": 1,
    "level": "Strained",
    "watch": [
-    "E1",
     "E4"
    ],
-   "turning": []
+   "turning": [
+    "E1"
+   ]
   },
   "stage": 1,
   "stage_raw": 1,
@@ -47,7 +48,7 @@ window.CAPEX_DATA = {
    "B1": 0,
    "D2": 1,
    "B4": 1,
-   "E1": 1,
+   "E1": 2,
    "E2": 0,
    "E3": 0,
    "E4": 1,
@@ -63,14 +64,11 @@ window.CAPEX_DATA = {
    "C5": 1
   },
   "confirmation_ready": true,
-  "history_days": 22
+  "history_days": 23
  },
- "alerts": [
-  "C4 worsened: calm -> watch",
-  "D1 worsened: watch -> turning"
- ],
- "generated": "2026-10-23 01:13 UTC",
- "generated_date": "2026-10-23",
+ "alerts": [],
+ "generated": "2026-10-28 02:49 UTC",
+ "generated_date": "2026-10-28",
  "auto": {
   "A2": {
    "state": 1,
@@ -280,23 +278,11 @@ window.CAPEX_DATA = {
    ]
   },
   "C2": {
-   "state": 0,
-   "value": 327,
+   "state": 1,
+   "value": 330,
    "unit": "bp",
-   "detail": "US high-yield spread, +45bp over six months",
+   "detail": "US high-yield spread, +52bp over six months",
    "series": [
-    {
-     "d": "2026-04-24",
-     "v": 286
-    },
-    {
-     "d": "2026-04-27",
-     "v": 284
-    },
-    {
-     "d": "2026-04-28",
-     "v": 285
-    },
     {
      "d": "2026-04-29",
      "v": 282
@@ -804,6 +790,18 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-21",
      "v": 327
+    },
+    {
+     "d": "2026-10-22",
+     "v": 340
+    },
+    {
+     "d": "2026-10-23",
+     "v": 338
+    },
+    {
+     "d": "2026-10-26",
+     "v": 330
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -820,9 +818,9 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": 0,
-   "value": 4.6075,
+   "value": 5.0537,
    "unit": "$/hr H200",
-   "detail": "median of 3 model(s): 15.9% price and -40.0% listings over ~44 days"
+   "detail": "median of 3 model(s): 17.2% price and -40.0% listings over ~49 days"
   },
   "D2": {
    "state": 2,
@@ -1339,23 +1337,11 @@ window.CAPEX_DATA = {
    ]
   },
   "E1": {
-   "state": 1,
-   "value": 1307,
+   "state": 2,
+   "value": 1345,
    "unit": "bp",
-   "detail": "US CCC-and-below spread, +398bp over six months; the broad high-yield index in C2 reads 327bp",
+   "detail": "US CCC-and-below spread, +435bp over six months; the broad high-yield index in C2 reads 330bp",
    "series": [
-    {
-     "d": "2026-04-24",
-     "v": 918
-    },
-    {
-     "d": "2026-04-27",
-     "v": 908
-    },
-    {
-     "d": "2026-04-28",
-     "v": 911
-    },
     {
      "d": "2026-04-29",
      "v": 909
@@ -1863,6 +1849,18 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-21",
      "v": 1307
+    },
+    {
+     "d": "2026-10-22",
+     "v": 1340
+    },
+    {
+     "d": "2026-10-23",
+     "v": 1356
+    },
+    {
+     "d": "2026-10-26",
+     "v": 1345
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -1879,22 +1877,10 @@ window.CAPEX_DATA = {
   },
   "E2": {
    "state": 0,
-   "value": 17.78,
+   "value": 18.17,
    "unit": "VIX",
-   "detail": "VIX, five-day average; latest close 16.68 on 2026-10-21",
+   "detail": "VIX, five-day average; latest close 18.39 on 2026-10-26",
    "series": [
-    {
-     "d": "2026-04-23",
-     "v": 19.31
-    },
-    {
-     "d": "2026-04-24",
-     "v": 18.71
-    },
-    {
-     "d": "2026-04-27",
-     "v": 18.02
-    },
     {
      "d": "2026-04-28",
      "v": 17.83
@@ -2402,6 +2388,18 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-21",
      "v": 16.68
+    },
+    {
+     "d": "2026-10-22",
+     "v": 19.03
+    },
+    {
+     "d": "2026-10-23",
+     "v": 19.45
+    },
+    {
+     "d": "2026-10-26",
+     "v": 18.39
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -2957,22 +2955,10 @@ window.CAPEX_DATA = {
   },
   "E4": {
    "state": 1,
-   "value": 2.76,
+   "value": 2.66,
    "unit": "% real",
-   "detail": "10-year real Treasury yield, +84bp over six months. Income expected years out is worth less today when this rises",
+   "detail": "10-year real Treasury yield, +77bp over six months. Income expected years out is worth less today when this rises",
    "series": [
-    {
-     "d": "2026-04-16",
-     "v": 1.93
-    },
-    {
-     "d": "2026-04-17",
-     "v": 1.9
-    },
-    {
-     "d": "2026-04-20",
-     "v": 1.91
-    },
     {
      "d": "2026-04-21",
      "v": 1.92
@@ -3480,6 +3466,18 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-21",
      "v": 2.76
+    },
+    {
+     "d": "2026-10-22",
+     "v": 2.64
+    },
+    {
+     "d": "2026-10-23",
+     "v": 2.66
+    },
+    {
+     "d": "2026-10-26",
+     "v": 2.66
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -4350,18 +4348,15 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-10-21",
-    "v": 3.27
+    "d": "2026-10-26",
+    "v": 3.3
    },
-   "yoy": 7.213114754098368,
-   "chg_6m": 15.957446808510644,
-   "abs_6m": 0.4500000000000002,
-   "abs_3m": 0.48,
-   "avg5": 3.29,
+   "yoy": 9.271523178807941,
+   "chg_6m": 18.705035971223026,
+   "abs_6m": 0.52,
+   "abs_3m": 0.4299999999999997,
+   "avg5": 3.34,
    "spark": [
-    2.84,
-    2.85,
-    2.78,
     2.73,
     2.75,
     2.71,
@@ -4418,12 +4413,12 @@ window.CAPEX_DATA = {
     3.31,
     3.29,
     3.33,
-    3.27
+    3.27,
+    3.4,
+    3.38,
+    3.3
    ],
    "spark_dates": [
-    "2026-07-30",
-    "2026-07-31",
-    "2026-08-03",
     "2026-08-04",
     "2026-08-05",
     "2026-08-06",
@@ -4480,9 +4475,12 @@ window.CAPEX_DATA = {
     "2026-10-16",
     "2026-10-19",
     "2026-10-20",
-    "2026-10-21"
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26"
    ],
-   "n": 786
+   "n": 784
   },
   "semi_ppi": {
    "series": "PCU3344133441",
@@ -4898,18 +4896,15 @@ window.CAPEX_DATA = {
   "ccc_oas": {
    "series": "BAMLH0A3HYC",
    "latest": {
-    "d": "2026-10-21",
-    "v": 13.07
+    "d": "2026-10-26",
+    "v": 13.45
    },
-   "yoy": 47.683615819209045,
-   "chg_6m": 43.78437843784379,
-   "abs_6m": 3.9800000000000004,
-   "abs_3m": 3.1099999999999994,
-   "avg5": 13.04,
+   "yoy": 51.46396396396394,
+   "chg_6m": 47.802197802197796,
+   "abs_6m": 4.35,
+   "abs_3m": 3.3199999999999985,
+   "avg5": 13.35,
    "spark": [
-    10.06,
-    10.34,
-    10.28,
     10.19,
     10.23,
     10.17,
@@ -4966,12 +4961,12 @@ window.CAPEX_DATA = {
     12.97,
     13.1,
     13.27,
-    13.07
+    13.07,
+    13.4,
+    13.56,
+    13.45
    ],
    "spark_dates": [
-    "2026-07-30",
-    "2026-07-31",
-    "2026-08-03",
     "2026-08-04",
     "2026-08-05",
     "2026-08-06",
@@ -5028,25 +5023,25 @@ window.CAPEX_DATA = {
     "2026-10-16",
     "2026-10-19",
     "2026-10-20",
-    "2026-10-21"
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26"
    ],
-   "n": 786
+   "n": 784
   },
   "vix": {
    "series": "VIXCLS",
    "latest": {
-    "d": "2026-10-21",
-    "v": 16.68
+    "d": "2026-10-26",
+    "v": 18.39
    },
-   "yoy": -1.4184397163120683,
-   "chg_6m": -6.449803701626465,
-   "abs_6m": -1.1499999999999986,
-   "abs_3m": -1.8999999999999986,
-   "avg5": 17.78,
+   "yoy": 7.105416423995334,
+   "chg_6m": 8.240141259564462,
+   "abs_6m": 1.4000000000000021,
+   "abs_3m": -2.2699999999999996,
+   "avg5": 18.17,
    "spark": [
-    17.09,
-    15.99,
-    15.86,
     16.5,
     15.81,
     15.15,
@@ -5103,12 +5098,12 @@ window.CAPEX_DATA = {
     19.99,
     18.44,
     17.31,
-    16.68
+    16.68,
+    19.03,
+    19.45,
+    18.39
    ],
    "spark_dates": [
-    "2026-07-30",
-    "2026-07-31",
-    "2026-08-03",
     "2026-08-04",
     "2026-08-05",
     "2026-08-06",
@@ -5165,9 +5160,12 @@ window.CAPEX_DATA = {
     "2026-10-16",
     "2026-10-19",
     "2026-10-20",
-    "2026-10-21"
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26"
    ],
-   "n": 9300
+   "n": 9303
   },
   "nfci": {
    "series": "NFCI",
@@ -5309,18 +5307,15 @@ window.CAPEX_DATA = {
   "real10": {
    "series": "DFII10",
    "latest": {
-    "d": "2026-10-21",
-    "v": 2.76
+    "d": "2026-10-26",
+    "v": 2.66
    },
-   "yoy": 57.71428571428571,
-   "chg_6m": 43.74999999999999,
-   "abs_6m": 0.8399999999999999,
-   "abs_3m": 0.36999999999999966,
-   "avg5": 2.77,
+   "yoy": 58.33333333333335,
+   "chg_6m": 40.740740740740755,
+   "abs_6m": 0.7700000000000002,
+   "abs_3m": 0.2200000000000002,
+   "avg5": 2.7,
    "spark": [
-    2.41,
-    2.41,
-    2.41,
     2.47,
     2.43,
     2.4,
@@ -5377,12 +5372,12 @@ window.CAPEX_DATA = {
     2.74,
     2.8,
     2.77,
-    2.76
+    2.76,
+    2.64,
+    2.66,
+    2.66
    ],
    "spark_dates": [
-    "2026-07-28",
-    "2026-07-29",
-    "2026-07-30",
     "2026-07-31",
     "2026-08-03",
     "2026-08-04",
@@ -5439,9 +5434,12 @@ window.CAPEX_DATA = {
     "2026-10-16",
     "2026-10-19",
     "2026-10-20",
-    "2026-10-21"
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26"
    ],
-   "n": 5955
+   "n": 5958
   },
   "sahm": {
    "series": "SAHMREALTIME",
@@ -5859,9 +5857,9 @@ window.CAPEX_DATA = {
   {
    "gpu": "H200",
    "offers": 1,
-   "median": 4.6075,
-   "p25": 4.6075,
-   "min": 4.6075
+   "median": 5.0537,
+   "p25": 5.0537,
+   "min": 5.0537
   },
   {
    "gpu": "B200",
@@ -5872,10 +5870,10 @@ window.CAPEX_DATA = {
   },
   {
    "gpu": "H100 SXM",
-   "offers": 6,
-   "median": 3.1965,
+   "offers": 7,
+   "median": 2.5808,
    "p25": 2.4015,
-   "min": 2.1444
+   "min": 1.9342
   }
  ],
  "gpu_history": [
@@ -6226,6 +6224,23 @@ window.CAPEX_DATA = {
      "offers": 6
     }
    }
+  },
+  {
+   "date": "2026-10-28",
+   "gpu": {
+    "H200": {
+     "median": 5.0537,
+     "offers": 1
+    },
+    "B200": {
+     "median": 7.5021,
+     "offers": 3
+    },
+    "H100 SXM": {
+     "median": 2.5808,
+     "offers": 7
+    }
+   }
   }
  ],
  "context": {
@@ -6370,9 +6385,9 @@ window.CAPEX_DATA = {
    {
     "gpu": "H200",
     "offers": 1,
-    "median": 4.6075,
-    "p25": 4.6075,
-    "min": 4.6075
+    "median": 5.0537,
+    "p25": 5.0537,
+    "min": 5.0537
    },
    {
     "gpu": "B200",
@@ -6383,10 +6398,10 @@ window.CAPEX_DATA = {
    },
    {
     "gpu": "H100 SXM",
-    "offers": 6,
-    "median": 3.1965,
+    "offers": 7,
+    "median": 2.5808,
     "p25": 2.4015,
-    "min": 2.1444
+    "min": 1.9342
    }
   ],
   "valuation": {
@@ -6668,9 +6683,9 @@ window.CAPEX_DATA = {
   "C1": {
    "state": 1,
    "value": "lenders push back on the most-indebted builders",
-   "detail": "The volume has kept rising: Barclays counts $346bn of capital raised by hyperscalers, data-centre operators and neoclouds so far in 2026, against $172bn for all of 2025. The new part is the lender side, which since mid-October has started to refuse the weakest borrowers. CoreWeave's five-year CDS went above 1,100bp (CNBC, 2026-10-15) and its unsecured bonds yield about 15%; Oracle's spread was 308bp on 2026-10-21 against 141bp on 2026-01-02; SoftBank's CDS is near a four-year high above 420bp; Meta's CDS is reported at a record of about 115bp; a Korean neocloud IPO failed (PitchBook). Evercore's desk sums up the market's line as no more AI debt without operating cash flow behind it, and Huang publicly called capital 'scarce'. Still watch, not turning: the turn needs most new spending to be borrowed, and the five large buyers still pay most of it from cash (see A2). But this is the sensor closest to turning, and the stress sits exactly where the thesis expects it: with the companies that build on borrowed money rather than with the cash-rich hyperscalers. C2 cannot see this, because it measures the whole high-yield market.",
-   "asof": "2026-10-23",
-   "source": "CNBC on CoreWeave CDS (2026-10-15) and Oracle spreads (2026-10-21/22); Barclays research via Yahoo Finance (October 2026); PitchBook on the Korean neocloud IPO; CNBC Huang interview (2026-10-22)"
+   "detail": "The volume has kept rising: Barclays counts $346bn of capital raised by hyperscalers, data-centre operators and neoclouds so far in 2026, against $172bn for all of 2025. The new part is the lender side, which since mid-October has started to refuse the weakest borrowers. CoreWeave's five-year CDS went above 1,100bp (CNBC, 2026-10-15) and its unsecured bonds yield about 15%; Oracle's spread was 308bp on 2026-10-21 against 141bp on 2026-01-02; SoftBank's CDS is near a four-year high above 420bp; Meta's CDS is reported at a record of about 115bp; a Korean neocloud IPO failed (PitchBook). Evercore's desk sums up the market's line as no more AI debt without operating cash flow behind it, and Huang publicly called capital 'scarce'. Still watch, not turning: the turn needs most new spending to be borrowed, and the five large buyers still pay most of it from cash (see A2). But this is the sensor closest to turning, and the stress sits exactly where the thesis expects it: with the companies that build on borrowed money rather than with the cash-rich hyperscalers. C2 cannot see this, because it measures the whole high-yield market. Update 2026-10-28: the repricing has reached the large names. Oracle's five-year CDS widened to about 315bp (2026-10-19, up about 300% on a year), and Amazon, Alphabet, Meta and Nvidia CDS are reported at record wides, though far below Oracle's. CoreWeave eased slightly to about 1,080bp. Oracle plans about $40bn of debt and equity this fiscal year after negative free cash flow of $5.4bn last quarter. Still watch: the cash-rich buyers still fund most capex themselves, but the board's automatic credit readings now confirm the move (E1 turning, C2 on watch).",
+   "asof": "2026-10-28",
+   "source": "CNBC on CoreWeave CDS (2026-10-15) and Oracle spreads (2026-10-21/22); Barclays research via Yahoo Finance (October 2026); PitchBook on the Korean neocloud IPO; CNBC Huang interview (2026-10-22); CNBC on Oracle and CoreWeave credit (2026-10-19); 24/7 Wall St. on record bond sales (2026-10-27)"
   },
   "C3": {
    "state": 1,
@@ -6682,9 +6697,9 @@ window.CAPEX_DATA = {
   "C4": {
    "state": 1,
    "value": "$308bn, $212bn, $159bn: two falls, both from the two labs",
-   "detail": "Global venture funding fell for a second quarter, to $159bn in Q3 from $212bn in Q2 and $308bn in Q1 (Crunchbase), which meets the letter of the turn. Read as the sensor's note asks, it does not meet the substance: Q1 held $188bn in four rounds (OpenAI $122bn, Anthropic $30bn, xAI $20bn, Waymo $16bn), and without OpenAI and Anthropic the quarters run roughly $156bn, $147bn, $159bn \u2014 flat to up. Q3 was +53% year on year, AI took $102bn (64%), and a record 27 companies raised $1bn or more. No reporting of ratchets, preference stacks or down rounds at the large labs. Raised to watch because the headline now falls and the next lab round decides the direction; scored turning only if amounts fall without the mega-round explanation or terms harden. Update 2026-10-23: no new quarterly figure (Q4 data comes in early January), but the terms side is hardening at the edge: a Korean neocloud IPO failed in October and Huang called capital 'scarce' for neoclouds. These are public markets and credit, not venture rounds, so they do not move the sensor yet; the next lab round decides.",
-   "asof": "2026-10-23",
-   "source": "Crunchbase News Q3 2026 global funding report (early October 2026); Crunchbase Q1 and H1 2026 data; PitchBook (October 2026); CNBC Huang interview (2026-10-22)"
+   "detail": "Global venture funding fell for a second quarter, to $159bn in Q3 from $212bn in Q2 and $308bn in Q1 (Crunchbase), which meets the letter of the turn. Read as the sensor's note asks, it does not meet the substance: Q1 held $188bn in four rounds (OpenAI $122bn, Anthropic $30bn, xAI $20bn, Waymo $16bn), and without OpenAI and Anthropic the quarters run roughly $156bn, $147bn, $159bn \u2014 flat to up. Q3 was +53% year on year, AI took $102bn (64%), and a record 27 companies raised $1bn or more. No reporting of ratchets, preference stacks or down rounds at the large labs. Raised to watch because the headline now falls and the next lab round decides the direction; scored turning only if amounts fall without the mega-round explanation or terms harden. Update 2026-10-23: no new quarterly figure (Q4 data comes in early January), but the terms side is hardening at the edge: a Korean neocloud IPO failed in October and Huang called capital 'scarce' for neoclouds. These are public markets and credit, not venture rounds, so they do not move the sensor yet; the next lab round decides. Update 2026-10-28: Anthropic filed its IPO prospectus publicly on 2026-10-26: revenue of about $16.3bn in H1 2026 against $1.2bn a year earlier, an offering reported at $100bn or more at a $1.5-2tn valuation. A public listing of that size is the opposite of a funding window closing, so the substance of this sensor eases; the headline fall in venture amounts stays, hence still watch until the Q4 figures in January.",
+   "asof": "2026-10-28",
+   "source": "Crunchbase News Q3 2026 global funding report (early October 2026); Crunchbase Q1 and H1 2026 data; PitchBook (October 2026); CNBC Huang interview (2026-10-22); Anthropic S-1 as reported by CNBC, Axios and Investing.com (2026-10-26)"
   },
   "D1": {
    "state": 2,
@@ -6703,9 +6718,9 @@ window.CAPEX_DATA = {
   "C5": {
    "state": 1,
    "value": "vendors fund and guarantee their own buyers",
-   "detail": "The chip sellers have become lenders to the people who buy their chips. Nvidia is putting about $30bn into OpenAI and guaranteeing up to $105bn for an OpenAI-leased campus in Ohio (figures differ between reports), and in August set up a platform with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to raise more than $500bn for chip buyers, offering residual-value support of up to 25% per deal. AMD effectively guarantees a $300m Goldman loan to Crusoe that is secured on AMD chips. GPU-backed loans are now routine (CoreWeave $8.5bn in March, secured on chips plus a Meta contract). The buyer at the centre runs about $50bn of annual revenue against compute plans reported at $600bn to 2030, cut from about $1.4tn. Watch, not turning: no guarantee has been called and no vendor-financed buyer has missed a payment. The cut in OpenAI's plan is the thing to follow; a renegotiated contract with a vendor would be the turn.",
-   "asof": "2026-10-23",
-   "source": "Yahoo Finance and The Conversation on Nvidia's OpenAI and Ohio commitments (Aug-Oct 2026); Nvidia financing platform announcement (August 2026); DCD on AMD and Crusoe; Bloomberg Law on CoreWeave's GPU loan; DCD on OpenAI's revised compute plan"
+   "detail": "The chip sellers have become lenders to the people who buy their chips. Nvidia is putting about $30bn into OpenAI and guaranteeing up to $105bn for an OpenAI-leased campus in Ohio (figures differ between reports), and in August set up a platform with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to raise more than $500bn for chip buyers, offering residual-value support of up to 25% per deal. AMD effectively guarantees a $300m Goldman loan to Crusoe that is secured on AMD chips. GPU-backed loans are now routine (CoreWeave $8.5bn in March, secured on chips plus a Meta contract). The buyer at the centre runs about $50bn of annual revenue against compute plans reported at $600bn to 2030, cut from about $1.4tn. Watch, not turning: no guarantee has been called and no vendor-financed buyer has missed a payment. The cut in OpenAI's plan is the thing to follow; a renegotiated contract with a vendor would be the turn. Update 2026-10-28: Anthropic's prospectus shows the same pattern at the second large lab: compute commitments tallied at roughly $570-650bn (Google up to $114.5bn to 2033, Amazon at least $110bn to 2036, SpaceX's compute unit up to $120.5bn to 2029) against H1 revenue of $16.3bn. The two labs together carry well over $1tn of commitments to a handful of vendors. Still watch: nothing has been called or renegotiated.",
+   "asof": "2026-10-28",
+   "source": "Yahoo Finance and The Conversation on Nvidia's OpenAI and Ohio commitments (Aug-Oct 2026); Nvidia financing platform announcement (August 2026); DCD on AMD and Crusoe; Bloomberg Law on CoreWeave's GPU loan; DCD on OpenAI's revised compute plan; Anthropic S-1 coverage (Benzinga, Axios, Investing.com, 2026-10-26)"
   }
  },
  "errors": []
@@ -7130,6 +7145,33 @@ window.CAPEX_HISTORY = [
    "D2": 2,
    "B4": 1,
    "E1": 1,
+   "E2": 0,
+   "E3": 0,
+   "E4": 1,
+   "E5": 0,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 1,
+   "D1": 2,
+   "D4": 0,
+   "C5": 1
+  }
+ },
+ {
+  "date": "2026-10-28",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 1,
+   "B1": 0,
+   "D2": 2,
+   "B4": 1,
+   "E1": 2,
    "E2": 0,
    "E3": 0,
    "E4": 1,
