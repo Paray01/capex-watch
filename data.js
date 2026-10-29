@@ -44,7 +44,7 @@ window.CAPEX_DATA = {
    "A1": 0,
    "A3": 0,
    "D3": 1,
-   "C2": 0,
+   "C2": 1,
    "B1": 0,
    "D2": 1,
    "B4": 1,
@@ -64,18 +64,17 @@ window.CAPEX_DATA = {
    "C5": 1
   },
   "confirmation_ready": true,
-  "history_days": 23
+  "history_days": 24
  },
  "alerts": [
-  "C2 worsened: calm -> watch",
-  "E1 worsened: watch -> turning"
+  "C2 improved: watch -> calm"
  ],
- "generated": "2026-10-28 02:49 UTC",
- "generated_date": "2026-10-28",
+ "generated": "2026-10-29 22:33 UTC",
+ "generated_date": "2026-10-29",
  "auto": {
   "A2": {
    "state": 1,
-   "value": 78.5,
+   "value": 89.0,
    "unit": "%",
    "detail": "median of 5 hyperscalers, trailing twelve months",
    "series": [
@@ -85,11 +84,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-03-31",
-     "v": 34.3
+     "v": 35.5
     },
     {
      "d": "2024-06-30",
-     "v": 36.5
+     "v": 37.5
     },
     {
      "d": "2024-09-30",
@@ -97,11 +96,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-12-31",
-     "v": 46.9
+     "v": 44.2
     },
     {
      "d": "2025-03-31",
-     "v": 45.6
+     "v": 46.9
     },
     {
      "d": "2025-06-30",
@@ -117,15 +116,15 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-03-31",
-     "v": 61.1
+     "v": 63.0
     },
     {
      "d": "2026-06-30",
-     "v": 68.6
+     "v": 71.3
     },
     {
      "d": "2026-09-30",
-     "v": 78.5
+     "v": 89.0
     }
    ],
    "series_note": "one point per quarter, each a trailing twelve months, median of the five buyers",
@@ -142,13 +141,13 @@ window.CAPEX_DATA = {
   },
   "A1": {
    "state": 0,
-   "value": 79.6,
+   "value": 96.9,
    "unit": "% YoY",
    "detail": "median realised capex growth, trailing twelve months",
    "series": [
     {
      "d": "2023-12-31",
-     "v": -4.8
+     "v": 2.4
     },
     {
      "d": "2024-03-31",
@@ -168,7 +167,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2025-03-31",
-     "v": 62.9
+     "v": 57.4
     },
     {
      "d": "2025-06-30",
@@ -180,7 +179,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2025-12-31",
-     "v": 72.2
+     "v": 74.1
     },
     {
      "d": "2026-03-31",
@@ -188,11 +187,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-06-30",
-     "v": 71.2
+     "v": 79.6
     },
     {
      "d": "2026-09-30",
-     "v": 79.6
+     "v": 96.9
     }
    ],
    "series_note": "one point per quarter, each a trailing twelve months, median of the five buyers",
@@ -215,13 +214,13 @@ window.CAPEX_DATA = {
   },
   "D3": {
    "state": 1,
-   "value": 61.8,
+   "value": 79.0,
    "unit": "pp",
-   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 48.0pp, 46.8pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
+   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 61.8pp, 46.8pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
    "series": [
     {
      "d": "2023-12-31",
-     "v": -24.2
+     "v": -22.6
     },
     {
      "d": "2024-03-31",
@@ -233,7 +232,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-09-30",
-     "v": -10.6
+     "v": -10.8
     },
     {
      "d": "2024-12-31",
@@ -261,11 +260,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-06-30",
-     "v": 48.0
+     "v": 61.8
     },
     {
      "d": "2026-09-30",
-     "v": 61.8
+     "v": 79.0
     }
    ],
    "series_note": "one point per quarter, each a trailing twelve months, median of the five buyers",
@@ -281,19 +280,11 @@ window.CAPEX_DATA = {
    ]
   },
   "C2": {
-   "state": 1,
-   "value": 330,
+   "state": 0,
+   "value": 314,
    "unit": "bp",
-   "detail": "US high-yield spread, +52bp over six months",
+   "detail": "US high-yield spread, +39bp over six months",
    "series": [
-    {
-     "d": "2026-04-29",
-     "v": 282
-    },
-    {
-     "d": "2026-04-30",
-     "v": 283
-    },
     {
      "d": "2026-05-01",
      "v": 277
@@ -805,6 +796,14 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-26",
      "v": 330
+    },
+    {
+     "d": "2026-10-27",
+     "v": 318
+    },
+    {
+     "d": "2026-10-28",
+     "v": 314
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -823,7 +822,7 @@ window.CAPEX_DATA = {
    "state": 0,
    "value": 5.0537,
    "unit": "$/hr H200",
-   "detail": "median of 3 model(s): 17.2% price and -40.0% listings over ~49 days"
+   "detail": "median of 3 model(s): 9.1% price and -50.0% listings over ~50 days"
   },
   "D2": {
    "state": 2,
@@ -1341,18 +1340,10 @@ window.CAPEX_DATA = {
   },
   "E1": {
    "state": 2,
-   "value": 1345,
+   "value": 1307,
    "unit": "bp",
-   "detail": "US CCC-and-below spread, +435bp over six months; the broad high-yield index in C2 reads 330bp",
+   "detail": "US CCC-and-below spread, +400bp over six months; the broad high-yield index in C2 reads 314bp",
    "series": [
-    {
-     "d": "2026-04-29",
-     "v": 909
-    },
-    {
-     "d": "2026-04-30",
-     "v": 909
-    },
     {
      "d": "2026-05-01",
      "v": 904
@@ -1864,6 +1855,14 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-26",
      "v": 1345
+    },
+    {
+     "d": "2026-10-27",
+     "v": 1321
+    },
+    {
+     "d": "2026-10-28",
+     "v": 1307
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -1880,18 +1879,10 @@ window.CAPEX_DATA = {
   },
   "E2": {
    "state": 0,
-   "value": 18.17,
+   "value": 18.26,
    "unit": "VIX",
-   "detail": "VIX, five-day average; latest close 18.39 on 2026-10-26",
+   "detail": "VIX, five-day average; latest close 16.91 on 2026-10-28",
    "series": [
-    {
-     "d": "2026-04-28",
-     "v": 17.83
-    },
-    {
-     "d": "2026-04-29",
-     "v": 18.81
-    },
     {
      "d": "2026-04-30",
      "v": 16.89
@@ -2403,6 +2394,14 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-26",
      "v": 18.39
+    },
+    {
+     "d": "2026-10-27",
+     "v": 17.52
+    },
+    {
+     "d": "2026-10-28",
+     "v": 16.91
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -2419,14 +2418,10 @@ window.CAPEX_DATA = {
   },
   "E3": {
    "state": 0,
-   "value": -0.5,
+   "value": -0.49,
    "unit": "NFCI",
-   "detail": "Chicago Fed financial conditions, +0.04 over three months. Zero is average; below it money is easier to get than usual",
+   "detail": "Chicago Fed financial conditions, +0.05 over three months. Zero is average; below it money is easier to get than usual",
    "series": [
-    {
-     "d": "2024-04-26",
-     "v": -0.41
-    },
     {
      "d": "2024-05-03",
      "v": -0.41
@@ -2453,7 +2448,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-06-14",
-     "v": -0.4
+     "v": -0.39
     },
     {
      "d": "2024-06-21",
@@ -2917,7 +2912,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-09-04",
-     "v": -0.54
+     "v": -0.55
     },
     {
      "d": "2026-09-11",
@@ -2941,7 +2936,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-10-16",
-     "v": -0.5
+     "v": -0.49
+    },
+    {
+     "d": "2026-10-23",
+     "v": -0.49
     }
    ],
    "series_note": "one point per week, about two and a half years",
@@ -2958,18 +2957,10 @@ window.CAPEX_DATA = {
   },
   "E4": {
    "state": 1,
-   "value": 2.66,
+   "value": 2.67,
    "unit": "% real",
-   "detail": "10-year real Treasury yield, +77bp over six months. Income expected years out is worth less today when this rises",
+   "detail": "10-year real Treasury yield, +75bp over six months. Income expected years out is worth less today when this rises",
    "series": [
-    {
-     "d": "2026-04-21",
-     "v": 1.92
-    },
-    {
-     "d": "2026-04-22",
-     "v": 1.92
-    },
     {
      "d": "2026-04-23",
      "v": 1.92
@@ -3481,6 +3472,14 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-26",
      "v": 2.66
+    },
+    {
+     "d": "2026-10-27",
+     "v": 2.64
+    },
+    {
+     "d": "2026-10-28",
+     "v": 2.67
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -3755,30 +3754,26 @@ window.CAPEX_DATA = {
   {
    "ticker": "MSFT",
    "name": "Microsoft",
-   "asof": "2026-06-30",
+   "asof": "2026-09-30",
    "stale": false,
    "tags": {
     "capex": "PaymentsToAcquirePropertyPlantAndEquipment",
     "revenue": "RevenueFromContractWithCustomerExcludingAssessedTax"
    },
-   "capex_ttm": 115948000000,
-   "ocf_ttm": 182935000000,
-   "rev_ttm": 331839000000,
-   "capex_ocf": 63.38207560062317,
-   "capex_ocf_prev": 57.14378074655727,
-   "capex_growth": 79.62231413920776,
-   "rev_growth": 17.78868679984666,
-   "coverage_gap": 61.8336273393611,
+   "capex_ttm": 135921000000,
+   "ocf_ttm": 195878000000,
+   "rev_ttm": 346445000000,
+   "capex_ocf": 69.39064111334606,
+   "capex_ocf_prev": 63.38207560062317,
+   "capex_growth": 96.92416910550259,
+   "rev_growth": 17.913836058431922,
+   "coverage_gap": 79.01033304707066,
    "coverage_gap_hist": [
+    79.01033304707066,
     61.8336273393611,
-    40.61435123308284,
-    32.905485595236655
+    40.61435123308284
    ],
    "rev_q": [
-    {
-     "end": "2024-06-30",
-     "val": 64727000000
-    },
     {
      "end": "2024-09-30",
      "val": 65585000000
@@ -3810,13 +3805,13 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 90007000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 92279000000
     }
    ],
    "capex_q": [
-    {
-     "end": "2024-06-30",
-     "val": 13873000000
-    },
     {
      "end": "2024-09-30",
      "val": 14923000000
@@ -3848,6 +3843,10 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 35802000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 39367000000
     }
    ]
   },
@@ -3953,30 +3952,26 @@ window.CAPEX_DATA = {
   {
    "ticker": "GOOGL",
    "name": "Alphabet",
-   "asof": "2026-06-30",
+   "asof": "2026-09-30",
    "stale": false,
    "tags": {
     "capex": "PaymentsToAcquirePropertyPlantAndEquipment",
     "revenue": "Revenues"
    },
-   "capex_ttm": 132402000000,
-   "ocf_ttm": 185675000000,
-   "rev_ttm": 445867000000,
-   "capex_ocf": 71.30846909923252,
-   "capex_ocf_prev": 63.04680733913383,
-   "capex_growth": 97.6739325171693,
-   "rev_growth": 20.050673265140727,
-   "coverage_gap": 77.62325925202857,
+   "capex_ttm": 159804000000,
+   "ocf_ttm": 179551000000,
+   "rev_ttm": 471098000000,
+   "capex_ocf": 89.00201057081276,
+   "capex_ocf_prev": 71.30846909923252,
+   "capex_growth": 105.21368399424698,
+   "rev_growth": 22.21170134664325,
+   "coverage_gap": 83.00198264760373,
    "coverage_gap_hist": [
+    83.00198264760373,
     77.62325925202857,
-    72.98904979608763,
-    52.49755007771792
+    72.98904979608763
    ],
    "rev_q": [
-    {
-     "end": "2024-06-30",
-     "val": 84742000000
-    },
     {
      "end": "2024-09-30",
      "val": 88268000000
@@ -4008,13 +4003,13 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 119796000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 127577000000
     }
    ],
    "capex_q": [
-    {
-     "end": "2024-06-30",
-     "val": 13186000000
-    },
     {
      "end": "2024-09-30",
      "val": 13061000000
@@ -4046,6 +4041,10 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 44924000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 51355000000
     }
    ]
   },
@@ -4351,17 +4350,15 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-10-26",
-    "v": 3.3
+    "d": "2026-10-28",
+    "v": 3.14
    },
-   "yoy": 9.271523178807941,
-   "chg_6m": 18.705035971223026,
-   "abs_6m": 0.52,
-   "abs_3m": 0.4299999999999997,
-   "avg5": 3.34,
+   "yoy": 3.973509933774838,
+   "chg_6m": 14.181818181818187,
+   "abs_6m": 0.3900000000000001,
+   "abs_3m": 0.29000000000000004,
+   "avg5": 3.28,
    "spark": [
-    2.73,
-    2.75,
     2.71,
     2.7,
     2.7,
@@ -4419,11 +4416,11 @@ window.CAPEX_DATA = {
     3.27,
     3.4,
     3.38,
-    3.3
+    3.3,
+    3.18,
+    3.14
    ],
    "spark_dates": [
-    "2026-08-04",
-    "2026-08-05",
     "2026-08-06",
     "2026-08-07",
     "2026-08-10",
@@ -4481,9 +4478,11 @@ window.CAPEX_DATA = {
     "2026-10-21",
     "2026-10-22",
     "2026-10-23",
-    "2026-10-26"
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28"
    ],
-   "n": 784
+   "n": 786
   },
   "semi_ppi": {
    "series": "PCU3344133441",
@@ -4899,17 +4898,15 @@ window.CAPEX_DATA = {
   "ccc_oas": {
    "series": "BAMLH0A3HYC",
    "latest": {
-    "d": "2026-10-26",
-    "v": 13.45
+    "d": "2026-10-28",
+    "v": 13.07
    },
-   "yoy": 51.46396396396394,
-   "chg_6m": 47.802197802197796,
-   "abs_6m": 4.35,
-   "abs_3m": 3.3199999999999985,
-   "avg5": 13.35,
+   "yoy": 46.03351955307264,
+   "chg_6m": 44.10143329658214,
+   "abs_6m": 4.0,
+   "abs_3m": 2.7300000000000004,
+   "avg5": 13.34,
    "spark": [
-    10.19,
-    10.23,
     10.17,
     10.13,
     10.14,
@@ -4967,11 +4964,11 @@ window.CAPEX_DATA = {
     13.07,
     13.4,
     13.56,
-    13.45
+    13.45,
+    13.21,
+    13.07
    ],
    "spark_dates": [
-    "2026-08-04",
-    "2026-08-05",
     "2026-08-06",
     "2026-08-07",
     "2026-08-10",
@@ -5029,24 +5026,24 @@ window.CAPEX_DATA = {
     "2026-10-21",
     "2026-10-22",
     "2026-10-23",
-    "2026-10-26"
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28"
    ],
-   "n": 784
+   "n": 786
   },
   "vix": {
    "series": "VIXCLS",
    "latest": {
-    "d": "2026-10-26",
-    "v": 18.39
+    "d": "2026-10-28",
+    "v": 16.91
    },
-   "yoy": 7.105416423995334,
-   "chg_6m": 8.240141259564462,
-   "abs_6m": 1.4000000000000021,
-   "abs_3m": -2.2699999999999996,
-   "avg5": 18.17,
+   "yoy": -6.107717934480851,
+   "chg_6m": -2.7042577675489,
+   "abs_6m": -0.46999999999999886,
+   "abs_3m": 0.9199999999999999,
+   "avg5": 18.26,
    "spark": [
-    16.5,
-    15.81,
     15.15,
     14.9,
     15.46,
@@ -5104,11 +5101,11 @@ window.CAPEX_DATA = {
     16.68,
     19.03,
     19.45,
-    18.39
+    18.39,
+    17.52,
+    16.91
    ],
    "spark_dates": [
-    "2026-08-04",
-    "2026-08-05",
     "2026-08-06",
     "2026-08-07",
     "2026-08-10",
@@ -5166,23 +5163,24 @@ window.CAPEX_DATA = {
     "2026-10-21",
     "2026-10-22",
     "2026-10-23",
-    "2026-10-26"
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28"
    ],
-   "n": 9303
+   "n": 9305
   },
   "nfci": {
    "series": "NFCI",
    "latest": {
-    "d": "2026-10-16",
-    "v": -0.496
+    "d": "2026-10-23",
+    "v": -0.487
    },
-   "yoy": 4.615384615384619,
-   "chg_6m": -1.84804928131417,
-   "abs_6m": -0.009000000000000008,
-   "abs_3m": 0.03500000000000003,
-   "avg5": -0.51,
+   "yoy": 5.80270793036751,
+   "chg_6m": 2.0120724346076475,
+   "abs_6m": 0.010000000000000009,
+   "abs_3m": 0.051000000000000045,
+   "avg5": -0.5,
    "spark": [
-    -0.527,
     -0.527,
     -0.528,
     -0.527,
@@ -5230,21 +5228,21 @@ window.CAPEX_DATA = {
     -0.526,
     -0.531,
     -0.538,
-    -0.543,
+    -0.542,
     -0.547,
     -0.55,
     -0.551,
     -0.549,
-    -0.544,
+    -0.545,
     -0.537,
     -0.528,
     -0.518,
     -0.508,
-    -0.502,
-    -0.496
+    -0.501,
+    -0.494,
+    -0.487
    ],
    "spark_dates": [
-    "2025-08-29",
     "2025-09-05",
     "2025-09-12",
     "2025-09-19",
@@ -5303,24 +5301,23 @@ window.CAPEX_DATA = {
     "2026-09-25",
     "2026-10-02",
     "2026-10-09",
-    "2026-10-16"
+    "2026-10-16",
+    "2026-10-23"
    ],
-   "n": 2911
+   "n": 2912
   },
   "real10": {
    "series": "DFII10",
    "latest": {
-    "d": "2026-10-26",
-    "v": 2.66
+    "d": "2026-10-28",
+    "v": 2.67
    },
-   "yoy": 58.33333333333335,
-   "chg_6m": 40.740740740740755,
-   "abs_6m": 0.7700000000000002,
-   "abs_3m": 0.2200000000000002,
-   "avg5": 2.7,
+   "yoy": 54.33526011560693,
+   "chg_6m": 39.0625,
+   "abs_6m": 0.75,
+   "abs_3m": 0.2599999999999998,
+   "avg5": 2.65,
    "spark": [
-    2.47,
-    2.43,
     2.4,
     2.41,
     2.43,
@@ -5378,11 +5375,11 @@ window.CAPEX_DATA = {
     2.76,
     2.64,
     2.66,
-    2.66
+    2.66,
+    2.64,
+    2.67
    ],
    "spark_dates": [
-    "2026-07-31",
-    "2026-08-03",
     "2026-08-04",
     "2026-08-05",
     "2026-08-06",
@@ -5440,9 +5437,11 @@ window.CAPEX_DATA = {
     "2026-10-21",
     "2026-10-22",
     "2026-10-23",
-    "2026-10-26"
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28"
    ],
-   "n": 5958
+   "n": 5960
   },
   "sahm": {
    "series": "SAHMREALTIME",
@@ -5721,16 +5720,15 @@ window.CAPEX_DATA = {
   "gdp": {
    "series": "GDP",
    "latest": {
-    "d": "2026-04-01",
-    "v": 32563.03
+    "d": "2026-07-01",
+    "v": 33010.036
    },
-   "yoy": 6.310300424672742,
-   "chg_6m": 3.497834550649348,
-   "abs_6m": 1100.5069999999978,
-   "abs_3m": 656.7559999999976,
-   "avg5": 31548.5,
+   "yoy": 5.867588431010381,
+   "chg_6m": 3.459388582947663,
+   "abs_6m": 1103.7619999999988,
+   "abs_3m": 447.0060000000012,
+   "avg5": 32024.47,
    "spark": [
-    15647.68,
     15842.259,
     16068.805,
     16207.115,
@@ -5789,10 +5787,10 @@ window.CAPEX_DATA = {
     31180.493,
     31462.523,
     31906.274,
-    32563.03
+    32563.03,
+    33010.036
    ],
    "spark_dates": [
-    "2011-07-01",
     "2011-10-01",
     "2012-01-01",
     "2012-04-01",
@@ -5851,9 +5849,10 @@ window.CAPEX_DATA = {
     "2025-07-01",
     "2025-10-01",
     "2026-01-01",
-    "2026-04-01"
+    "2026-04-01",
+    "2026-07-01"
    ],
-   "n": 318
+   "n": 319
   }
  },
  "gpus": [
@@ -5868,13 +5867,13 @@ window.CAPEX_DATA = {
    "gpu": "B200",
    "offers": 3,
    "median": 7.5021,
-   "p25": 6.2521,
-   "min": 6.2521
+   "p25": 7.5021,
+   "min": 7.5021
   },
   {
    "gpu": "H100 SXM",
-   "offers": 7,
-   "median": 2.5808,
+   "offers": 5,
+   "median": 2.4015,
    "p25": 2.4015,
    "min": 1.9342
   }
@@ -6244,6 +6243,23 @@ window.CAPEX_DATA = {
      "offers": 7
     }
    }
+  },
+  {
+   "date": "2026-10-29",
+   "gpu": {
+    "H200": {
+     "median": 5.0537,
+     "offers": 1
+    },
+    "B200": {
+     "median": 7.5021,
+     "offers": 3
+    },
+    "H100 SXM": {
+     "median": 2.4015,
+     "offers": 5
+    }
+   }
   }
  ],
  "context": {
@@ -6396,13 +6412,13 @@ window.CAPEX_DATA = {
     "gpu": "B200",
     "offers": 3,
     "median": 7.5021,
-    "p25": 6.2521,
-    "min": 6.2521
+    "p25": 7.5021,
+    "min": 7.5021
    },
    {
     "gpu": "H100 SXM",
-    "offers": 7,
-    "median": 2.5808,
+    "offers": 5,
+    "median": 2.4015,
     "p25": 2.4015,
     "min": 1.9342
    }
@@ -6664,10 +6680,10 @@ window.CAPEX_DATA = {
   "_comment": "Sensors with no machine-readable feed. Updated by research, not by fetch.py. Each carries its own 'asof' date; the dashboard marks anything older than 45 days as stale so a forgotten sensor cannot quietly pass for a current reading. state: 0 calm, 1 watch, 2 turning.",
   "A4": {
    "state": 0,
-   "value": "Meta raises the floor, Huang: demand 'off the charts'",
-   "detail": "The first Q3 call is in and still contains no cautious language. Meta (2026-10-21) narrowed its 2026 capex range upward to $135-145bn from $130-145bn, spent $34.9bn in the quarter and went to negative free cash flow (about -$2.1bn), saying it is still building the 2027 plan and will keep funding AI capacity; more detail comes on the Q4 call. Nvidia's Huang (GTC Berlin, 2026-10-22) called neocloud demand 'off the charts' and said the constraint is capital, not customers. That is the most important new nuance here: it is not 'digesting' language, but it names financing as the bottleneck, which is a C-cluster problem, not an A-cluster one. Oracle (2026-09-10) still holds $90-95bn for its fiscal year. Microsoft, Alphabet and Amazon have not reported Q3 yet; they are the real test, and the stock-market selloff of the week of 2026-10-19 does not count under the 'no share prices' rule.",
-   "asof": "2026-10-23",
-   "source": "Meta Q3 2026 release and call (2026-10-21); CNBC interview with Jensen Huang (2026-10-22); Oracle FY2027 Q1 (2026-09-10)"
+   "value": "all three raise 2027; capacity sold out",
+   "detail": "The Q3 calls are in and none of the four large buyers used cautious language. Microsoft (2026-10-28): Azure +48%, guided to 49-50% next quarter; capex of $45.2bn came in below plan because third-party GPU suppliers delivered late, pushing capacity into H1 2027 \u2014 a supply complaint, which Rule 05 reads as the opposite of a warning; Q2 capex above $50bn, about $170bn for the calendar year; commercial RPO +73% to $677bn. Alphabet (2026-10-28): Google Cloud +103% to $30.7bn, backlog $561bn, Q3 capex about $51.4bn, 2026 range held at $195-205bn and 'we continue to expect our capex to increase significantly in 2027'. Amazon (2026-10-29): AWS +39%, its fastest in nearly five years, backlog $578bn, capacity 'largely sold out' for next year, 2026 capex about $220bn and 2027 'meaningfully more'. Meta (2026-10-21) raised the floor of its range. The market punished all of it (Alphabet about -10%, Amazon about -7% after hours), but the share price is not this sensor's question: the words are still 'we cannot build fast enough'.",
+   "asof": "2026-10-29",
+   "source": "Microsoft FY2027 Q1 release and call (2026-10-28); Alphabet Q3 2026 release and call, CNBC and Fortune (2026-10-28); Amazon Q3 2026 release and call, CNBC and GeekWire (2026-10-29); Meta Q3 2026 (2026-10-21)"
   },
   "B2": {
    "state": 0,
@@ -6686,16 +6702,16 @@ window.CAPEX_DATA = {
   "C1": {
    "state": 1,
    "value": "lenders push back on the most-indebted builders",
-   "detail": "The volume has kept rising: Barclays counts $346bn of capital raised by hyperscalers, data-centre operators and neoclouds so far in 2026, against $172bn for all of 2025. The new part is the lender side, which since mid-October has started to refuse the weakest borrowers. CoreWeave's five-year CDS went above 1,100bp (CNBC, 2026-10-15) and its unsecured bonds yield about 15%; Oracle's spread was 308bp on 2026-10-21 against 141bp on 2026-01-02; SoftBank's CDS is near a four-year high above 420bp; Meta's CDS is reported at a record of about 115bp; a Korean neocloud IPO failed (PitchBook). Evercore's desk sums up the market's line as no more AI debt without operating cash flow behind it, and Huang publicly called capital 'scarce'. Still watch, not turning: the turn needs most new spending to be borrowed, and the five large buyers still pay most of it from cash (see A2). But this is the sensor closest to turning, and the stress sits exactly where the thesis expects it: with the companies that build on borrowed money rather than with the cash-rich hyperscalers. C2 cannot see this, because it measures the whole high-yield market. Update 2026-10-28: the repricing has reached the large names. Oracle's five-year CDS widened to about 315bp (2026-10-19, up about 300% on a year), and Amazon, Alphabet, Meta and Nvidia CDS are reported at record wides, though far below Oracle's. CoreWeave eased slightly to about 1,080bp. Oracle plans about $40bn of debt and equity this fiscal year after negative free cash flow of $5.4bn last quarter. Still watch: the cash-rich buyers still fund most capex themselves, but the board's automatic credit readings now confirm the move (E1 turning, C2 on watch).",
-   "asof": "2026-10-28",
-   "source": "CNBC on CoreWeave CDS (2026-10-15) and Oracle spreads (2026-10-21/22); Barclays research via Yahoo Finance (October 2026); PitchBook on the Korean neocloud IPO; CNBC Huang interview (2026-10-22); CNBC on Oracle and CoreWeave credit (2026-10-19); 24/7 Wall St. on record bond sales (2026-10-27)"
+   "detail": "The volume has kept rising: Barclays counts $346bn of capital raised by hyperscalers, data-centre operators and neoclouds so far in 2026, against $172bn for all of 2025. The new part is the lender side, which since mid-October has started to refuse the weakest borrowers. CoreWeave's five-year CDS went above 1,100bp (CNBC, 2026-10-15) and its unsecured bonds yield about 15%; Oracle's spread was 308bp on 2026-10-21 against 141bp on 2026-01-02; SoftBank's CDS is near a four-year high above 420bp; Meta's CDS is reported at a record of about 115bp; a Korean neocloud IPO failed (PitchBook). Evercore's desk sums up the market's line as no more AI debt without operating cash flow behind it, and Huang publicly called capital 'scarce'. Still watch, not turning: the turn needs most new spending to be borrowed, and the five large buyers still pay most of it from cash (see A2). But this is the sensor closest to turning, and the stress sits exactly where the thesis expects it: with the companies that build on borrowed money rather than with the cash-rich hyperscalers. C2 cannot see this, because it measures the whole high-yield market. Update 2026-10-28: the repricing has reached the large names. Oracle's five-year CDS widened to about 315bp (2026-10-19, up about 300% on a year), and Amazon, Alphabet, Meta and Nvidia CDS are reported at record wides, though far below Oracle's. CoreWeave eased slightly to about 1,080bp. Oracle plans about $40bn of debt and equity this fiscal year after negative free cash flow of $5.4bn last quarter. Still watch: the cash-rich buyers still fund most capex themselves, but the board's automatic credit readings now confirm the move (E1 turning, C2 on watch). Update 2026-10-29: the Q3 reports show the cash cover thinning at the cash-rich buyers too: Alphabet's free cash flow was about -$9.1bn in Q3 and its long-term debt rose to $125.1bn; Amazon's trailing free cash flow swung to an outflow of $42.4bn. A2 (capex against operating cash flow, median of the five) rose to 89% with the new filings. Still watch: the buyers still pay most capex from operating cash, but the margin is close to used up.",
+   "asof": "2026-10-29",
+   "source": "CNBC on CoreWeave CDS (2026-10-15) and Oracle spreads (2026-10-21/22); Barclays research via Yahoo Finance (October 2026); PitchBook on the Korean neocloud IPO; CNBC Huang interview (2026-10-22); CNBC on Oracle and CoreWeave credit (2026-10-19); 24/7 Wall St. on record bond sales (2026-10-27); Alphabet and Amazon Q3 2026 results (2026-10-28/29)"
   },
   "C3": {
    "state": 1,
-   "value": "no new change; Microsoft's 25-year buildings now in force",
-   "detail": "No filer has changed server lives or written down AI equipment since September. The standing picture: Microsoft's longer life for data centres and office buildings (15 to 25 years) applies from FY2027, which began in July, so its first effect shows in the late-October results. Amazon remains the one company to have shortened (a subset of servers, six to five years), Meta the one to have stretched (5.5 years). The 10-Qs due in late October and early November are the next check.",
-   "asof": "2026-10-17",
-   "source": "10-K and 10-Q useful-life disclosures; Microsoft FY2026 Q4 disclosure"
+   "value": "no change in the Q3 10-Qs",
+   "detail": "Checked in the filings themselves: the Q3 10-Qs of Microsoft (filed 2026-10-28), Alphabet (2026-10-29) and Meta (2026-10-22) disclose no change in the useful life of servers or network equipment and no write-down of AI hardware; useful lives appear only in the standard list of estimates. Alphabet's filing adds the generic caution that technology advances could change the period over which assets are depreciated. The standing picture holds: Alphabet six years for servers, Microsoft two to six, Meta 5.5 years after stretching (2025), Amazon the one to have shortened a subset from six to five; Microsoft's longer life for buildings (15 to 25 years) applies from this quarter. Watch stays because the earlier stretches stand, not because of anything new. Amazon's 10-Q is still to come.",
+   "asof": "2026-10-29",
+   "source": "Microsoft 10-Q (2026-10-28), Alphabet 10-Q (2026-10-29), Meta 10-Q (2026-10-22), read on EDGAR; 2025 10-K useful-life disclosures"
   },
   "C4": {
    "state": 1,
@@ -6714,9 +6730,9 @@ window.CAPEX_DATA = {
   "D4": {
    "state": 0,
    "value": "AI seats and ARR still expanding",
-   "detail": "The large sellers still report expansion, not cancellation. Salesforce (Q2 FY2027, 2026-08-26) put Agentforce ARR above $1.5bn, up over 240%, and AI plus Data 360 near $3.9bn \u2014 flattered by a wider definition from this quarter. Microsoft 365 Copilot went from 15m paid seats in January to about 30m by the June quarter, with net adds more than doubling. Against that: surveys of mid-market buyers describe 2026 as the year 2024-25 AI commitments meet real usage data, and only a minority report the returns they bought for. That is anecdote and forecast, which the sensor caps at watch, and no seller has reported a cancellation wave.",
-   "asof": "2026-10-17",
-   "source": "Salesforce Q2 FY2027 results; Microsoft FY2026 Q3/Q4 calls; RBC CIO survey and renewal commentary (2026)"
+   "detail": "The large sellers still report expansion, not cancellation. Salesforce (Q2 FY2027, 2026-08-26) put Agentforce ARR above $1.5bn, up over 240%, and AI plus Data 360 near $3.9bn \u2014 flattered by a wider definition from this quarter. Microsoft 365 Copilot went from 15m paid seats in January to about 30m by the June quarter, with net adds more than doubling. Against that: surveys of mid-market buyers describe 2026 as the year 2024-25 AI commitments meet real usage data, and only a minority report the returns they bought for. That is anecdote and forecast, which the sensor caps at watch, and no seller has reported a cancellation wave. Update 2026-10-29: the order books say expansion, not cancellation: Microsoft commercial remaining performance obligations +73% to $677bn, Google Cloud backlog $561bn, AWS backlog $578bn (more than doubled in a year) with capacity largely sold out for 2027. Backlogs are commitments, not usage, and include the large labs (see C5), but no seller reports cancellations.",
+   "asof": "2026-10-29",
+   "source": "Salesforce Q2 FY2027 results; Microsoft FY2026 Q3/Q4 calls; RBC CIO survey and renewal commentary (2026); Q3 2026 results of Microsoft, Alphabet, Amazon (2026-10-28/29)"
   },
   "C5": {
    "state": 1,
@@ -7171,6 +7187,33 @@ window.CAPEX_HISTORY = [
    "A3": 0,
    "D3": 1,
    "C2": 1,
+   "B1": 0,
+   "D2": 2,
+   "B4": 1,
+   "E1": 2,
+   "E2": 0,
+   "E3": 0,
+   "E4": 1,
+   "E5": 0,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 1,
+   "D1": 2,
+   "D4": 0,
+   "C5": 1
+  }
+ },
+ {
+  "date": "2026-10-29",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
    "B1": 0,
    "D2": 2,
    "B4": 1,

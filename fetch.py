@@ -243,14 +243,28 @@ def edgar():
             rev, t_rev = concept(cik, TAGS_REV)
             # concept() reads a failed request as "tag not used", so one EDGAR
             # hiccup used to drop a filer's cash flow silently — Alphabet's on
-            # 2026-10-16, leaving A2 a median of four. One slower second try.
-            for _ in range(1):
-                if capex and ocf and rev:
+            # 2026-10-16, leaving A2 a median of four. Worse, when the current
+            # tag fails an old fallback tag wins: Oracle's revenue fell back to
+            # "Revenues", which ends in 2022 and mixes in annual figures, and
+            # turned its coverage gap from +154pp into +38pp (2026-10-29). So a
+            # series is also retried when it trails capex by more than a quarter,
+            # and dropped (and reported) if it still does: a missing figure
+            # leaves the medians honest, a stale one does not.
+            def lags(series):
+                return bool(series and capex) and days(series[-1][0], capex[-1][0]) > 120
+            for _ in range(2):
+                if capex and ocf and rev and not lags(ocf) and not lags(rev):
                     break
                 time.sleep(3)
                 capex, t_capex = (capex, t_capex) if capex else concept(cik, TAGS_CAPEX)
-                ocf = ocf or concept(cik, TAGS_OCF)[0]
-                rev, t_rev = (rev, t_rev) if rev else concept(cik, TAGS_REV)
+                if not ocf or lags(ocf):
+                    ocf = concept(cik, TAGS_OCF)[0]
+                if not rev or lags(rev):
+                    rev, t_rev = concept(cik, TAGS_REV)
+            if lags(ocf):
+                ocf = []
+            if lags(rev):
+                rev, t_rev = [], None
             time.sleep(0.3)                                  # be polite to EDGAR
         except Exception as e:                               # noqa: BLE001
             rows.append({"ticker": ticker, "name": name, "error": str(e)})
