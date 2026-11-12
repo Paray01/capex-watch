@@ -10,15 +10,15 @@
  "B2": {
   "state": 0,
   "value": "1.0-1.4% vacancy, no newer survey",
-  "detail": "The H1 2026 surveys published in September are still the latest: CBRE primary-market vacancy a record 1.4% (Northern Virginia 0.2%), JLL North America about 1% for the third year running, 25 GW absorbed in H1 and most tenants now contracting for 2028 deliveries. JLL counts 66 GW under construction, 95% pre-committed. Nothing points to space coming free; the next reading is the year-end round in February and March.",
-  "asof": "2026-10-17",
+  "detail": "The H1 2026 surveys published in September are still the latest: CBRE primary-market vacancy a record 1.4% (Northern Virginia 0.2%), JLL North America about 1% for the third year running, 25 GW absorbed in H1 and most tenants now contracting for 2028 deliveries. JLL counts 66 GW under construction, 95% pre-committed. Nothing points to space coming free; the next reading is the year-end round in February and March. Re-checked 2026-11-12: no Q3 or Q4 CBRE/JLL vacancy survey has published yet; the H1 figures remain the latest available.",
+  "asof": "2026-11-12",
   "source": "CBRE North America Data Center Trends H1 2026 (2026-09-08); JLL North America Data Center Report midyear 2026"
  },
  "B3": {
   "state": 1,
   "value": "record build, cancellations doubling, for local reasons",
-  "detail": "Construction is still at a record — CBRE 7,481 MW under way in the primary markets, +24.8% in H1. The cancellation half keeps clustering: Uptime Institute counts 26 cancelled giant campuses in H1 2026 against 12 in all of 2025, Data Center Watch 45 US projects worth about $68bn blocked or delayed in Q2 after about $130bn in Q1, and New York stopped taking proposals for large new facilities in July. Rule 05 holds: the stated reasons are local opposition, power and permits, not tenants walking away. Watch, not turning, because construction is rising, not down 15%.",
-  "asof": "2026-10-17",
+  "detail": "Construction is still at a record — CBRE 7,481 MW under way in the primary markets, +24.8% in H1. The cancellation half keeps clustering: Uptime Institute counts 26 cancelled giant campuses in H1 2026 against 12 in all of 2025, Data Center Watch 45 US projects worth about $68bn blocked or delayed in Q2 after about $130bn in Q1, and New York stopped taking proposals for large new facilities in July. Rule 05 holds: the stated reasons are local opposition, power and permits, not tenants walking away. Watch, not turning, because construction is rising, not down 15%. Re-checked 2026-11-12: no newer Uptime Institute or Data Center Watch quarterly tracker has published since the H1/Q2 round; the picture is unchanged.",
+  "asof": "2026-11-12",
   "source": "CBRE H1 2026; Uptime Institute Update 528 (September 2026); Data Center Watch Q2 2026; Heatmap cancellation tracking"
  },
  "C1": {
@@ -44,10 +44,10 @@
  },
  "D1": {
   "state": 2,
-  "value": "phones -6.7% then -20%, PCs -20.1%",
-  "detail": "The turn the September reading expected has come. Smartphones fell 6.7% in Q2 (IDC) and about 20% in Q3 (Counterpoint, preliminary; the lowest third quarter since 2012) — two quarters beyond -5%. PCs fell 20.1% to 62.7m in Q3 after a revised -3.8% in Q2 (IDC). China alone fell 15.4%, its sixth straight decline. Every source names the same cause: memory and component costs pushing up shelf prices. The caveat for PCs is real — IDC says buyers stocked up early in the year ahead of price rises, borrowing from H2 — but the phone decline has no such pull-in behind it, and IDC expects the next few quarters to get worse before they improve. IDC's own global phone figure for Q3 is still due.",
-  "asof": "2026-10-17",
-  "source": "IDC PC tracker Q3 2026 (2026-10-08); IDC China smartphone Q3 2026 (2026-10-13); Counterpoint global smartphone Q3 2026 preliminary; IDC Q2 2026"
+  "value": "phones -6.7% then -22% globally, PCs -20.1%",
+  "detail": "IDC's own global Q3 figure is in and it deepens the turn: worldwide smartphone shipments fell 22% year on year to 255.3m units (2026-10-15), which IDC says is the largest quarterly decline it has recorded, ahead of the preliminary Counterpoint/China-only reading of about -20% used in the last update. Two quarters beyond -5% stands either way: Q2 -6.7%, Q3 -22%. PCs are unchanged at -20.1% to 62.7m units in Q3 (IDC, 2026-10-08) after a revised -3.8% in Q2. Every source still names memory and component costs as the cause; the PC caveat stands (IDC says buyers pulled purchases forward earlier in the year), but the phone decline has no equivalent pull-in, and IDC expects the downturn to carry into 2027.",
+  "asof": "2026-11-12",
+  "source": "IDC worldwide smartphone shipments Q3 2026 (2026-10-15); IDC PC tracker Q3 2026 (2026-10-08)"
  },
  "D4": {
   "state": 0,
