@@ -6,11 +6,11 @@ window.CAPEX_DATA = {
    "score": 1,
    "level": "Strained",
    "watch": [
+    "E1",
+    "E2",
     "E4"
    ],
-   "turning": [
-    "E1"
-   ]
+   "turning": []
   },
   "stage": 1,
   "stage_raw": 1,
@@ -34,11 +34,11 @@ window.CAPEX_DATA = {
    {
     "id": "D",
     "name": "The paying end",
-    "score": 1
+    "score": 2
    }
   ],
-  "red": 0,
-  "amber": 3,
+  "red": 1,
+  "amber": 2,
   "confirmed": {
    "A2": 1,
    "A1": 0,
@@ -46,10 +46,10 @@ window.CAPEX_DATA = {
    "D3": 1,
    "C2": 1,
    "B1": 0,
-   "D2": 1,
+   "D2": 2,
    "B4": 1,
-   "E1": 2,
-   "E2": 0,
+   "E1": 1,
+   "E2": 1,
    "E3": 0,
    "E4": 1,
    "E5": 0,
@@ -64,13 +64,14 @@ window.CAPEX_DATA = {
    "C5": 1
   },
   "confirmation_ready": true,
-  "history_days": 24
+  "history_days": 25
  },
  "alerts": [
-  "C2 improved: watch -> calm"
+  "E1 improved: turning -> watch",
+  "E2 worsened: calm -> watch"
  ],
- "generated": "2026-10-29 22:33 UTC",
- "generated_date": "2026-10-29",
+ "generated": "2026-11-13 20:47 UTC",
+ "generated_date": "2026-11-13",
  "auto": {
   "A2": {
    "state": 1,
@@ -151,31 +152,31 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-03-31",
-     "v": -17.2
+     "v": -15.0
     },
     {
      "d": "2024-06-30",
-     "v": -7.9
+     "v": 1.7
     },
     {
      "d": "2024-09-30",
-     "v": 7.7
+     "v": 27.4
     },
     {
      "d": "2024-12-31",
-     "v": 54.9
-    },
-    {
-     "d": "2025-03-31",
      "v": 57.4
     },
     {
+     "d": "2025-03-31",
+     "v": 64.5
+    },
+    {
      "d": "2025-06-30",
-     "v": 74.2
+     "v": 80.6
     },
     {
      "d": "2025-09-30",
-     "v": 80.6
+     "v": 72.2
     },
     {
      "d": "2025-12-31",
@@ -216,7 +217,7 @@ window.CAPEX_DATA = {
    "state": 1,
    "value": 79.0,
    "unit": "pp",
-   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 61.8pp, 46.8pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
+   "detail": "median capex growth minus total revenue growth, trailing twelve months. Prior two quarters: 61.8pp, 48.0pp. A proxy \u2014 total revenue dilutes AI revenue, so the true AI-level gap is smaller.",
    "series": [
     {
      "d": "2023-12-31",
@@ -224,11 +225,11 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-03-31",
-     "v": -29.0
+     "v": -27.6
     },
     {
      "d": "2024-06-30",
-     "v": -27.1
+     "v": -10.6
     },
     {
      "d": "2024-09-30",
@@ -236,7 +237,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-12-31",
-     "v": 15.8
+     "v": 42.8
     },
     {
      "d": "2025-03-31",
@@ -248,15 +249,15 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2025-09-30",
-     "v": 69.7
-    },
-    {
-     "d": "2025-12-31",
      "v": 60.7
     },
     {
+     "d": "2025-12-31",
+     "v": 52.5
+    },
+    {
      "d": "2026-03-31",
-     "v": 46.8
+     "v": 48.0
     },
     {
      "d": "2026-06-30",
@@ -281,50 +282,10 @@ window.CAPEX_DATA = {
   },
   "C2": {
    "state": 0,
-   "value": 314,
+   "value": 320,
    "unit": "bp",
-   "detail": "US high-yield spread, +39bp over six months",
+   "detail": "US high-yield spread, +40bp over six months",
    "series": [
-    {
-     "d": "2026-05-01",
-     "v": 277
-    },
-    {
-     "d": "2026-05-04",
-     "v": 278
-    },
-    {
-     "d": "2026-05-05",
-     "v": 277
-    },
-    {
-     "d": "2026-05-06",
-     "v": 275
-    },
-    {
-     "d": "2026-05-07",
-     "v": 279
-    },
-    {
-     "d": "2026-05-08",
-     "v": 281
-    },
-    {
-     "d": "2026-05-11",
-     "v": 279
-    },
-    {
-     "d": "2026-05-12",
-     "v": 282
-    },
-    {
-     "d": "2026-05-13",
-     "v": 282
-    },
-    {
-     "d": "2026-05-14",
-     "v": 276
-    },
     {
      "d": "2026-05-15",
      "v": 280
@@ -804,6 +765,46 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-28",
      "v": 314
+    },
+    {
+     "d": "2026-10-29",
+     "v": 326
+    },
+    {
+     "d": "2026-10-30",
+     "v": 344
+    },
+    {
+     "d": "2026-11-02",
+     "v": 343
+    },
+    {
+     "d": "2026-11-03",
+     "v": 340
+    },
+    {
+     "d": "2026-11-04",
+     "v": 332
+    },
+    {
+     "d": "2026-11-05",
+     "v": 348
+    },
+    {
+     "d": "2026-11-06",
+     "v": 342
+    },
+    {
+     "d": "2026-11-09",
+     "v": 334
+    },
+    {
+     "d": "2026-11-11",
+     "v": 330
+    },
+    {
+     "d": "2026-11-12",
+     "v": 320
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -820,20 +821,16 @@ window.CAPEX_DATA = {
   },
   "B1": {
    "state": 0,
-   "value": 5.0537,
+   "value": 4.4092,
    "unit": "$/hr H200",
-   "detail": "median of 3 model(s): 9.1% price and -50.0% listings over ~50 days"
+   "detail": "median of 3 model(s): 10.9% price and -20.0% listings over ~65 days"
   },
   "D2": {
    "state": 2,
-   "value": 9.9,
+   "value": 10.3,
    "unit": "% YoY",
    "detail": "CPI, personal computers and peripherals \u2014 this series normally declines",
    "series": [
-    {
-     "d": "2021-09-01",
-     "v": 8.52
-    },
     {
      "d": "2021-10-01",
      "v": 8.36
@@ -1069,6 +1066,10 @@ window.CAPEX_DATA = {
     {
      "d": "2026-09-01",
      "v": 9.94
+    },
+    {
+     "d": "2026-10-01",
+     "v": 10.3
     }
    ],
    "series_note": "one point per month, against the same month a year earlier",
@@ -1085,14 +1086,10 @@ window.CAPEX_DATA = {
   },
   "B4": {
    "state": 1,
-   "value": 26.0,
+   "value": 30.6,
    "unit": "% YoY",
-   "detail": "PPI semiconductors, six-month change 10.3% \u2014 a proxy; spot DRAM leads it",
+   "detail": "PPI semiconductors, six-month change 7.3% \u2014 a proxy; spot DRAM leads it",
    "series": [
-    {
-     "d": "2021-10-01",
-     "v": 2.15
-    },
     {
      "d": "2021-11-01",
      "v": 2.52
@@ -1319,15 +1316,19 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-07-01",
-     "v": 27.13
+     "v": 27.14
     },
     {
      "d": "2026-08-01",
-     "v": 26.72
+     "v": 27.23
     },
     {
      "d": "2026-09-01",
-     "v": 26.02
+     "v": 26.48
+    },
+    {
+     "d": "2026-10-01",
+     "v": 30.64
     }
    ],
    "series_note": "one point per month, against the same month a year earlier",
@@ -1339,51 +1340,11 @@ window.CAPEX_DATA = {
    ]
   },
   "E1": {
-   "state": 2,
-   "value": 1307,
+   "state": 1,
+   "value": 1314,
    "unit": "bp",
-   "detail": "US CCC-and-below spread, +400bp over six months; the broad high-yield index in C2 reads 314bp",
+   "detail": "US CCC-and-below spread, +374bp over six months; the broad high-yield index in C2 reads 320bp",
    "series": [
-    {
-     "d": "2026-05-01",
-     "v": 904
-    },
-    {
-     "d": "2026-05-04",
-     "v": 910
-    },
-    {
-     "d": "2026-05-05",
-     "v": 911
-    },
-    {
-     "d": "2026-05-06",
-     "v": 907
-    },
-    {
-     "d": "2026-05-07",
-     "v": 915
-    },
-    {
-     "d": "2026-05-08",
-     "v": 920
-    },
-    {
-     "d": "2026-05-11",
-     "v": 931
-    },
-    {
-     "d": "2026-05-12",
-     "v": 937
-    },
-    {
-     "d": "2026-05-13",
-     "v": 931
-    },
-    {
-     "d": "2026-05-14",
-     "v": 922
-    },
     {
      "d": "2026-05-15",
      "v": 935
@@ -1863,6 +1824,46 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-28",
      "v": 1307
+    },
+    {
+     "d": "2026-10-29",
+     "v": 1325
+    },
+    {
+     "d": "2026-10-30",
+     "v": 1327
+    },
+    {
+     "d": "2026-11-02",
+     "v": 1319
+    },
+    {
+     "d": "2026-11-03",
+     "v": 1316
+    },
+    {
+     "d": "2026-11-04",
+     "v": 1297
+    },
+    {
+     "d": "2026-11-05",
+     "v": 1320
+    },
+    {
+     "d": "2026-11-06",
+     "v": 1317
+    },
+    {
+     "d": "2026-11-09",
+     "v": 1311
+    },
+    {
+     "d": "2026-11-11",
+     "v": 1330
+    },
+    {
+     "d": "2026-11-12",
+     "v": 1314
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -1878,55 +1879,11 @@ window.CAPEX_DATA = {
    ]
   },
   "E2": {
-   "state": 0,
-   "value": 18.26,
+   "state": 1,
+   "value": 20.24,
    "unit": "VIX",
-   "detail": "VIX, five-day average; latest close 16.91 on 2026-10-28",
+   "detail": "VIX, five-day average; latest close 18.7 on 2026-11-12",
    "series": [
-    {
-     "d": "2026-04-30",
-     "v": 16.89
-    },
-    {
-     "d": "2026-05-01",
-     "v": 16.99
-    },
-    {
-     "d": "2026-05-04",
-     "v": 18.29
-    },
-    {
-     "d": "2026-05-05",
-     "v": 17.38
-    },
-    {
-     "d": "2026-05-06",
-     "v": 17.39
-    },
-    {
-     "d": "2026-05-07",
-     "v": 17.08
-    },
-    {
-     "d": "2026-05-08",
-     "v": 17.19
-    },
-    {
-     "d": "2026-05-11",
-     "v": 18.38
-    },
-    {
-     "d": "2026-05-12",
-     "v": 17.99
-    },
-    {
-     "d": "2026-05-13",
-     "v": 17.87
-    },
-    {
-     "d": "2026-05-14",
-     "v": 17.26
-    },
     {
      "d": "2026-05-15",
      "v": 18.43
@@ -2402,6 +2359,50 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-28",
      "v": 16.91
+    },
+    {
+     "d": "2026-10-29",
+     "v": 17.2
+    },
+    {
+     "d": "2026-10-30",
+     "v": 19.42
+    },
+    {
+     "d": "2026-11-02",
+     "v": 21.15
+    },
+    {
+     "d": "2026-11-03",
+     "v": 20.83
+    },
+    {
+     "d": "2026-11-04",
+     "v": 16.61
+    },
+    {
+     "d": "2026-11-05",
+     "v": 28.18
+    },
+    {
+     "d": "2026-11-06",
+     "v": 25.64
+    },
+    {
+     "d": "2026-11-09",
+     "v": 19.92
+    },
+    {
+     "d": "2026-11-10",
+     "v": 19.46
+    },
+    {
+     "d": "2026-11-11",
+     "v": 17.49
+    },
+    {
+     "d": "2026-11-12",
+     "v": 18.7
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -2418,18 +2419,10 @@ window.CAPEX_DATA = {
   },
   "E3": {
    "state": 0,
-   "value": -0.49,
+   "value": -0.46,
    "unit": "NFCI",
-   "detail": "Chicago Fed financial conditions, +0.05 over three months. Zero is average; below it money is easier to get than usual",
+   "detail": "Chicago Fed financial conditions, +0.08 over three months. Zero is average; below it money is easier to get than usual",
    "series": [
-    {
-     "d": "2024-05-03",
-     "v": -0.41
-    },
-    {
-     "d": "2024-05-10",
-     "v": -0.41
-    },
     {
      "d": "2024-05-17",
      "v": -0.41
@@ -2524,7 +2517,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-10-25",
-     "v": -0.45
+     "v": -0.44
     },
     {
      "d": "2024-11-01",
@@ -2544,7 +2537,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2024-11-29",
-     "v": -0.48
+     "v": -0.47
     },
     {
      "d": "2024-12-06",
@@ -2880,7 +2873,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-07-10",
-     "v": -0.53
+     "v": -0.52
     },
     {
      "d": "2026-07-17",
@@ -2888,7 +2881,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-07-24",
-     "v": -0.54
+     "v": -0.53
     },
     {
      "d": "2026-07-31",
@@ -2896,7 +2889,7 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-08-07",
-     "v": -0.55
+     "v": -0.54
     },
     {
      "d": "2026-08-14",
@@ -2912,35 +2905,43 @@ window.CAPEX_DATA = {
     },
     {
      "d": "2026-09-04",
-     "v": -0.55
-    },
-    {
-     "d": "2026-09-11",
      "v": -0.54
     },
     {
-     "d": "2026-09-18",
+     "d": "2026-09-11",
      "v": -0.53
     },
     {
-     "d": "2026-09-25",
+     "d": "2026-09-18",
      "v": -0.52
     },
     {
-     "d": "2026-10-02",
+     "d": "2026-09-25",
      "v": -0.51
     },
     {
-     "d": "2026-10-09",
+     "d": "2026-10-02",
      "v": -0.5
     },
     {
-     "d": "2026-10-16",
+     "d": "2026-10-09",
      "v": -0.49
     },
     {
+     "d": "2026-10-16",
+     "v": -0.48
+    },
+    {
      "d": "2026-10-23",
-     "v": -0.49
+     "v": -0.47
+    },
+    {
+     "d": "2026-10-30",
+     "v": -0.47
+    },
+    {
+     "d": "2026-11-06",
+     "v": -0.46
     }
    ],
    "series_note": "one point per week, about two and a half years",
@@ -2957,46 +2958,10 @@ window.CAPEX_DATA = {
   },
   "E4": {
    "state": 1,
-   "value": 2.67,
+   "value": 2.78,
    "unit": "% real",
-   "detail": "10-year real Treasury yield, +75bp over six months. Income expected years out is worth less today when this rises",
+   "detail": "10-year real Treasury yield, +83bp over six months. Income expected years out is worth less today when this rises",
    "series": [
-    {
-     "d": "2026-04-23",
-     "v": 1.92
-    },
-    {
-     "d": "2026-04-24",
-     "v": 1.89
-    },
-    {
-     "d": "2026-04-27",
-     "v": 1.91
-    },
-    {
-     "d": "2026-04-28",
-     "v": 1.92
-    },
-    {
-     "d": "2026-04-29",
-     "v": 1.96
-    },
-    {
-     "d": "2026-04-30",
-     "v": 1.94
-    },
-    {
-     "d": "2026-05-01",
-     "v": 1.91
-    },
-    {
-     "d": "2026-05-04",
-     "v": 1.95
-    },
-    {
-     "d": "2026-05-05",
-     "v": 1.96
-    },
     {
      "d": "2026-05-06",
      "v": 1.94
@@ -3480,6 +3445,42 @@ window.CAPEX_DATA = {
     {
      "d": "2026-10-28",
      "v": 2.67
+    },
+    {
+     "d": "2026-10-29",
+     "v": 2.63
+    },
+    {
+     "d": "2026-10-30",
+     "v": 2.6
+    },
+    {
+     "d": "2026-11-02",
+     "v": 2.62
+    },
+    {
+     "d": "2026-11-03",
+     "v": 2.65
+    },
+    {
+     "d": "2026-11-04",
+     "v": 2.64
+    },
+    {
+     "d": "2026-11-05",
+     "v": 2.6
+    },
+    {
+     "d": "2026-11-06",
+     "v": 2.63
+    },
+    {
+     "d": "2026-11-09",
+     "v": 2.66
+    },
+    {
+     "d": "2026-11-10",
+     "v": 2.78
     }
    ],
    "series_note": "one point per trading day, about six months",
@@ -3494,12 +3495,8 @@ window.CAPEX_DATA = {
    "state": 0,
    "value": 0.0,
    "unit": "Sahm",
-   "detail": "Sahm rule, real-time, 2026-09: rise in the three-month unemployment average over its low of the past year",
+   "detail": "Sahm rule, real-time, 2026-10: rise in the three-month unemployment average over its low of the past year",
    "series": [
-    {
-     "d": "2021-09-01",
-     "v": -0.37
-    },
     {
      "d": "2021-10-01",
      "v": -0.27
@@ -3735,6 +3732,10 @@ window.CAPEX_DATA = {
     {
      "d": "2026-09-01",
      "v": 0.0
+    },
+    {
+     "d": "2026-10-01",
+     "v": 0.0
     }
    ],
    "series_note": "one point per month",
@@ -3853,30 +3854,26 @@ window.CAPEX_DATA = {
   {
    "ticker": "AMZN",
    "name": "Amazon",
-   "asof": "2026-06-30",
+   "asof": "2026-09-30",
    "stale": false,
    "tags": {
     "capex": "PaymentsToAcquireProductiveAssets",
     "revenue": "RevenueFromContractWithCustomerExcludingAssessedTax"
    },
-   "capex_ttm": 173028000000,
-   "ocf_ttm": 161403000000,
-   "rev_ttm": 775680000000,
-   "capex_ocf": 107.20246835560678,
-   "capex_ocf_prev": 101.66429903521824,
-   "capex_growth": 60.72304376904213,
-   "rev_growth": 15.766568463281185,
-   "coverage_gap": 44.95647530576095,
+   "capex_ttm": 215192000000,
+   "ocf_ttm": 168300000000,
+   "rev_ttm": 797455000000,
+   "capex_ocf": 127.86215092097446,
+   "capex_ocf_prev": 107.20246835560678,
+   "capex_growth": 79.13111519924084,
+   "rev_growth": 15.350845471771802,
+   "coverage_gap": 63.78026972746903,
    "coverage_gap_hist": [
+    63.78026972746903,
     44.95647530576095,
-    47.9883802953741,
-    46.44223109966654
+    47.9883802953741
    ],
    "rev_q": [
-    {
-     "end": "2024-06-30",
-     "val": 147977000000
-    },
     {
      "end": "2024-09-30",
      "val": 158877000000
@@ -3908,13 +3905,13 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 200606000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 201944000000
     }
    ],
    "capex_q": [
-    {
-     "end": "2024-06-30",
-     "val": 17620000000
-    },
     {
      "end": "2024-09-30",
      "val": 22620000000
@@ -3946,6 +3943,10 @@ window.CAPEX_DATA = {
     {
      "end": "2026-06-30",
      "val": 54208000000
+    },
+    {
+     "end": "2026-09-30",
+     "val": 77259000000
     }
    ]
   },
@@ -4350,25 +4351,15 @@ window.CAPEX_DATA = {
   "hy_oas": {
    "series": "BAMLH0A0HYM2",
    "latest": {
-    "d": "2026-10-28",
-    "v": 3.14
+    "d": "2026-11-12",
+    "v": 3.2
    },
-   "yoy": 3.973509933774838,
-   "chg_6m": 14.181818181818187,
-   "abs_6m": 0.3900000000000001,
-   "abs_3m": 0.29000000000000004,
-   "avg5": 3.28,
+   "yoy": 6.666666666666672,
+   "chg_6m": 14.285714285714299,
+   "abs_6m": 0.40000000000000036,
+   "abs_3m": 0.5300000000000002,
+   "avg5": 3.35,
    "spark": [
-    2.71,
-    2.7,
-    2.7,
-    2.72,
-    2.71,
-    2.71,
-    2.67,
-    2.7,
-    2.75,
-    2.73,
     2.75,
     2.7,
     2.69,
@@ -4418,19 +4409,19 @@ window.CAPEX_DATA = {
     3.38,
     3.3,
     3.18,
-    3.14
+    3.14,
+    3.26,
+    3.44,
+    3.43,
+    3.4,
+    3.32,
+    3.48,
+    3.42,
+    3.34,
+    3.3,
+    3.2
    ],
    "spark_dates": [
-    "2026-08-06",
-    "2026-08-07",
-    "2026-08-10",
-    "2026-08-11",
-    "2026-08-12",
-    "2026-08-13",
-    "2026-08-14",
-    "2026-08-17",
-    "2026-08-18",
-    "2026-08-19",
     "2026-08-20",
     "2026-08-21",
     "2026-08-24",
@@ -4480,23 +4471,32 @@ window.CAPEX_DATA = {
     "2026-10-23",
     "2026-10-26",
     "2026-10-27",
-    "2026-10-28"
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-11",
+    "2026-11-12"
    ],
-   "n": 786
+   "n": 785
   },
   "semi_ppi": {
    "series": "PCU3344133441",
    "latest": {
-    "d": "2026-09-01",
-    "v": 75.313
+    "d": "2026-10-01",
+    "v": 78.547
    },
-   "yoy": 26.015226303020167,
-   "chg_6m": 10.297003602706432,
-   "abs_6m": 7.031000000000006,
-   "abs_3m": 1.615000000000009,
-   "avg5": 74.14,
+   "yoy": 30.63950103950103,
+   "chg_6m": 7.328104503716659,
+   "abs_6m": 5.3629999999999995,
+   "abs_3m": 5.346000000000004,
+   "avg5": 75.38,
    "spark": [
-    54.957,
     55.26,
     55.43,
     56.346,
@@ -4553,12 +4553,12 @@ window.CAPEX_DATA = {
     73.184,
     72.931,
     73.698,
-    73.199,
-    75.571,
-    75.313
+    73.201,
+    75.877,
+    75.589,
+    78.547
    ],
    "spark_dates": [
-    "2021-10-01",
     "2021-11-01",
     "2021-12-01",
     "2022-01-01",
@@ -4617,23 +4617,23 @@ window.CAPEX_DATA = {
     "2026-06-01",
     "2026-07-01",
     "2026-08-01",
-    "2026-09-01"
+    "2026-09-01",
+    "2026-10-01"
    ],
-   "n": 502
+   "n": 503
   },
   "pc_cpi": {
    "series": "CUSR0000SEEE01",
    "latest": {
-    "d": "2026-09-01",
-    "v": 38.549
+    "d": "2026-10-01",
+    "v": 38.761
    },
-   "yoy": 9.938968742870179,
-   "chg_6m": 9.225625478140142,
-   "abs_6m": 3.2560000000000002,
-   "abs_3m": 3.1430000000000007,
-   "avg5": 36.86,
+   "yoy": 10.301357388805114,
+   "chg_6m": 8.876155164180792,
+   "abs_6m": 3.1600000000000037,
+   "abs_3m": 2.1200000000000045,
+   "avg5": 37.48,
    "spark": [
-    40.649,
     40.31,
     39.78,
     39.401,
@@ -4692,10 +4692,10 @@ window.CAPEX_DATA = {
     35.406,
     36.641,
     38.02,
-    38.549
+    38.549,
+    38.761
    ],
    "spark_dates": [
-    "2021-09-01",
     "2021-10-01",
     "2021-11-01",
     "2021-12-01",
@@ -4754,9 +4754,10 @@ window.CAPEX_DATA = {
     "2026-06-01",
     "2026-07-01",
     "2026-08-01",
-    "2026-09-01"
+    "2026-09-01",
+    "2026-10-01"
    ],
-   "n": 260
+   "n": 261
   },
   "semi_ip": {
    "series": "IPG3344S",
@@ -4898,25 +4899,15 @@ window.CAPEX_DATA = {
   "ccc_oas": {
    "series": "BAMLH0A3HYC",
    "latest": {
-    "d": "2026-10-28",
-    "v": 13.07
+    "d": "2026-11-12",
+    "v": 13.14
    },
-   "yoy": 46.03351955307264,
-   "chg_6m": 44.10143329658214,
-   "abs_6m": 4.0,
-   "abs_3m": 2.7300000000000004,
-   "avg5": 13.34,
+   "yoy": 43.7636761487965,
+   "chg_6m": 39.787234042553195,
+   "abs_6m": 3.74,
+   "abs_3m": 3.0200000000000014,
+   "avg5": 13.18,
    "spark": [
-    10.17,
-    10.13,
-    10.14,
-    10.23,
-    10.2,
-    10.24,
-    10.12,
-    10.18,
-    10.27,
-    10.3,
     10.35,
     10.37,
     10.36,
@@ -4966,19 +4957,19 @@ window.CAPEX_DATA = {
     13.56,
     13.45,
     13.21,
-    13.07
+    13.07,
+    13.25,
+    13.27,
+    13.19,
+    13.16,
+    12.97,
+    13.2,
+    13.17,
+    13.11,
+    13.3,
+    13.14
    ],
    "spark_dates": [
-    "2026-08-06",
-    "2026-08-07",
-    "2026-08-10",
-    "2026-08-11",
-    "2026-08-12",
-    "2026-08-13",
-    "2026-08-14",
-    "2026-08-17",
-    "2026-08-18",
-    "2026-08-19",
     "2026-08-20",
     "2026-08-21",
     "2026-08-24",
@@ -5028,33 +5019,32 @@ window.CAPEX_DATA = {
     "2026-10-23",
     "2026-10-26",
     "2026-10-27",
-    "2026-10-28"
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-11",
+    "2026-11-12"
    ],
-   "n": 786
+   "n": 785
   },
   "vix": {
    "series": "VIXCLS",
    "latest": {
-    "d": "2026-10-28",
-    "v": 16.91
+    "d": "2026-11-12",
+    "v": 18.7
    },
-   "yoy": -6.107717934480851,
-   "chg_6m": -2.7042577675489,
-   "abs_6m": -0.46999999999999886,
-   "abs_3m": 0.9199999999999999,
-   "avg5": 18.26,
+   "yoy": -29.220287660862994,
+   "chg_6m": 7.224770642201824,
+   "abs_6m": 1.259999999999998,
+   "abs_3m": 3.51,
+   "avg5": 20.24,
    "spark": [
-    15.15,
-    14.9,
-    15.46,
-    15.28,
-    14.55,
-    14.63,
-    14.25,
-    15.19,
-    15.84,
-    14.89,
-    16.01,
     15.13,
     15.85,
     15.45,
@@ -5103,20 +5093,20 @@ window.CAPEX_DATA = {
     19.45,
     18.39,
     17.52,
-    16.91
+    16.91,
+    17.2,
+    19.42,
+    21.15,
+    20.83,
+    16.61,
+    28.18,
+    25.64,
+    19.92,
+    19.46,
+    17.49,
+    18.7
    ],
    "spark_dates": [
-    "2026-08-06",
-    "2026-08-07",
-    "2026-08-10",
-    "2026-08-11",
-    "2026-08-12",
-    "2026-08-13",
-    "2026-08-14",
-    "2026-08-17",
-    "2026-08-18",
-    "2026-08-19",
-    "2026-08-20",
     "2026-08-21",
     "2026-08-24",
     "2026-08-25",
@@ -5165,24 +5155,33 @@ window.CAPEX_DATA = {
     "2026-10-23",
     "2026-10-26",
     "2026-10-27",
-    "2026-10-28"
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12"
    ],
-   "n": 9305
+   "n": 9316
   },
   "nfci": {
    "series": "NFCI",
    "latest": {
-    "d": "2026-10-23",
-    "v": -0.487
+    "d": "2026-11-06",
+    "v": -0.462
    },
-   "yoy": 5.80270793036751,
-   "chg_6m": 2.0120724346076475,
-   "abs_6m": 0.010000000000000009,
-   "abs_3m": 0.051000000000000045,
-   "avg5": -0.5,
+   "yoy": 9.589041095890408,
+   "chg_6m": 9.41176470588235,
+   "abs_6m": 0.04799999999999999,
+   "abs_3m": 0.08200000000000002,
+   "avg5": -0.47,
    "spark": [
-    -0.527,
-    -0.528,
     -0.527,
     -0.526,
     -0.525,
@@ -5196,7 +5195,7 @@ window.CAPEX_DATA = {
     -0.51,
     -0.513,
     -0.519,
-    -0.527,
+    -0.528,
     -0.539,
     -0.551,
     -0.562,
@@ -5217,34 +5216,34 @@ window.CAPEX_DATA = {
     -0.497,
     -0.505,
     -0.51,
+    -0.512,
     -0.511,
-    -0.511,
-    -0.509,
-    -0.509,
-    -0.508,
     -0.51,
-    -0.514,
-    -0.519,
-    -0.526,
-    -0.531,
-    -0.538,
-    -0.542,
-    -0.547,
-    -0.55,
-    -0.551,
-    -0.549,
-    -0.545,
-    -0.537,
-    -0.528,
-    -0.518,
+    -0.509,
     -0.508,
-    -0.501,
-    -0.494,
-    -0.487
+    -0.509,
+    -0.512,
+    -0.517,
+    -0.523,
+    -0.528,
+    -0.534,
+    -0.539,
+    -0.544,
+    -0.548,
+    -0.548,
+    -0.546,
+    -0.541,
+    -0.532,
+    -0.521,
+    -0.509,
+    -0.497,
+    -0.488,
+    -0.479,
+    -0.471,
+    -0.465,
+    -0.462
    ],
    "spark_dates": [
-    "2025-09-05",
-    "2025-09-12",
     "2025-09-19",
     "2025-09-26",
     "2025-10-03",
@@ -5302,31 +5301,24 @@ window.CAPEX_DATA = {
     "2026-10-02",
     "2026-10-09",
     "2026-10-16",
-    "2026-10-23"
+    "2026-10-23",
+    "2026-10-30",
+    "2026-11-06"
    ],
-   "n": 2912
+   "n": 2914
   },
   "real10": {
    "series": "DFII10",
    "latest": {
-    "d": "2026-10-28",
-    "v": 2.67
+    "d": "2026-11-10",
+    "v": 2.78
    },
-   "yoy": 54.33526011560693,
-   "chg_6m": 39.0625,
-   "abs_6m": 0.75,
-   "abs_3m": 0.2599999999999998,
-   "avg5": 2.65,
+   "yoy": 51.91256830601091,
+   "chg_6m": 42.564102564102555,
+   "abs_6m": 0.8299999999999998,
+   "abs_3m": 0.34999999999999964,
+   "avg5": 2.66,
    "spark": [
-    2.4,
-    2.41,
-    2.43,
-    2.4,
-    2.43,
-    2.43,
-    2.42,
-    2.39,
-    2.41,
     2.44,
     2.41,
     2.35,
@@ -5377,18 +5369,18 @@ window.CAPEX_DATA = {
     2.66,
     2.66,
     2.64,
-    2.67
+    2.67,
+    2.63,
+    2.6,
+    2.62,
+    2.65,
+    2.64,
+    2.6,
+    2.63,
+    2.66,
+    2.78
    ],
    "spark_dates": [
-    "2026-08-04",
-    "2026-08-05",
-    "2026-08-06",
-    "2026-08-07",
-    "2026-08-10",
-    "2026-08-11",
-    "2026-08-12",
-    "2026-08-13",
-    "2026-08-14",
     "2026-08-17",
     "2026-08-18",
     "2026-08-19",
@@ -5439,23 +5431,31 @@ window.CAPEX_DATA = {
     "2026-10-23",
     "2026-10-26",
     "2026-10-27",
-    "2026-10-28"
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-10"
    ],
-   "n": 5960
+   "n": 5969
   },
   "sahm": {
    "series": "SAHMREALTIME",
    "latest": {
-    "d": "2026-09-01",
+    "d": "2026-10-01",
     "v": 0.0
    },
    "yoy": -100.0,
    "chg_6m": -100.0,
-   "abs_6m": -0.2,
-   "abs_3m": -0.07,
-   "avg5": 0.01,
+   "abs_6m": -0.13,
+   "abs_3m": 0.03,
+   "avg5": -0.01,
    "spark": [
-    -0.37,
     -0.27,
     -0.33,
     -0.27,
@@ -5514,10 +5514,10 @@ window.CAPEX_DATA = {
     0.07,
     -0.03,
     -0.07,
+    0.0,
     0.0
    ],
    "spark_dates": [
-    "2021-09-01",
     "2021-10-01",
     "2021-11-01",
     "2021-12-01",
@@ -5576,9 +5576,10 @@ window.CAPEX_DATA = {
     "2026-06-01",
     "2026-07-01",
     "2026-08-01",
-    "2026-09-01"
+    "2026-09-01",
+    "2026-10-01"
    ],
-   "n": 801
+   "n": 802
   },
   "mktcap": {
    "series": "NCBEILQ027S",
@@ -5858,24 +5859,24 @@ window.CAPEX_DATA = {
  "gpus": [
   {
    "gpu": "H200",
-   "offers": 1,
-   "median": 5.0537,
-   "p25": 5.0537,
-   "min": 5.0537
+   "offers": 4,
+   "median": 4.4092,
+   "p25": 3.5541,
+   "min": 1.9759
   },
   {
    "gpu": "B200",
-   "offers": 3,
-   "median": 7.5021,
+   "offers": 5,
+   "median": 11.2604,
    "p25": 7.5021,
-   "min": 7.5021
+   "min": 6.6757
   },
   {
    "gpu": "H100 SXM",
    "offers": 5,
-   "median": 2.4015,
-   "p25": 2.4015,
-   "min": 1.9342
+   "median": 2.2022,
+   "p25": 2.1348,
+   "min": 1.7748
   }
  ],
  "gpu_history": [
@@ -6260,6 +6261,23 @@ window.CAPEX_DATA = {
      "offers": 5
     }
    }
+  },
+  {
+   "date": "2026-11-13",
+   "gpu": {
+    "H200": {
+     "median": 4.4092,
+     "offers": 4
+    },
+    "B200": {
+     "median": 11.2604,
+     "offers": 5
+    },
+    "H100 SXM": {
+     "median": 2.2022,
+     "offers": 5
+    }
+   }
   }
  ],
  "context": {
@@ -6403,24 +6421,24 @@ window.CAPEX_DATA = {
   "gpu_all": [
    {
     "gpu": "H200",
-    "offers": 1,
-    "median": 5.0537,
-    "p25": 5.0537,
-    "min": 5.0537
+    "offers": 4,
+    "median": 4.4092,
+    "p25": 3.5541,
+    "min": 1.9759
    },
    {
     "gpu": "B200",
-    "offers": 3,
-    "median": 7.5021,
+    "offers": 5,
+    "median": 11.2604,
     "p25": 7.5021,
-    "min": 7.5021
+    "min": 6.6757
    },
    {
     "gpu": "H100 SXM",
     "offers": 5,
-    "median": 2.4015,
-    "p25": 2.4015,
-    "min": 1.9342
+    "median": 2.2022,
+    "p25": 2.1348,
+    "min": 1.7748
    }
   ],
   "valuation": {
@@ -6688,15 +6706,15 @@ window.CAPEX_DATA = {
   "B2": {
    "state": 0,
    "value": "1.0-1.4% vacancy, no newer survey",
-   "detail": "The H1 2026 surveys published in September are still the latest: CBRE primary-market vacancy a record 1.4% (Northern Virginia 0.2%), JLL North America about 1% for the third year running, 25 GW absorbed in H1 and most tenants now contracting for 2028 deliveries. JLL counts 66 GW under construction, 95% pre-committed. Nothing points to space coming free; the next reading is the year-end round in February and March.",
-   "asof": "2026-10-17",
+   "detail": "The H1 2026 surveys published in September are still the latest: CBRE primary-market vacancy a record 1.4% (Northern Virginia 0.2%), JLL North America about 1% for the third year running, 25 GW absorbed in H1 and most tenants now contracting for 2028 deliveries. JLL counts 66 GW under construction, 95% pre-committed. Nothing points to space coming free; the next reading is the year-end round in February and March. Re-checked 2026-11-12: no Q3 or Q4 CBRE/JLL vacancy survey has published yet; the H1 figures remain the latest available.",
+   "asof": "2026-11-12",
    "source": "CBRE North America Data Center Trends H1 2026 (2026-09-08); JLL North America Data Center Report midyear 2026"
   },
   "B3": {
    "state": 1,
    "value": "record build, cancellations doubling, for local reasons",
-   "detail": "Construction is still at a record \u2014 CBRE 7,481 MW under way in the primary markets, +24.8% in H1. The cancellation half keeps clustering: Uptime Institute counts 26 cancelled giant campuses in H1 2026 against 12 in all of 2025, Data Center Watch 45 US projects worth about $68bn blocked or delayed in Q2 after about $130bn in Q1, and New York stopped taking proposals for large new facilities in July. Rule 05 holds: the stated reasons are local opposition, power and permits, not tenants walking away. Watch, not turning, because construction is rising, not down 15%.",
-   "asof": "2026-10-17",
+   "detail": "Construction is still at a record \u2014 CBRE 7,481 MW under way in the primary markets, +24.8% in H1. The cancellation half keeps clustering: Uptime Institute counts 26 cancelled giant campuses in H1 2026 against 12 in all of 2025, Data Center Watch 45 US projects worth about $68bn blocked or delayed in Q2 after about $130bn in Q1, and New York stopped taking proposals for large new facilities in July. Rule 05 holds: the stated reasons are local opposition, power and permits, not tenants walking away. Watch, not turning, because construction is rising, not down 15%. Re-checked 2026-11-12: no newer Uptime Institute or Data Center Watch quarterly tracker has published since the H1/Q2 round; the picture is unchanged.",
+   "asof": "2026-11-12",
    "source": "CBRE H1 2026; Uptime Institute Update 528 (September 2026); Data Center Watch Q2 2026; Heatmap cancellation tracking"
   },
   "C1": {
@@ -6722,10 +6740,10 @@ window.CAPEX_DATA = {
   },
   "D1": {
    "state": 2,
-   "value": "phones -6.7% then -20%, PCs -20.1%",
-   "detail": "The turn the September reading expected has come. Smartphones fell 6.7% in Q2 (IDC) and about 20% in Q3 (Counterpoint, preliminary; the lowest third quarter since 2012) \u2014 two quarters beyond -5%. PCs fell 20.1% to 62.7m in Q3 after a revised -3.8% in Q2 (IDC). China alone fell 15.4%, its sixth straight decline. Every source names the same cause: memory and component costs pushing up shelf prices. The caveat for PCs is real \u2014 IDC says buyers stocked up early in the year ahead of price rises, borrowing from H2 \u2014 but the phone decline has no such pull-in behind it, and IDC expects the next few quarters to get worse before they improve. IDC's own global phone figure for Q3 is still due.",
-   "asof": "2026-10-17",
-   "source": "IDC PC tracker Q3 2026 (2026-10-08); IDC China smartphone Q3 2026 (2026-10-13); Counterpoint global smartphone Q3 2026 preliminary; IDC Q2 2026"
+   "value": "phones -6.7% then -22% globally, PCs -20.1%",
+   "detail": "IDC's own global Q3 figure is in and it deepens the turn: worldwide smartphone shipments fell 22% year on year to 255.3m units (2026-10-15), which IDC says is the largest quarterly decline it has recorded, ahead of the preliminary Counterpoint/China-only reading of about -20% used in the last update. Two quarters beyond -5% stands either way: Q2 -6.7%, Q3 -22%. PCs are unchanged at -20.1% to 62.7m units in Q3 (IDC, 2026-10-08) after a revised -3.8% in Q2. Every source still names memory and component costs as the cause; the PC caveat stands (IDC says buyers pulled purchases forward earlier in the year), but the phone decline has no equivalent pull-in, and IDC expects the downturn to carry into 2027.",
+   "asof": "2026-11-12",
+   "source": "IDC worldwide smartphone shipments Q3 2026 (2026-10-15); IDC PC tracker Q3 2026 (2026-10-08)"
   },
   "D4": {
    "state": 0,
@@ -7219,6 +7237,33 @@ window.CAPEX_HISTORY = [
    "B4": 1,
    "E1": 2,
    "E2": 0,
+   "E3": 0,
+   "E4": 1,
+   "E5": 0,
+   "A4": 0,
+   "B2": 0,
+   "B3": 1,
+   "C1": 1,
+   "C3": 1,
+   "C4": 1,
+   "D1": 2,
+   "D4": 0,
+   "C5": 1
+  }
+ },
+ {
+  "date": "2026-11-13",
+  "states": {
+   "A2": 1,
+   "A1": 0,
+   "A3": 0,
+   "D3": 1,
+   "C2": 0,
+   "B1": 0,
+   "D2": 2,
+   "B4": 1,
+   "E1": 1,
+   "E2": 1,
    "E3": 0,
    "E4": 1,
    "E5": 0,
